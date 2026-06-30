@@ -143,7 +143,7 @@ export default async function DashboardClientPage({
             type="text"
             defaultValue={searchParams.specialite ?? ""}
             placeholder="Ex. coach sportif, coach mental..."
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            className="w-72 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
             list="domaines-list"
           />
           <datalist id="domaines-list">
