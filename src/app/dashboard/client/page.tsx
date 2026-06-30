@@ -144,7 +144,19 @@ export default async function DashboardClientPage({
             defaultValue={searchParams.specialite ?? ""}
             placeholder="Ex. coach sportif, coach mental..."
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            list="domaines-list"
           />
+          <datalist id="domaines-list">
+            <option value="Coach sportif" />
+            <option value="Coach en finance" />
+            <option value="Coach en développement personnel" />
+            <option value="Coach marketing" />
+            <option value="Coach en développement business" />
+            <option value="Coach mental" />
+            <option value="Coach en séduction" />
+            <option value="Coach en bien être et santé" />
+            <option value="Coach en langue" />
+          </datalist>
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-gray-700">Ville</label>
