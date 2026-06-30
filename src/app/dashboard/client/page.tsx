@@ -137,7 +137,7 @@ export default async function DashboardClientPage({
 
       <form className="mb-8 flex flex-wrap items-end gap-3 rounded-lg border border-gray-200 bg-white p-4">
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-700">Spécialité</label>
+          <label className="mb-1 block text-xs font-medium text-gray-700">Domaine</label>
           <input
             name="specialite"
             type="text"
