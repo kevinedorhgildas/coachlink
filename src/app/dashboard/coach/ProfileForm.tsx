@@ -24,24 +24,27 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
         <label htmlFor="specialite" className="mb-1 block text-sm font-medium text-gray-700">
           Domaine
         </label>
-        <select
+        <input
           id="specialite"
           name="specialite"
+          type="text"
           defaultValue={coach.specialite ?? ""}
           required
+          placeholder="Rechercher ou saisir un domaine..."
+          list="domaines-list"
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
-        >
-          <option value="">-- Choisissez un domaine --</option>
-          <option value="Coach sportif">Coach sportif</option>
-          <option value="Coach en finance">Coach en finance</option>
-          <option value="Coach en développement personnel">Coach en développement personnel</option>
-          <option value="Coach marketing">Coach marketing</option>
-          <option value="Coach en développement business">Coach en développement business</option>
-          <option value="Coach mental">Coach mental</option>
-          <option value="Coach en séduction">Coach en séduction</option>
-          <option value="Coach en bien être et santé">Coach en bien être et santé</option>
-          <option value="Coach en langue">Coach en langue</option>
-        </select>
+        />
+        <datalist id="domaines-list">
+          <option value="Coach sportif" />
+          <option value="Coach en finance" />
+          <option value="Coach en développement personnel" />
+          <option value="Coach marketing" />
+          <option value="Coach en développement business" />
+          <option value="Coach mental" />
+          <option value="Coach en séduction" />
+          <option value="Coach en bien être et santé" />
+          <option value="Coach en langue" />
+        </datalist>
       </div>
 
       <div>
