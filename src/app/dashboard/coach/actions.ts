@@ -121,6 +121,30 @@ export async function updateReservationStatut(id: string, statut: "confirmee" | 
   return { success: true };
 }
 
+export async function updateCoachParcours(formData: FormData) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    return { error: "Non authentifié." };
+  }
+
+  const diplomes = JSON.parse(formData.get("diplomes") as string ?? "[]");
+  const competences = JSON.parse(formData.get("competences") as string ?? "[]");
+  const experiences = JSON.parse(formData.get("experiences") as string ?? "[]");
+
+  const { error } = await supabase
+    .from("coaches")
+    .update({ diplomes, competences, experiences })
+    .eq("id", userData.user.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard/coach");
+  return { success: true };
+}
+
 export async function deleteDisponibilite(id: string) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();

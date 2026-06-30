@@ -6,6 +6,7 @@ import ProfileForm from "./ProfileForm";
 import PhotoUpload from "./PhotoUpload";
 import DisponibilitesManager from "./DisponibilitesManager";
 import ReservationsList from "./ReservationsList";
+import ParcoursForm from "./ParcoursForm";
 
 export default async function DashboardCoachPage() {
   const supabase = await createClient();
@@ -48,6 +49,11 @@ export default async function DashboardCoachPage() {
 
       <PhotoUpload photoUrl={coach?.photo_url ?? null} />
       <ProfileForm coach={coach ?? {}} />
+      <ParcoursForm parcours={{
+        diplomes: coach?.diplomes ?? [],
+        competences: coach?.competences ?? [],
+        experiences: coach?.experiences ?? [],
+      }} />
       <DisponibilitesManager disponibilites={disponibilites ?? []} />
       <ReservationsList reservations={reservations ?? []} />
     </main>
