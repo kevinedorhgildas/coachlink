@@ -135,62 +135,16 @@ export default async function DashboardClientPage({
         </div>
       )}
 
-      <div className="mb-6">
-        <h2 className="mb-3 text-sm font-medium text-gray-700">Parcourir par domaine</h2>
-        <div className="flex flex-wrap gap-2">
-          {[
-            { label: "Tous", value: "", emoji: "🔍" },
-            { label: "Coach sportif", value: "Coach sportif", emoji: "🏋️" },
-            { label: "Coach en finance", value: "Coach en finance", emoji: "💰" },
-            { label: "Développement personnel", value: "Coach en développement personnel", emoji: "🧠" },
-            { label: "Coach marketing", value: "Coach marketing", emoji: "📣" },
-            { label: "Développement business", value: "Coach en développement business", emoji: "🚀" },
-            { label: "Coach mental", value: "Coach mental", emoji: "🧘" },
-            { label: "Coach en séduction", value: "Coach en séduction", emoji: "❤️" },
-            { label: "Bien être & santé", value: "Coach en bien être et santé", emoji: "🌿" },
-            { label: "Coach en langue", value: "Coach en langue", emoji: "🗣️" },
-          ].map(({ label, value, emoji }) => {
-            const isActive = (searchParams.specialite ?? "") === value;
-            const params = new URLSearchParams();
-            if (value) params.set("specialite", value);
-            if (searchParams.ville) params.set("ville", searchParams.ville);
-            if (searchParams.tarif_max) params.set("tarif_max", searchParams.tarif_max);
-            return (
-              <Link
-                key={value}
-                href={`/dashboard/client?${params.toString()}`}
-                className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
-                  isActive
-                    ? "border-blue-600 bg-blue-600 text-white"
-                    : "border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:text-blue-600"
-                }`}
-              >
-                {emoji} {label}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
       <form className="mb-8 flex flex-wrap items-end gap-3 rounded-lg border border-gray-200 bg-white p-4">
         <div>
           <label className="mb-1 block text-xs font-medium text-gray-700">Domaine</label>
-          <select
+          <input
             name="specialite"
+            type="text"
             defaultValue={searchParams.specialite ?? ""}
+            placeholder="Ex. coach sportif, coach mental..."
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          >
-            <option value="">Tous</option>
-            <option value="Coach sportif">Coach sportif</option>
-            <option value="Coach en finance">Coach en finance</option>
-            <option value="Coach en développement personnel">Coach en développement personnel</option>
-            <option value="Coach marketing">Coach marketing</option>
-            <option value="Coach en développement business">Coach en développement business</option>
-            <option value="Coach mental">Coach mental</option>
-            <option value="Coach en séduction">Coach en séduction</option>
-            <option value="Coach en bien être et santé">Coach en bien être et santé</option>
-            <option value="Coach en langue">Coach en langue</option>
-          </select>
+          />
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-gray-700">Ville</label>
