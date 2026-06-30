@@ -138,13 +138,22 @@ export default async function DashboardClientPage({
       <form className="mb-8 flex flex-wrap items-end gap-3 rounded-lg border border-gray-200 bg-white p-4">
         <div>
           <label className="mb-1 block text-xs font-medium text-gray-700">Domaine</label>
-          <input
+          <select
             name="specialite"
-            type="text"
-            defaultValue={searchParams.specialite}
-            placeholder="Ex. Yoga, Business..."
+            defaultValue={searchParams.specialite ?? ""}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
+          >
+            <option value="">Tous</option>
+            <option value="Coach sportif">Coach sportif</option>
+            <option value="Coach en finance">Coach en finance</option>
+            <option value="Coach en développement personnel">Coach en développement personnel</option>
+            <option value="Coach marketing">Coach marketing</option>
+            <option value="Coach en développement business">Coach en développement business</option>
+            <option value="Coach mental">Coach mental</option>
+            <option value="Coach en séduction">Coach en séduction</option>
+            <option value="Coach en bien être et santé">Coach en bien être et santé</option>
+            <option value="Coach en langue">Coach en langue</option>
+          </select>
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-gray-700">Ville</label>
