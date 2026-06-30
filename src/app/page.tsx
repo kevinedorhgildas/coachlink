@@ -5,8 +5,8 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 text-center">
       <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">CoachLink</h1>
       <p className="mt-4 max-w-xl text-lg text-gray-600">
-        La plateforme qui met en relation coachs sportifs et clients,
-        près de chez vous.
+        La plateforme qui met en relation coachs et clients,
+        tous domaines confondus.
       </p>
 
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">

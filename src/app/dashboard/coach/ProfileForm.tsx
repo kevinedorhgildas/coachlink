@@ -22,7 +22,7 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
     <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6">
       <div>
         <label htmlFor="specialite" className="mb-1 block text-sm font-medium text-gray-700">
-          Spécialité sportive
+          Spécialité / Domaine
         </label>
         <input
           id="specialite"
@@ -30,7 +30,7 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
           type="text"
           defaultValue={coach.specialite ?? ""}
           required
-          placeholder="Ex. Musculation, Yoga, Course à pied..."
+          placeholder="Ex. Yoga, Life coaching, Business, Nutrition..."
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
         />
       </div>

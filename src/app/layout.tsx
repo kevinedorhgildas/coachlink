@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "CoachLink",
-  description: "Mise en relation entre coachs sportifs et clients.",
+  description: "Mise en relation entre coachs et clients, tous domaines confondus.",
 };
 
 export default function RootLayout({

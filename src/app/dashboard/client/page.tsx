@@ -8,7 +8,7 @@ const PAR_PAGE = 10;
 export default async function DashboardClientPage({
   searchParams,
 }: {
-  searchParams: { sport?: string; ville?: string; tarif_max?: string; page?: string };
+  searchParams: { specialite?: string; ville?: string; tarif_max?: string; page?: string };
 }) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -39,8 +39,8 @@ export default async function DashboardClientPage({
     .from("coaches")
     .select("id, specialite, ville, tarif_horaire, photo_url, profiles(nom)", { count: "exact" });
 
-  if (searchParams.sport) {
-    query = query.ilike("specialite", `%${searchParams.sport}%`);
+  if (searchParams.specialite) {
+    query = query.ilike("specialite", `%${searchParams.specialite}%`);
   }
   if (searchParams.ville) {
     query = query.ilike("ville", `%${searchParams.ville}%`);
@@ -57,7 +57,7 @@ export default async function DashboardClientPage({
 
   const buildPageHref = (targetPage: number) => {
     const params = new URLSearchParams();
-    if (searchParams.sport) params.set("sport", searchParams.sport);
+    if (searchParams.specialite) params.set("specialite", searchParams.specialite);
     if (searchParams.ville) params.set("ville", searchParams.ville);
     if (searchParams.tarif_max) params.set("tarif_max", searchParams.tarif_max);
     params.set("page", String(targetPage));
@@ -137,12 +137,12 @@ export default async function DashboardClientPage({
 
       <form className="mb-8 flex flex-wrap items-end gap-3 rounded-lg border border-gray-200 bg-white p-4">
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-700">Sport</label>
+          <label className="mb-1 block text-xs font-medium text-gray-700">Spécialité</label>
           <input
-            name="sport"
+            name="specialite"
             type="text"
-            defaultValue={searchParams.sport}
-            placeholder="Ex. Yoga"
+            defaultValue={searchParams.specialite}
+            placeholder="Ex. Yoga, Business..."
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
