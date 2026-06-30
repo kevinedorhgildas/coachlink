@@ -96,6 +96,49 @@ export default async function CoachProfilePage({
         </div>
       )}
 
+      {coach.diplomes && coach.diplomes.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Diplômes</h2>
+          <ul className="space-y-1">
+            {(coach.diplomes as string[]).map((d: string, i: number) => (
+              <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                <span className="text-blue-500">🎓</span> {d}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {coach.competences && coach.competences.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Compétences</h2>
+          <div className="flex flex-wrap gap-2">
+            {(coach.competences as string[]).map((c: string, i: number) => (
+              <span key={i} className="rounded-full bg-blue-50 px-3 py-1 text-sm text-blue-700">
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {coach.experiences && (coach.experiences as unknown[]).length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Expériences professionnelles</h2>
+          <div className="space-y-3">
+            {(coach.experiences as { titre: string; entreprise: string; duree: string; description: string }[]).map((exp, i) => (
+              <div key={i} className="rounded-lg border border-gray-100 bg-gray-50 p-4">
+                <p className="font-medium text-gray-900">{exp.titre}</p>
+                {exp.entreprise && (
+                  <p className="text-sm text-gray-600">{exp.entreprise}{exp.duree ? ` · ${exp.duree}` : ""}</p>
+                )}
+                {exp.description && <p className="mt-1 text-sm text-gray-500">{exp.description}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-8">
         <h2 className="mb-2 text-lg font-semibold text-gray-900">Disponibilités</h2>
         {disposTriees.length === 0 ? (
