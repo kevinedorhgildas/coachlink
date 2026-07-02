@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { logout } from "@/app/auth/actions";
 import ProfileForm from "./ProfileForm";
 import PhotoUpload from "./PhotoUpload";
 import DisponibilitesManager from "./DisponibilitesManager";
@@ -32,28 +30,10 @@ export default async function DashboardCoachPage() {
   ]);
 
   return (
-    <main className="mx-auto max-w-2xl space-y-6 px-4 py-12">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Mon profil coach</h1>
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard/coach/documents" className="text-sm text-blue-600 hover:underline">
-            📄 Mes documents
-          </Link>
-          <Link href="/dashboard/coach/historique" className="text-sm text-blue-600 hover:underline">
-            📋 Historique
-          </Link>
-          <Link href="/dashboard/coach/planning" className="text-sm text-blue-600 hover:underline">
-            📅 Mon planning
-          </Link>
-          <Link href={`/coachs/${userId}`} className="text-sm text-blue-600 hover:underline">
-            Voir mon profil public
-          </Link>
-          <form action={logout}>
-            <button type="submit" className="text-sm text-gray-500 hover:underline">
-              Déconnexion
-            </button>
-          </form>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-gray-900">Mon profil</h1>
+        <p className="mt-1 text-sm text-gray-500">Modifiez vos informations visibles par les clients.</p>
       </div>
 
       <PhotoUpload photoUrl={coach?.photo_url ?? null} />
@@ -65,6 +45,6 @@ export default async function DashboardCoachPage() {
       }} />
       <DisponibilitesManager disponibilites={disponibilites ?? []} />
       <ReservationsList reservations={reservations ?? []} />
-    </main>
+    </div>
   );
 }
