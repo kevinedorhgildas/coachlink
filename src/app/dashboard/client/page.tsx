@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { logout } from "@/app/auth/actions";
 
 const PAR_PAGE = 10;
 
@@ -65,24 +64,10 @@ export default async function DashboardClientPage({
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Bonjour {profile?.nom ?? ""}
-        </h1>
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard/client/historique" className="text-sm text-blue-600 hover:underline">
-            📋 Historique
-          </Link>
-          <Link href="/dashboard/client/planning" className="text-sm text-blue-600 hover:underline">
-            📅 Mon planning
-          </Link>
-          <form action={logout}>
-            <button type="submit" className="text-sm text-gray-500 hover:underline">
-              Déconnexion
-            </button>
-          </form>
-        </div>
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-6">
+        <h1 className="text-xl font-bold text-gray-900">Trouver un coach</h1>
+        <p className="mt-1 text-sm text-gray-500">Recherchez parmi nos coachs par domaine, ville ou tarif.</p>
       </div>
 
       {reservations && reservations.length > 0 && (
@@ -255,6 +240,6 @@ export default async function DashboardClientPage({
           )}
         </div>
       )}
-    </main>
+    </div>
   );
 }
