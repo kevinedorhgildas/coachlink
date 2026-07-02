@@ -31,9 +31,12 @@ export default function Home() {
         </Link>
       </p>
 
-      <p className="mt-4 text-sm text-gray-400">
+      <p className="mt-4 flex gap-4 text-sm text-gray-400">
         <Link href="/faq" className="hover:underline">
           Foire aux questions
+        </Link>
+        <Link href="/support" className="hover:underline">
+          Service client
         </Link>
       </p>
     </main>
