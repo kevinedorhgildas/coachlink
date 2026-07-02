@@ -3,6 +3,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 const PERIODES = [
+  { key: "1m", label: "1 mois", mois: 1 },
+  { key: "3m", label: "3 mois", mois: 3 },
   { key: "6m", label: "6 mois", mois: 6 },
   { key: "1an", label: "1 an", mois: 12 },
   { key: "3ans", label: "3 ans", mois: 36 },
