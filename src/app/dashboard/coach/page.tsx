@@ -36,6 +36,9 @@ export default async function DashboardCoachPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Mon profil coach</h1>
         <div className="flex items-center gap-4">
+          <Link href="/dashboard/coach/planning" className="text-sm text-blue-600 hover:underline">
+            📅 Mon planning
+          </Link>
           <Link href={`/coachs/${userId}`} className="text-sm text-blue-600 hover:underline">
             Voir mon profil public
           </Link>

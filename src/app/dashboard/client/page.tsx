@@ -70,11 +70,16 @@ export default async function DashboardClientPage({
         <h1 className="text-2xl font-bold text-gray-900">
           Bonjour {profile?.nom ?? ""}
         </h1>
-        <form action={logout}>
-          <button type="submit" className="text-sm text-gray-500 hover:underline">
-            Déconnexion
-          </button>
-        </form>
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard/client/planning" className="text-sm text-blue-600 hover:underline">
+            📅 Mon planning
+          </Link>
+          <form action={logout}>
+            <button type="submit" className="text-sm text-gray-500 hover:underline">
+              Déconnexion
+            </button>
+          </form>
+        </div>
       </div>
 
       {reservations && reservations.length > 0 && (
