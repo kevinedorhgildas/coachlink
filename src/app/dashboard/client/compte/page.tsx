@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { logout } from "@/app/auth/actions";
 
 export default async function CompteClientPage() {
   const supabase = await createClient();
@@ -84,11 +83,6 @@ export default async function CompteClientPage() {
           <span className="flex items-center gap-3"><span>🔒</span> Politique de confidentialité</span>
           <span className="text-gray-300">→</span>
         </Link>
-        <form action={logout}>
-          <button type="submit" className="flex w-full items-center gap-3 px-5 py-4 text-left text-sm text-red-600 hover:bg-red-50">
-            <span>🚪</span> Se déconnecter
-          </button>
-        </form>
       </div>
     </div>
   );
