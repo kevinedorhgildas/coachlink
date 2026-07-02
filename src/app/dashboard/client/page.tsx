@@ -77,9 +77,6 @@ export default async function DashboardClientPage({
           <Link href="/dashboard/client/planning" className="text-sm text-blue-600 hover:underline">
             📅 Mon planning
           </Link>
-          <Link href="/dashboard/client/compte" className="text-sm text-blue-600 hover:underline">
-            👤 Mon compte
-          </Link>
           <form action={logout}>
             <button type="submit" className="text-sm text-gray-500 hover:underline">
               Déconnexion
