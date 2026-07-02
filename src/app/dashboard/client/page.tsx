@@ -71,6 +71,9 @@ export default async function DashboardClientPage({
           Bonjour {profile?.nom ?? ""}
         </h1>
         <div className="flex items-center gap-4">
+          <Link href="/dashboard/client/historique" className="text-sm text-blue-600 hover:underline">
+            📋 Historique
+          </Link>
           <Link href="/dashboard/client/planning" className="text-sm text-blue-600 hover:underline">
             📅 Mon planning
           </Link>
