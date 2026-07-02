@@ -30,6 +30,12 @@ export default function Home() {
           Se connecter
         </Link>
       </p>
+
+      <p className="mt-4 text-sm text-gray-400">
+        <Link href="/faq" className="hover:underline">
+          Foire aux questions
+        </Link>
+      </p>
     </main>
   );
 }
