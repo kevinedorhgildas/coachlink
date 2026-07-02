@@ -26,7 +26,7 @@ export default async function CoachProfilePage({
   const profileData = coach.profiles as unknown as { nom: string; email: string } | { nom: string; email: string }[] | null;
   const profile = Array.isArray(profileData) ? profileData[0] : profileData;
 
-  const [{ data: disponibilites }, { data: avis }, { data: userData }] = await Promise.all([
+  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }] = await Promise.all([
     supabase
       .from("disponibilites")
       .select("id, jour_semaine, heure_debut, heure_fin")
@@ -37,6 +37,7 @@ export default async function CoachProfilePage({
       .eq("coach_id", params.id)
       .order("created_at", { ascending: false }),
     supabase.auth.getUser(),
+    supabase.from("documents").select("id, nom, url").eq("coach_id", params.id).order("created_at", { ascending: false }),
   ]);
 
   const disposTriees = (disponibilites ?? []).sort(
@@ -134,6 +135,27 @@ export default async function CoachProfilePage({
                 )}
                 {exp.description && <p className="mt-1 text-sm text-gray-500">{exp.description}</p>}
               </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {documents && documents.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Programmes & documents</h2>
+          <div className="space-y-2">
+            {documents.map((doc) => (
+              <a
+                key={doc.id}
+                href={doc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 transition hover:border-blue-300"
+              >
+                <span className="text-2xl">📄</span>
+                <span className="flex-1 text-sm font-medium text-gray-800">{doc.nom}</span>
+                <span className="text-xs text-blue-600">Télécharger →</span>
+              </a>
             ))}
           </div>
         </div>
