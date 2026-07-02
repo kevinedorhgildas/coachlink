@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useFormState } from "react-dom";
 import { signup } from "@/app/auth/actions";
 
@@ -82,6 +83,26 @@ export default function InscriptionForm() {
           minLength={6}
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
         />
+      </div>
+
+      <div className="flex items-start gap-3">
+        <input
+          id="cgu"
+          name="cgu"
+          type="checkbox"
+          required
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        />
+        <label htmlFor="cgu" className="text-sm text-gray-600">
+          J'accepte les{" "}
+          <Link href="/cgu" target="_blank" className="font-medium text-blue-600 hover:underline">
+            Conditions Générales d'Utilisation
+          </Link>{" "}
+          et la{" "}
+          <Link href="/confidentialite" target="_blank" className="font-medium text-blue-600 hover:underline">
+            Politique de confidentialité
+          </Link>
+        </label>
       </div>
 
       {state?.error && (

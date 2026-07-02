@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -25,6 +26,16 @@ export default function RootLayout({
           <LanguageSwitcher />
         </div>
         {children}
+        <footer className="mt-auto border-t border-gray-100 bg-white px-4 py-6">
+          <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-400">
+            <span>© {new Date().getFullYear()} CoachLink</span>
+            <Link href="/cgu" className="hover:underline">CGU</Link>
+            <Link href="/confidentialite" className="hover:underline">Confidentialité</Link>
+            <Link href="/faq" className="hover:underline">FAQ</Link>
+            <Link href="/support" className="hover:underline">Service client</Link>
+            <a href="mailto:contact@coachlink.fr" className="hover:underline">contact@coachlink.fr</a>
+          </div>
+        </footer>
       </body>
     </html>
   );
