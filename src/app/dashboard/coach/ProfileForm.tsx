@@ -22,7 +22,7 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
     <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6">
       <div>
         <label htmlFor="specialite" className="mb-1 block text-sm font-medium text-gray-700">
-          Domaine
+          Domaine du coach
         </label>
         <input
           id="specialite"
