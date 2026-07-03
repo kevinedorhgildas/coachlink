@@ -34,7 +34,7 @@ export default async function DashboardCoachPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-gray-900">Bonjour, {profile?.nom?.split(" ")[0]} 👋</h1>
+        <h1 className="text-xl font-bold text-gray-900">Mon profil</h1>
         <p className="mt-1 text-sm text-gray-500">Modifiez vos informations visibles par les clients.</p>
       </div>
 

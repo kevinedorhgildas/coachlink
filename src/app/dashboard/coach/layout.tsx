@@ -120,7 +120,10 @@ export default async function CoachLayout({ children }: { children: React.ReactN
 
       {/* Main */}
       <div className="flex flex-1 flex-col">
-        <main className="flex-1 px-4 pb-24 pt-16 md:px-8 md:pb-8 md:pt-8">
+        <div className="hidden md:block border-b border-gray-200 bg-white px-8 py-4">
+          <p className="text-lg font-bold text-gray-900">Bonjour, {profile?.nom?.split(" ")[0]} 👋</p>
+        </div>
+        <main className="flex-1 px-4 pb-24 pt-4 md:px-8 md:pb-8 md:pt-6">
           {children}
         </main>
       </div>
