@@ -159,7 +159,10 @@ export default async function CoachProfilePage({
 
       {medias && medias.filter((m) => m.type === "photo").length > 0 && (
         <div className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">Photos</h2>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Photos</h2>
+            <Link href={`/coachs/${params.id}/photos`} className="text-sm font-medium text-blue-600 hover:underline">Voir toutes →</Link>
+          </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {medias.filter((m) => m.type === "photo").map((m) => (
               <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200">
