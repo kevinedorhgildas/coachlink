@@ -13,8 +13,9 @@ export default async function ClientMessagesPage() {
     .or(`sender_id.eq.${userData.user.id},receiver_id.eq.${userData.user.id}`)
     .order("created_at", { ascending: false });
 
+  type Msg = { id: string; contenu: string; created_at: string; lu: boolean; sender_id: string; receiver_id: string };
   // Group by the other person (coach)
-  const conversationsMap = new Map<string, { lastMessage: typeof messages[0]; unread: number }>();
+  const conversationsMap = new Map<string, { lastMessage: Msg; unread: number }>();
   for (const msg of messages ?? []) {
     const otherId = msg.sender_id === userData.user.id ? msg.receiver_id : msg.sender_id;
     if (!conversationsMap.has(otherId)) {

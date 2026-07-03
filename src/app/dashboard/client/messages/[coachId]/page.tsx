@@ -21,7 +21,7 @@ export default async function ClientConversationPage({ params }: { params: { coa
     supabase.from("coaches").select("id, specialite, photo_url, profiles(nom)").eq("id", coachId).single(),
   ]);
 
-  const coachProfile = Array.isArray(coachData?.profiles) ? coachData?.profiles[0] : coachData?.profiles as { nom: string } | null;
+  const coachProfile = Array.isArray(coachData?.profiles) ? coachData?.profiles[0] : (coachData?.profiles as unknown) as { nom: string } | null;
   const nomCoach = coachProfile?.nom ?? "Coach";
 
   return (

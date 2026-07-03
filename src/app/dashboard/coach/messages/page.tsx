@@ -13,7 +13,8 @@ export default async function CoachMessagesPage() {
     .or(`sender_id.eq.${userData.user.id},receiver_id.eq.${userData.user.id}`)
     .order("created_at", { ascending: false });
 
-  const conversationsMap = new Map<string, { lastMessage: typeof messages[0]; unread: number }>();
+  type Msg = { id: string; contenu: string; created_at: string; lu: boolean; sender_id: string; receiver_id: string };
+  const conversationsMap = new Map<string, { lastMessage: Msg; unread: number }>();
   for (const msg of messages ?? []) {
     const otherId = msg.sender_id === userData.user.id ? msg.receiver_id : msg.sender_id;
     if (!conversationsMap.has(otherId)) {
