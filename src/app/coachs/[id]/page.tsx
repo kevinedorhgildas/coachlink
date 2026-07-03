@@ -171,6 +171,20 @@ export default async function CoachProfilePage({
         </div>
       )}
 
+      {medias && medias.filter((m) => m.type === "video").length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Vidéos</h2>
+          <div className="space-y-3">
+            {medias.filter((m) => m.type === "video").map((m) => (
+              <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200 bg-black">
+                <video src={m.url} controls className="w-full max-h-72" />
+                {m.legende && <p className="bg-white px-3 py-2 text-xs text-gray-500">{m.legende}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {temoignages && temoignages.length > 0 && (
         <div className="mt-8">
           <h2 className="mb-3 text-lg font-semibold text-gray-900">Témoignages d'élèves</h2>
