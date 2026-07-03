@@ -19,27 +19,29 @@ export default function NewsletterForm() {
   };
 
   return (
-    <div className="border-t border-gray-100 pt-6 mt-4 text-center">
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Newsletter CoachLink</p>
-      <p className="text-xs text-gray-400 mb-3">Conseils, nouveautés et offres exclusives directement dans votre boîte mail.</p>
+    <div className="border-t pt-8 mt-6 text-center" style={{ borderColor: "#ffffff14" }}>
+      <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#C9A96E" }}>Newsletter</p>
+      <p className="text-sm mb-5" style={{ color: "#ffffff60" }}>Conseils exclusifs, nouveautés et offres réservées à nos membres.</p>
       <form onSubmit={handleSubmit} className="flex flex-wrap items-center justify-center gap-2">
         <input
           name="email"
           type="email"
           required
           placeholder="Votre adresse email"
-          className="rounded-lg border border-gray-200 px-3 py-2 text-xs text-gray-700 focus:border-gray-400 focus:outline-none"
+          className="rounded-full border px-5 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-gold-500 bg-transparent transition"
+          style={{ borderColor: "#ffffff22" }}
         />
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-gray-900 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700 disabled:opacity-50 transition"
+          className="rounded-full px-6 py-2.5 text-sm font-semibold text-navy-900 disabled:opacity-50 transition hover:opacity-90"
+          style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)" }}
         >
           {pending ? "..." : "S'inscrire"}
         </button>
       </form>
-      {result?.error && <p className="mt-2 text-xs text-red-500">{result.error}</p>}
-      {result?.success && <p className="mt-2 text-xs text-emerald-600">✓ Inscription confirmée ! Vérifiez votre boîte mail.</p>}
+      {result?.error && <p className="mt-3 text-xs text-red-400">{result.error}</p>}
+      {result?.success && <p className="mt-3 text-xs" style={{ color: "#C9A96E" }}>✓ Inscription confirmée !</p>}
     </div>
   );
 }
