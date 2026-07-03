@@ -2,8 +2,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
-const cardStyle = { background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)" };
-
 export default async function ClientHistoriquePage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -19,10 +17,7 @@ export default async function ClientHistoriquePage() {
     .order("date_souhaitee", { ascending: false });
 
   const parCoach = new Map<string, {
-    coachId: string;
-    nom: string;
-    specialite: string;
-    photoUrl: string | null;
+    coachId: string; nom: string; specialite: string; photoUrl: string | null;
     sessions: { id: string; date: string; heureDebut: string; heureFin: string; statut: string }[];
   }>();
 
@@ -31,7 +26,6 @@ export default async function ClientHistoriquePage() {
     if (!coachData) continue;
     const profil = Array.isArray(coachData.profiles) ? coachData.profiles[0] : coachData.profiles as { nom: string } | null;
     const dispo = Array.isArray(r.disponibilites) ? r.disponibilites[0] : r.disponibilites as { heure_debut: string; heure_fin: string } | null;
-
     if (!parCoach.has(coachData.id)) {
       parCoach.set(coachData.id, { coachId: coachData.id, nom: profil?.nom ?? "Coach", specialite: coachData.specialite ?? "", photoUrl: coachData.photo_url ?? null, sessions: [] });
     }
@@ -39,73 +33,50 @@ export default async function ClientHistoriquePage() {
   }
 
   const coachs = Array.from(parCoach.values());
-
-  const badges: Record<string, { bg: string; text: string; label: string }> = {
-    confirmee: { bg: "bg-emerald-50", text: "text-emerald-700", label: "Confirmée" },
-    refusee: { bg: "bg-red-50", text: "text-red-700", label: "Refusée" },
-    en_attente: { bg: "bg-amber-50", text: "text-amber-700", label: "En attente" },
-  };
+  const statutStyle: Record<string, string> = { confirmee: "bg-emerald-50 text-emerald-700", refusee: "bg-red-50 text-red-700", en_attente: "bg-amber-50 text-amber-700" };
+  const statutLabel: Record<string, string> = { confirmee: "Confirmée", refusee: "Refusée", en_attente: "En attente" };
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Historique des cours</h1>
-        <p className="mt-1 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>Retrouvez toutes vos séances passées par coach.</p>
+    <div className="mx-auto max-w-2xl">
+      <div className="mb-6">
+        <h1 className="text-xl font-bold text-gray-900">Historique des cours</h1>
+        <p className="mt-1 text-sm text-gray-500">Retrouvez toutes vos séances passées par coach.</p>
       </div>
 
       {coachs.length === 0 ? (
-        <div className="rounded-2xl p-10 text-center shadow-sm" style={cardStyle}>
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl text-3xl" style={{ background: "linear-gradient(135deg, #667eea22, #764ba222)" }}>📋</div>
-          <p className="text-gray-600 font-medium">Aucun cours passé pour le moment.</p>
-          <Link href="/dashboard/client" className="mt-4 inline-block rounded-xl px-5 py-2 text-sm font-semibold text-white shadow-sm" style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
-            Trouver un coach
-          </Link>
+        <div className="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center">
+          <p className="text-gray-500">Aucun cours passé pour le moment.</p>
+          <Link href="/dashboard/client" className="mt-4 inline-block text-sm text-indigo-600 hover:underline">Trouver un coach</Link>
         </div>
       ) : (
         <div className="space-y-4">
           {coachs.map((coach) => (
-            <div key={coach.coachId} className="rounded-2xl overflow-hidden shadow-sm" style={cardStyle}>
-              <div className="flex items-center gap-4 p-4 border-b border-gray-100">
-                <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-xl">
-                  {coach.photoUrl
-                    // eslint-disable-next-line @next/next/no-img-element
-                    ? <img src={coach.photoUrl} alt={coach.nom} className="h-full w-full object-cover" />
-                    : "👤"}
+            <div key={coach.coachId} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <div className="flex items-center gap-4 border-b border-gray-100 p-4">
+                <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
+                  {coach.photoUrl ? <img src={coach.photoUrl} alt={coach.nom} className="h-full w-full object-cover" /> : <span className="text-gray-300 text-lg">👤</span>}
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold text-gray-900">{coach.nom}</p>
                   <p className="text-sm text-gray-500">{coach.specialite}</p>
                 </div>
                 <div className="flex gap-2">
-                  <Link href={`/coachs/${coach.coachId}`} className="rounded-xl border border-purple-200 px-3 py-1.5 text-xs font-medium text-purple-700 hover:bg-purple-50">
-                    Profil
-                  </Link>
-                  <Link href={`/dashboard/client?specialite=${encodeURIComponent(coach.specialite)}`} className="rounded-xl border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50">
-                    Reprendre
-                  </Link>
+                  <Link href={`/coachs/${coach.coachId}`} className="rounded-lg border border-indigo-200 px-3 py-1.5 text-xs text-indigo-600 hover:bg-indigo-50">Voir le profil</Link>
+                  <Link href={`/dashboard/client?specialite=${encodeURIComponent(coach.specialite)}`} className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">Reprendre</Link>
                 </div>
               </div>
-
               <div className="divide-y divide-gray-50">
-                {coach.sessions.map((s) => {
-                  const badge = badges[s.statut];
-                  return (
-                    <div key={s.id} className="flex items-center justify-between px-4 py-3 text-sm">
-                      <div>
-                        <p className="font-medium text-gray-800 capitalize">
-                          {new Date(s.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
-                        </p>
-                        <p className="text-xs text-gray-500">{s.heureDebut} – {s.heureFin}</p>
-                      </div>
-                      <span className={`rounded-full px-3 py-1 text-xs font-medium ${badge?.bg} ${badge?.text}`}>{badge?.label}</span>
+                {coach.sessions.map((s) => (
+                  <div key={s.id} className="flex items-center justify-between px-4 py-3 text-sm">
+                    <div>
+                      <p className="font-medium text-gray-800 capitalize">{new Date(s.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</p>
+                      <p className="text-gray-500 text-xs">{s.heureDebut} – {s.heureFin}</p>
                     </div>
-                  );
-                })}
+                    <span className={`rounded-full px-3 py-1 text-xs font-medium ${statutStyle[s.statut]}`}>{statutLabel[s.statut]}</span>
+                  </div>
+                ))}
               </div>
-
-              <div className="px-4 py-2.5 border-t border-gray-50">
-                <p className="text-xs text-gray-400">{coach.sessions.length} session{coach.sessions.length > 1 ? "s" : ""} au total</p>
-              </div>
+              <div className="border-t border-gray-100 px-4 py-2 text-xs text-gray-400">{coach.sessions.length} session{coach.sessions.length > 1 ? "s" : ""} au total</div>
             </div>
           ))}
         </div>

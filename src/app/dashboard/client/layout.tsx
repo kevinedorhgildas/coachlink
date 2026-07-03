@@ -27,51 +27,46 @@ export default async function ClientLayout({ children }: { children: React.React
   const initiale = profile?.nom?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <div className="flex min-h-screen" style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)" }}>
+    <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col md:flex" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)", borderRight: "1px solid rgba(255,255,255,0.15)" }}>
-        {/* Logo */}
-        <div className="px-6 py-7 border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+      <aside className="hidden w-60 shrink-0 flex-col md:flex">
+        {/* Header */}
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-6 py-6">
           <Link href="/dashboard/client" className="text-xl font-bold text-white tracking-tight">
             CoachLink
           </Link>
-          <p className="mt-0.5 text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Espace client</p>
-        </div>
-
-        {/* Profil */}
-        <div className="flex items-center gap-3 px-5 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1))", border: "2px solid rgba(255,255,255,0.3)" }}>
-            {initiale}
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-white">{profile?.nom}</p>
-            <p className="truncate text-xs leading-tight" style={{ color: "rgba(255,255,255,0.55)", maxWidth: "140px" }}>{profile?.email}</p>
+          <div className="mt-5 flex items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white border-2 border-white/30">
+              {initiale}
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-white">{profile?.nom}</p>
+              <p className="truncate text-xs text-blue-200" style={{ maxWidth: "130px" }}>{profile?.email}</p>
+            </div>
           </div>
         </div>
 
         {/* Nav */}
-        <nav className="flex flex-1 flex-col px-3 py-4">
-          <ul className="space-y-1">
+        <nav className="flex flex-1 flex-col bg-gradient-to-b from-indigo-700 to-indigo-900 px-3 py-4">
+          <ul className="space-y-0.5">
             {NAV.map(({ href, label, icon }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 hover:bg-white/15 hover:text-white"
-                  style={{ color: "rgba(255,255,255,0.75)" }}
+                  className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-indigo-100 transition hover:bg-white/10 hover:text-white"
                 >
-                  <span className="text-base">{icon}</span>
+                  <span>{icon}</span>
                   {label}
                 </Link>
               </li>
             ))}
           </ul>
 
-          <div className="mt-auto pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+          <div className="mt-auto border-t border-white/10 pt-3">
             <form action={logout}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150"
-                style={{ color: "rgba(255,255,255,0.5)" }}
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-indigo-300 transition hover:bg-white/10 hover:text-white"
               >
                 <span>🚪</span> Déconnexion
               </button>
@@ -81,17 +76,17 @@ export default async function ClientLayout({ children }: { children: React.React
       </aside>
 
       {/* Mobile header */}
-      <div className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between px-4 py-3 md:hidden" style={{ background: "rgba(102,126,234,0.95)", backdropFilter: "blur(10px)" }}>
+      <div className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-700 px-4 py-3 md:hidden">
         <Link href="/dashboard/client" className="text-base font-bold text-white">CoachLink</Link>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: "rgba(255,255,255,0.2)" }}>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white">
           {initiale}
         </div>
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t px-1 py-2 md:hidden" style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(10px)", borderColor: "rgba(102,126,234,0.2)" }}>
+      <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t border-gray-200 bg-white px-1 py-2 md:hidden">
         {NAV.slice(0, 5).map(({ href, icon, label }) => (
-          <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-purple-400 hover:text-purple-700">
+          <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-gray-400 hover:text-indigo-600">
             <span className="text-xl">{icon}</span>
             <span className="w-12 truncate text-center text-[10px] font-medium">{label.split(" ")[0]}</span>
           </Link>
@@ -99,7 +94,7 @@ export default async function ClientLayout({ children }: { children: React.React
       </nav>
 
       {/* Contenu */}
-      <main className="flex-1 px-4 pb-24 pt-16 md:px-8 md:pb-8 md:pt-8 overflow-auto">
+      <main className="flex-1 px-4 pb-24 pt-16 md:px-8 md:pb-8 md:pt-8">
         {children}
       </main>
     </div>
