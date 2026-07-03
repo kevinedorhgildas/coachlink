@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import VitrineManager from "./VitrineManager";
 
@@ -22,6 +23,25 @@ export default async function CoachVitrinePage() {
       </div>
 
       <VitrineManager medias={medias ?? []} temoignages={temoignagesList} coachId={userData.user.id} />
+
+      {(medias ?? []).filter((m) => m.type === "video").length > 0 && (
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-semibold text-gray-900">Mes vidéos ({(medias ?? []).filter((m) => m.type === "video").length})</h2>
+            <Link href={`/coachs/${userData.user.id}/videos`} target="_blank" className="text-xs font-medium text-emerald-600 hover:underline">
+              ⛶ Voir en plein écran →
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {(medias ?? []).filter((m) => m.type === "video").map((m) => (
+              <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200 bg-black">
+                <video src={m.url} controls className="w-full max-h-64" />
+                {m.legende && <p className="bg-white px-3 py-2 text-xs text-gray-500">{m.legende}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {temoignagesList.length > 0 && (
         <div>
