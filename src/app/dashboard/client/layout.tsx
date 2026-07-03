@@ -41,7 +41,7 @@ export default async function ClientLayout({ children }: { children: React.React
             </div>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-white">{profile?.nom}</p>
-              <p className="truncate text-xs text-blue-200" style={{ maxWidth: "130px" }}>{profile?.email}</p>
+              <p className="break-all text-xs text-blue-200 leading-tight">{profile?.email}</p>
             </div>
           </div>
         </div>
