@@ -110,7 +110,12 @@ export default async function CoachsPage({
                   <p className="font-semibold text-gray-900">{nom}</p>
                   <p className="text-sm text-gray-500">{coach.specialite} · {coach.ville}</p>
                 </div>
-                <p className="font-semibold text-blue-600">{coach.tarif_horaire} €/h</p>
+                <div className="flex items-center gap-3">
+                  <p className="font-semibold text-blue-600">{coach.tarif_horaire} €/h</p>
+                  <span className="rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50 transition">
+                    Voir le profil →
+                  </span>
+                </div>
               </Link>
             );
           })}
