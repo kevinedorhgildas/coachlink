@@ -59,8 +59,8 @@ export default async function DashboardClientPage({
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">Bonjour, {profile?.nom?.split(" ")[0]} 👋</h1>
-        <p className="mt-1 text-sm text-gray-500">Trouvez votre coach idéal parmi nos experts.</p>
+        <h1 className="text-xl font-bold text-gray-900">Trouver un coach</h1>
+        <p className="mt-1 text-sm text-gray-500">Recherchez parmi nos coachs par domaine, ville ou tarif.</p>
       </div>
 
       {reservations && reservations.length > 0 && (
