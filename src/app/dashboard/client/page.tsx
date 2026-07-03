@@ -123,11 +123,13 @@ export default async function DashboardClientPage({
                 {coach.photo_url ? <img src={coach.photo_url} alt={nomCoach ?? ""} className="h-full w-full object-cover" /> : <span className="text-gray-300 text-xl">👤</span>}
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-gray-900">{nomCoach}</p>
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-gray-900">{nomCoach}</p>
+                  <FavoriButton coachId={coach.id} isFavori={favoriIds.has(coach.id)} />
+                </div>
                 <p className="text-sm text-gray-500">{coach.specialite} · {coach.ville}</p>
               </div>
               <p className="font-semibold text-indigo-600">{coach.tarif_horaire} €/h</p>
-              <FavoriButton coachId={coach.id} isFavori={favoriIds.has(coach.id)} />
             </Link>
           );
         })}
