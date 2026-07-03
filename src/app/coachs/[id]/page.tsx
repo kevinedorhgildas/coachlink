@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ContactForm from "./ContactForm";
 import AvisForm from "./AvisForm";
@@ -173,14 +174,24 @@ export default async function CoachProfilePage({
 
       {medias && medias.filter((m) => m.type === "video").length > 0 && (
         <div className="mt-8">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">Vidéos</h2>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Vidéos</h2>
+            <Link href={`/coachs/${params.id}/videos`} className="text-sm font-medium text-blue-600 hover:underline">
+              Voir en plein écran →
+            </Link>
+          </div>
           <div className="space-y-3">
-            {medias.filter((m) => m.type === "video").map((m) => (
+            {medias.filter((m) => m.type === "video").slice(0, 2).map((m) => (
               <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200 bg-black">
                 <video src={m.url} controls className="w-full max-h-72" />
                 {m.legende && <p className="bg-white px-3 py-2 text-xs text-gray-500">{m.legende}</p>}
               </div>
             ))}
+            {medias.filter((m) => m.type === "video").length > 2 && (
+              <Link href={`/coachs/${params.id}/videos`} className="block rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-center text-sm font-medium text-gray-600 hover:bg-gray-100">
+                + {medias.filter((m) => m.type === "video").length - 2} vidéo{medias.filter((m) => m.type === "video").length - 2 > 1 ? "s" : ""} supplémentaire{medias.filter((m) => m.type === "video").length - 2 > 1 ? "s" : ""}
+              </Link>
+            )}
           </div>
         </div>
       )}
