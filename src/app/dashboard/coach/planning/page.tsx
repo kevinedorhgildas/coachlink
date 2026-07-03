@@ -25,6 +25,7 @@ export default async function CoachPlanningPage() {
       heureFin: dispo?.heure_fin?.slice(0, 5) ?? "–",
       titre: clientProfile?.nom ?? "Client",
       statut: r.statut,
+      coachId: userData.user!.id,
     };
   });
 
