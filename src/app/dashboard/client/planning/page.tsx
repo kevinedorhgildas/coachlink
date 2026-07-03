@@ -11,13 +11,13 @@ export default async function ClientPlanningPage() {
 
   const { data: reservations } = await supabase
     .from("reservations")
-    .select("id, date_souhaitee, statut, disponibilites(heure_debut, heure_fin), coaches(profiles(nom))")
+    .select("id, date_souhaitee, statut, disponibilites(heure_debut, heure_fin), coaches(id, profiles(nom))")
     .eq("client_id", userData.user.id)
     .order("date_souhaitee", { ascending: true });
 
   const evenements: Evenement[] = (reservations ?? []).map((r) => {
     const dispo = Array.isArray(r.disponibilites) ? r.disponibilites[0] : r.disponibilites as { heure_debut: string; heure_fin: string } | null;
-    const coachData = Array.isArray(r.coaches) ? r.coaches[0] : r.coaches as { profiles: { nom: string } | { nom: string }[] | null } | null;
+    const coachData = Array.isArray(r.coaches) ? r.coaches[0] : r.coaches as { id: string; profiles: { nom: string } | { nom: string }[] | null } | null;
     const coachProfile = Array.isArray(coachData?.profiles) ? coachData?.profiles[0] : coachData?.profiles as { nom: string } | null;
     return {
       id: r.id,
@@ -26,6 +26,7 @@ export default async function ClientPlanningPage() {
       heureFin: dispo?.heure_fin?.slice(0, 5) ?? "–",
       titre: coachProfile?.nom ?? "Coach",
       statut: r.statut,
+      coachId: coachData?.id,
     };
   });
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export type Evenement = {
@@ -9,6 +10,7 @@ export type Evenement = {
   heureFin: string;
   titre: string;
   statut: string;
+  coachId?: string;
 };
 
 type Vue = "jour" | "semaine" | "mois" | "annee";
@@ -118,6 +120,11 @@ export default function PlanningView({
               <div key={e.id} className={`rounded-lg border p-4 ${statutStyle(e.statut)}`}>
                 <p className="font-medium">{e.titre}</p>
                 <p className="text-sm">{e.heureDebut} – {e.heureFin} · <span className="font-medium">{statutLabel(e.statut)}</span></p>
+                {e.coachId && (
+                  <Link href={`/coachs/${e.coachId}`} className="mt-2 inline-block rounded-lg border border-current/30 bg-white/50 px-3 py-1 text-xs font-medium hover:bg-white/80 transition">
+                    Voir le profil →
+                  </Link>
+                )}
               </div>
             ))}
           </div>
