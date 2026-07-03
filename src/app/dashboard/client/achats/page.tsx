@@ -61,8 +61,11 @@ export default async function AchatsClientPage() {
                 return (
                   <tr key={r.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
-                      <Link href={`/coachs/${c?.id}`} className="font-medium text-gray-900 hover:underline">{p?.nom ?? "–"}</Link>
+                      <p className="font-medium text-gray-900">{p?.nom ?? "–"}</p>
                       <p className="text-xs text-gray-400">{c?.specialite}</p>
+                      <Link href={`/coachs/${c?.id}`} className="mt-1 inline-block rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition">
+                        Voir le profil →
+                      </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-600">{new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</td>
                     <td className="px-4 py-3 text-gray-600">{d ? `${d.heure_debut.slice(0, 5)} – ${d.heure_fin.slice(0, 5)}` : "–"}</td>
