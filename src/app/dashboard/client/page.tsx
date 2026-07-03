@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import FavoriButton from "@/components/FavoriButton";
 
 const PAR_PAGE = 10;
 
@@ -38,6 +39,12 @@ export default async function DashboardClientPage({
   if (searchParams.tarif_max) query = query.lte("tarif_horaire", Number(searchParams.tarif_max));
 
   const { data: coaches, count } = await query.order("tarif_horaire", { ascending: true }).range(from, to);
+
+  const { data: favoris } = await supabase
+    .from("favoris")
+    .select("coach_id")
+    .eq("client_id", userData.user.id);
+  const favoriIds = new Set((favoris ?? []).map((f) => f.coach_id));
   const totalPages = Math.max(1, Math.ceil((count ?? 0) / PAR_PAGE));
 
   const buildPageHref = (targetPage: number) => {
@@ -120,6 +127,7 @@ export default async function DashboardClientPage({
                 <p className="text-sm text-gray-500">{coach.specialite} · {coach.ville}</p>
               </div>
               <p className="font-semibold text-indigo-600">{coach.tarif_horaire} €/h</p>
+              <FavoriButton coachId={coach.id} isFavori={favoriIds.has(coach.id)} />
             </Link>
           );
         })}

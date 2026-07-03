@@ -9,6 +9,7 @@ const NAV = [
   { href: "/dashboard/client/historique", label: "Historique de cours", icon: "📋" },
   { href: "/dashboard/client/achats", label: "Historique d'achats", icon: "🧾" },
   { href: "/dashboard/client/paiement", label: "Méthodes de paiement", icon: "💳" },
+  { href: "/dashboard/client/favoris", label: "Mes favoris", icon: "⭐" },
   { href: "/dashboard/client/planning", label: "Mon planning", icon: "📅" },
   { href: "/dashboard/client/compte", label: "Mon compte", icon: "👤" },
 ];
