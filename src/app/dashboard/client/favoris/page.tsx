@@ -49,7 +49,12 @@ export default async function FavorisClientPage() {
                     <p className="font-semibold text-gray-900">{nom}</p>
                     <p className="text-sm text-gray-500">{coach.specialite} · {coach.ville}</p>
                   </div>
-                  <p className="font-semibold text-indigo-600">{coach.tarif_horaire} €/h</p>
+                  <div className="flex items-center gap-3">
+                    <p className="font-semibold text-indigo-600">{coach.tarif_horaire} €/h</p>
+                    <span className="rounded-lg border border-indigo-200 px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition">
+                      Voir le profil →
+                    </span>
+                  </div>
                 </Link>
                 <FavoriButton coachId={coach.id} isFavori={true} />
               </div>
