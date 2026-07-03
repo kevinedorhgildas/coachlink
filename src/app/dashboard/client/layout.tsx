@@ -77,11 +77,14 @@ export default async function ClientLayout({ children }: { children: React.React
       </aside>
 
       {/* Mobile header */}
-      <div className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-700 px-4 py-3 md:hidden">
-        <Link href="/dashboard/client" className="text-base font-bold text-white">CoachLink</Link>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white">
-          {initiale}
+      <div className="fixed left-0 right-0 top-0 z-10 bg-gradient-to-r from-blue-600 to-indigo-700 px-4 py-3 md:hidden">
+        <div className="flex items-center justify-between">
+          <Link href="/dashboard/client" className="text-base font-bold text-white">CoachLink</Link>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white">
+            {initiale}
+          </div>
         </div>
+        <p className="mt-0.5 text-sm font-medium text-white/90">Bonjour, {profile?.nom?.split(" ")[0]} 👋</p>
       </div>
 
       {/* Mobile bottom nav */}
@@ -99,7 +102,7 @@ export default async function ClientLayout({ children }: { children: React.React
         <div className="hidden md:block border-b border-gray-200 bg-white px-8 py-4">
           <p className="text-lg font-bold text-gray-900">Bonjour, {profile?.nom?.split(" ")[0]} 👋</p>
         </div>
-        <main className="flex-1 px-4 pb-24 pt-4 md:px-8 md:pb-8 md:pt-6">
+        <main className="flex-1 px-4 pb-24 pt-24 md:px-8 md:pb-8 md:pt-6">
           {children}
         </main>
       </div>
