@@ -71,6 +71,34 @@ export default function InscriptionForm() {
         />
       </div>
 
+      {role === "coach" && (
+        <div>
+          <label htmlFor="specialite" className="mb-1 block text-sm font-medium text-gray-700">
+            Domaine du coach
+          </label>
+          <input
+            id="specialite"
+            name="specialite"
+            type="text"
+            required
+            placeholder="Ex. Coach sportif, Coach mental..."
+            list="domaines-list"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          />
+          <datalist id="domaines-list">
+            <option value="Coach sportif" />
+            <option value="Coach en finance" />
+            <option value="Coach en développement personnel" />
+            <option value="Coach marketing" />
+            <option value="Coach en développement business" />
+            <option value="Coach mental" />
+            <option value="Coach en séduction" />
+            <option value="Coach en bien être et santé" />
+            <option value="Coach en langue" />
+          </datalist>
+        </div>
+      )}
+
       <div>
         <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
           Mot de passe

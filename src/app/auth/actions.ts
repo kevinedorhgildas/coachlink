@@ -10,9 +10,13 @@ export async function signup(formData: FormData) {
   const nom = formData.get("nom") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const specialite = (formData.get("specialite") as string) ?? "";
 
   if (!role || !nom || !email || !password) {
     return { error: "Tous les champs sont obligatoires." };
+  }
+  if (role === "coach" && !specialite) {
+    return { error: "Le domaine du coach est obligatoire." };
   }
 
   const supabase = await createClient();
@@ -39,7 +43,7 @@ export async function signup(formData: FormData) {
   if (role === "coach") {
     const { error: coachError } = await supabase.from("coaches").insert({
       id: userId,
-      specialite: "",
+      specialite,
       tarif_horaire: 0,
       ville: "",
       description: "",
