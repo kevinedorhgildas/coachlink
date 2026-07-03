@@ -5,6 +5,7 @@ import { logout } from "@/app/auth/actions";
 
 const NAV = [
   { href: "/dashboard/coach", label: "Mon profil", icon: "✏️" },
+  { href: "/dashboard/coach/notifications", label: "Notifications", icon: "🔔" },
   { href: "/dashboard/coach/cours-a-venir", label: "Cours à venir", icon: "📌" },
   { href: "/dashboard/coach/stats", label: "Cours réalisés", icon: "📊" },
   { href: "/dashboard/coach/historique", label: "Historique de cours", icon: "📋" },
