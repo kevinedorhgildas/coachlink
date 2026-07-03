@@ -27,48 +27,51 @@ export default async function ClientLayout({ children }: { children: React.React
   const initiale = profile?.nom?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen" style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)" }}>
       {/* Sidebar */}
-      <aside className="hidden w-56 shrink-0 border-r border-gray-200 bg-white md:flex md:flex-col">
+      <aside className="hidden w-60 shrink-0 flex-col md:flex" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)", borderRight: "1px solid rgba(255,255,255,0.15)" }}>
         {/* Logo */}
-        <div className="border-b border-gray-100 px-5 py-5">
-          <Link href="/dashboard/client" className="text-lg font-bold text-gray-900">
+        <div className="px-6 py-7 border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+          <Link href="/dashboard/client" className="text-xl font-bold text-white tracking-tight">
             CoachLink
           </Link>
+          <p className="mt-0.5 text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Espace client</p>
         </div>
 
-        {/* Avatar */}
-        <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-4">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-600">
+        {/* Profil */}
+        <div className="flex items-center gap-3 px-5 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1))", border: "2px solid rgba(255,255,255,0.3)" }}>
             {initiale}
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-gray-900">{profile?.nom}</p>
-            <p className="break-all text-xs text-gray-400">{profile?.email}</p>
+            <p className="truncate text-sm font-semibold text-white">{profile?.nom}</p>
+            <p className="truncate text-xs leading-tight" style={{ color: "rgba(255,255,255,0.55)", maxWidth: "140px" }}>{profile?.email}</p>
           </div>
         </div>
 
         {/* Nav */}
-        <nav className="flex flex-1 flex-col px-3 py-3">
-          <ul className="space-y-0.5">
+        <nav className="flex flex-1 flex-col px-3 py-4">
+          <ul className="space-y-1">
             {NAV.map(({ href, label, icon }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-gray-900"
+                  className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 hover:bg-white/15 hover:text-white"
+                  style={{ color: "rgba(255,255,255,0.75)" }}
                 >
-                  <span>{icon}</span>
+                  <span className="text-base">{icon}</span>
                   {label}
                 </Link>
               </li>
             ))}
           </ul>
 
-          <div className="mt-auto border-t border-gray-100 pt-3">
+          <div className="mt-auto pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
             <form action={logout}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-400 transition hover:bg-gray-50 hover:text-gray-700"
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150"
+                style={{ color: "rgba(255,255,255,0.5)" }}
               >
                 <span>🚪</span> Déconnexion
               </button>
@@ -78,17 +81,17 @@ export default async function ClientLayout({ children }: { children: React.React
       </aside>
 
       {/* Mobile header */}
-      <div className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 md:hidden">
-        <Link href="/dashboard/client" className="text-base font-bold text-gray-900">CoachLink</Link>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-600">
+      <div className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between px-4 py-3 md:hidden" style={{ background: "rgba(102,126,234,0.95)", backdropFilter: "blur(10px)" }}>
+        <Link href="/dashboard/client" className="text-base font-bold text-white">CoachLink</Link>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: "rgba(255,255,255,0.2)" }}>
           {initiale}
         </div>
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t border-gray-200 bg-white px-1 py-2 md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t px-1 py-2 md:hidden" style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(10px)", borderColor: "rgba(102,126,234,0.2)" }}>
         {NAV.slice(0, 5).map(({ href, icon, label }) => (
-          <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-gray-400 hover:text-blue-600">
+          <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-purple-400 hover:text-purple-700">
             <span className="text-xl">{icon}</span>
             <span className="w-12 truncate text-center text-[10px] font-medium">{label.split(" ")[0]}</span>
           </Link>
@@ -96,7 +99,7 @@ export default async function ClientLayout({ children }: { children: React.React
       </nav>
 
       {/* Contenu */}
-      <main className="flex-1 px-4 pb-24 pt-16 md:px-8 md:pb-8 md:pt-8">
+      <main className="flex-1 px-4 pb-24 pt-16 md:px-8 md:pb-8 md:pt-8 overflow-auto">
         {children}
       </main>
     </div>
