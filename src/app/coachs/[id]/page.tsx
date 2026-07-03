@@ -26,18 +26,13 @@ export default async function CoachProfilePage({
   const profileData = coach.profiles as unknown as { nom: string; email: string } | { nom: string; email: string }[] | null;
   const profile = Array.isArray(profileData) ? profileData[0] : profileData;
 
-  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }] = await Promise.all([
-    supabase
-      .from("disponibilites")
-      .select("id, jour_semaine, heure_debut, heure_fin")
-      .eq("coach_id", params.id),
-    supabase
-      .from("avis")
-      .select("id, note, commentaire, created_at")
-      .eq("coach_id", params.id)
-      .order("created_at", { ascending: false }),
+  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }, { data: medias }, { data: temoignages }] = await Promise.all([
+    supabase.from("disponibilites").select("id, jour_semaine, heure_debut, heure_fin").eq("coach_id", params.id),
+    supabase.from("avis").select("id, note, commentaire, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.auth.getUser(),
     supabase.from("documents").select("id, nom, url").eq("coach_id", params.id).order("created_at", { ascending: false }),
+    supabase.from("media_coach").select("id, type, url, legende").eq("coach_id", params.id).order("created_at", { ascending: false }),
+    supabase.from("temoignages").select("id, auteur, contenu, note, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }),
   ]);
 
   const disposTriees = (disponibilites ?? []).sort(
@@ -156,6 +151,39 @@ export default async function CoachProfilePage({
                 <span className="flex-1 text-sm font-medium text-gray-800">{doc.nom}</span>
                 <span className="text-xs text-blue-600">Télécharger →</span>
               </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {medias && medias.filter((m) => m.type === "photo").length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Photos</h2>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {medias.filter((m) => m.type === "photo").map((m) => (
+              <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={m.url} alt={m.legende ?? ""} className="h-40 w-full object-cover" />
+                {m.legende && <p className="truncate bg-white px-2 py-1 text-xs text-gray-500">{m.legende}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {temoignages && temoignages.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Témoignages d'élèves</h2>
+          <div className="space-y-3">
+            {temoignages.map((t) => (
+              <div key={t.id} className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="font-semibold text-gray-900 text-sm">{t.auteur}</p>
+                  {t.note && <span className="text-sm text-amber-500">{"★".repeat(t.note)}{"☆".repeat(5 - t.note)}</span>}
+                </div>
+                <p className="text-sm text-gray-600 italic">"{t.contenu}"</p>
+                <p className="mt-1 text-xs text-gray-400">{new Date(t.created_at).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}</p>
+              </div>
             ))}
           </div>
         </div>
