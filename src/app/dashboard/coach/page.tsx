@@ -16,6 +16,8 @@ export default async function DashboardCoachPage() {
 
   const userId = userData.user.id;
 
+  const { data: profile } = await supabase.from("profiles").select("nom").eq("id", userId).single();
+
   const [{ data: coach }, { data: disponibilites }, { data: reservations }] = await Promise.all([
     supabase.from("coaches").select("*").eq("id", userId).single(),
     supabase
@@ -32,7 +34,7 @@ export default async function DashboardCoachPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-gray-900">Mon profil</h1>
+        <h1 className="text-xl font-bold text-gray-900">Bonjour, {profile?.nom?.split(" ")[0]} 👋</h1>
         <p className="mt-1 text-sm text-gray-500">Modifiez vos informations visibles par les clients.</p>
       </div>
 
