@@ -7,6 +7,9 @@ import { signup } from "@/app/auth/actions";
 
 type Role = "coach" | "client";
 
+const inputClass = "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/20";
+const labelClass = "mb-1.5 block text-sm font-medium text-gray-700";
+
 export default function InscriptionForm() {
   const [role, setRole] = useState<Role>("client");
   const [state, formAction] = useFormState(
@@ -20,62 +23,45 @@ export default function InscriptionForm() {
     <form action={formAction} className="space-y-5">
       <input type="hidden" name="role" value={role} />
 
-      <div className="flex gap-3">
+      {/* Sélection rôle */}
+      <div className="grid grid-cols-2 gap-3">
         <button
           type="button"
           onClick={() => setRole("client")}
-          className={`flex-1 rounded-lg border px-4 py-3 text-sm font-medium transition ${
-            role === "client"
-              ? "border-blue-600 bg-blue-50 text-blue-700"
-              : "border-gray-200 text-gray-600 hover:border-gray-300"
-          }`}
+          className="rounded-xl border px-4 py-3 text-sm font-medium transition"
+          style={role === "client"
+            ? { background: "linear-gradient(135deg, #C9A96E22, #E8D5A322)", borderColor: "#C9A96E", color: "#9A7A2E" }
+            : { borderColor: "#e5e7eb", color: "#6b7280", background: "#fff" }
+          }
         >
-          Je cherche un coach
+          🔍 Je cherche un coach
         </button>
         <button
           type="button"
           onClick={() => setRole("coach")}
-          className={`flex-1 rounded-lg border px-4 py-3 text-sm font-medium transition ${
-            role === "coach"
-              ? "border-blue-600 bg-blue-50 text-blue-700"
-              : "border-gray-200 text-gray-600 hover:border-gray-300"
-          }`}
+          className="rounded-xl border px-4 py-3 text-sm font-medium transition"
+          style={role === "coach"
+            ? { background: "linear-gradient(135deg, #C9A96E22, #E8D5A322)", borderColor: "#C9A96E", color: "#9A7A2E" }
+            : { borderColor: "#e5e7eb", color: "#6b7280", background: "#fff" }
+          }
         >
-          Je suis coach
+          ✏️ Je suis coach
         </button>
       </div>
 
       <div>
-        <label htmlFor="nom" className="mb-1 block text-sm font-medium text-gray-700">
-          Nom complet
-        </label>
-        <input
-          id="nom"
-          name="nom"
-          type="text"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
-        />
+        <label htmlFor="nom" className={labelClass}>Nom complet</label>
+        <input id="nom" name="nom" type="text" required placeholder="Jean Dupont" className={inputClass} />
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
-        />
+        <label htmlFor="email" className={labelClass}>Email</label>
+        <input id="email" name="email" type="email" required placeholder="vous@exemple.com" className={inputClass} />
       </div>
 
       {role === "coach" && (
         <div>
-          <label htmlFor="specialite" className="mb-1 block text-sm font-medium text-gray-700">
-            Domaine du coach
-          </label>
+          <label htmlFor="specialite" className={labelClass}>Domaine du coach</label>
           <input
             id="specialite"
             name="specialite"
@@ -83,7 +69,7 @@ export default function InscriptionForm() {
             required
             placeholder="Ex. Coach sportif, Coach mental..."
             list="domaines-list"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+            className={inputClass}
           />
           <datalist id="domaines-list">
             <option value="Coach sportif" />
@@ -100,17 +86,8 @@ export default function InscriptionForm() {
       )}
 
       <div>
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
-          Mot de passe
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          minLength={6}
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
-        />
+        <label htmlFor="password" className={labelClass}>Mot de passe</label>
+        <input id="password" name="password" type="password" required minLength={6} placeholder="Minimum 6 caractères" className={inputClass} />
       </div>
 
       <div className="flex items-start gap-3">
@@ -119,29 +96,27 @@ export default function InscriptionForm() {
           name="cgu"
           type="checkbox"
           required
-          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          className="mt-0.5 h-4 w-4 rounded border-gray-300"
+          style={{ accentColor: "#C9A96E" }}
         />
-        <label htmlFor="cgu" className="text-sm text-gray-600">
-          J'accepte les{" "}
-          <Link href="/cgu" target="_blank" className="font-medium text-blue-600 hover:underline">
-            Conditions Générales d'Utilisation
-          </Link>{" "}
-          et la{" "}
-          <Link href="/confidentialite" target="_blank" className="font-medium text-blue-600 hover:underline">
-            Politique de confidentialité
-          </Link>
+        <label htmlFor="cgu" className="text-sm text-gray-500 leading-relaxed">
+          J&apos;accepte les{" "}
+          <Link href="/cgu" target="_blank" className="font-medium hover:underline" style={{ color: "#C9A96E" }}>CGU</Link>
+          {" "}et la{" "}
+          <Link href="/confidentialite" target="_blank" className="font-medium hover:underline" style={{ color: "#C9A96E" }}>Politique de confidentialité</Link>
         </label>
       </div>
 
       {state?.error && (
-        <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+        <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {state.error}
         </p>
       )}
 
       <button
         type="submit"
-        className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+        className="w-full rounded-xl py-3 text-sm font-semibold shadow-md transition hover:opacity-90 hover:shadow-lg"
+        style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", color: "#0B1120" }}
       >
         Créer mon compte
       </button>
