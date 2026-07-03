@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import { uploadMedia, deleteMedia, addTemoignage, deleteTemoignage } from "./actions";
 
 type Media = { id: string; type: string; url: string; legende: string | null; created_at: string };
@@ -9,9 +10,11 @@ type Temoignage = { id: string; auteur: string; contenu: string; note: number | 
 export default function VitrineManager({
   medias,
   temoignages,
+  coachId,
 }: {
   medias: Media[];
   temoignages: Temoignage[];
+  coachId: string;
 }) {
   const [mediaList, setMediaList] = useState(medias);
   const [temoList, setTemoList] = useState(temoignages);
@@ -162,7 +165,14 @@ export default function VitrineManager({
 
           {activeTab === "videos" && (
             <div>
-              <p className="mb-3 text-sm font-semibold text-gray-700">Mes vidéos ({videos.length})</p>
+              <div className="mb-3 flex items-center justify-between">
+                <p className="text-sm font-semibold text-gray-700">Mes vidéos ({videos.length})</p>
+                {videos.length > 0 && (
+                  <Link href={`/coachs/${coachId}/videos`} target="_blank" className="text-xs font-medium text-emerald-600 hover:underline">
+                    ⛶ Voir en plein écran →
+                  </Link>
+                )}
+              </div>
               {videos.length === 0 ? (
                 <p className="text-sm text-gray-400">Aucune vidéo pour le moment.</p>
               ) : (

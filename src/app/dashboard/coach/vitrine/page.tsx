@@ -18,7 +18,7 @@ export default async function CoachVitrinePage() {
         <h1 className="text-xl font-bold text-gray-900">Ma vitrine</h1>
         <p className="mt-1 text-sm text-gray-500">Photos, vidéos et témoignages visibles sur votre profil public.</p>
       </div>
-      <VitrineManager medias={medias ?? []} temoignages={temoignages ?? []} />
+      <VitrineManager medias={medias ?? []} temoignages={temoignages ?? []} coachId={userData.user.id} />
     </div>
   );
 }
