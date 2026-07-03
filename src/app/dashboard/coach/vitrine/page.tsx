@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import VitrineManager from "./VitrineManager";
+import PhotoGallery from "@/app/coachs/[id]/photos/PhotoGallery";
 
 export default async function CoachVitrinePage() {
   const supabase = await createClient();
@@ -30,15 +31,7 @@ export default async function CoachVitrinePage() {
             <h2 className="text-base font-semibold text-gray-900">Mes photos ({(medias ?? []).filter((m) => m.type === "photo").length})</h2>
             <Link href={`/coachs/${userData.user.id}/photos`} target="_blank" className="text-xs font-medium text-emerald-600 hover:underline">⛶ Voir en plein écran →</Link>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {(medias ?? []).filter((m) => m.type === "photo").map((m) => (
-              <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={m.url} alt={m.legende ?? ""} className="h-40 w-full object-cover" />
-                {m.legende && <p className="truncate bg-white px-2 py-1 text-xs text-gray-500">{m.legende}</p>}
-              </div>
-            ))}
-          </div>
+          <PhotoGallery photos={(medias ?? []).filter((m) => m.type === "photo")} />
         </div>
       )}
 
