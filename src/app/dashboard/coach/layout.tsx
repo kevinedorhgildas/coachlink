@@ -96,16 +96,19 @@ export default async function CoachLayout({ children }: { children: React.ReactN
       </aside>
 
       {/* Mobile header */}
-      <div className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between bg-gradient-to-r from-emerald-600 to-teal-700 px-4 py-3 md:hidden">
-        <Link href="/dashboard/coach" className="text-base font-bold text-white">CoachLink</Link>
-        <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-white/30 bg-white/20">
-          {coach?.photo_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={coach.photo_url} alt="" className="h-full w-full object-cover" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-xs font-bold text-white">{initiale}</div>
-          )}
+      <div className="fixed left-0 right-0 top-0 z-10 bg-gradient-to-r from-emerald-600 to-teal-700 px-4 py-3 md:hidden">
+        <div className="flex items-center justify-between">
+          <Link href="/dashboard/coach" className="text-base font-bold text-white">CoachLink</Link>
+          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-white/30 bg-white/20">
+            {coach?.photo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={coach.photo_url} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-xs font-bold text-white">{initiale}</div>
+            )}
+          </div>
         </div>
+        <p className="mt-0.5 text-sm font-medium text-white/90">Bonjour, {profile?.nom?.split(" ")[0]} 👋</p>
       </div>
 
       {/* Mobile bottom nav */}
@@ -123,7 +126,7 @@ export default async function CoachLayout({ children }: { children: React.ReactN
         <div className="hidden md:block border-b border-gray-200 bg-white px-8 py-4">
           <p className="text-lg font-bold text-gray-900">Bonjour, {profile?.nom?.split(" ")[0]} 👋</p>
         </div>
-        <main className="flex-1 px-4 pb-24 pt-4 md:px-8 md:pb-8 md:pt-6">
+        <main className="flex-1 px-4 pb-24 pt-24 md:px-8 md:pb-8 md:pt-6">
           {children}
         </main>
       </div>
