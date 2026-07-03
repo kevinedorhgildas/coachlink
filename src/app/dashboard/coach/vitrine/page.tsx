@@ -24,6 +24,21 @@ export default async function CoachVitrinePage() {
 
       <VitrineManager medias={medias ?? []} temoignages={temoignagesList} coachId={userData.user.id} />
 
+      {(medias ?? []).filter((m) => m.type === "photo").length > 0 && (
+        <div>
+          <h2 className="mb-4 text-base font-semibold text-gray-900">Mes photos ({(medias ?? []).filter((m) => m.type === "photo").length})</h2>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {(medias ?? []).filter((m) => m.type === "photo").map((m) => (
+              <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={m.url} alt={m.legende ?? ""} className="h-40 w-full object-cover" />
+                {m.legende && <p className="truncate bg-white px-2 py-1 text-xs text-gray-500">{m.legende}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {(medias ?? []).filter((m) => m.type === "video").length > 0 && (
         <div>
           <div className="mb-4 flex items-center justify-between">
