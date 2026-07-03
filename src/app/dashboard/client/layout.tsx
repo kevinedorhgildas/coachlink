@@ -29,7 +29,7 @@ export default async function ClientLayout({ children }: { children: React.React
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col md:flex">
+      <aside className="hidden w-72 shrink-0 flex-col md:flex">
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-6 py-6">
           <Link href="/dashboard/client" className="text-xl font-bold text-white tracking-tight">
@@ -41,7 +41,7 @@ export default async function ClientLayout({ children }: { children: React.React
             </div>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-white">{profile?.nom}</p>
-              <p className="break-all text-xs text-blue-200 leading-tight">{profile?.email}</p>
+              <p className="truncate text-xs text-blue-200">{profile?.email}</p>
             </div>
           </div>
         </div>
