@@ -55,6 +55,11 @@ export default async function ReservationsClientPage() {
                     <p className="text-xs text-gray-500 mt-0.5">{coachData?.specialite}</p>
                     <p className="text-xs text-gray-500 mt-1">📅 {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}{dispo && <span className="ml-2">· {dispo.heure_debut.slice(0, 5)}–{dispo.heure_fin.slice(0, 5)}</span>}</p>
                     {r.message && <p className="mt-2 text-xs italic text-gray-400">"{r.message}"</p>}
+                    <div className="mt-2">
+                      <Link href={`/coachs/${coachData?.id}`} className="rounded-lg border border-indigo-200 px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition">
+                        Voir le profil →
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
