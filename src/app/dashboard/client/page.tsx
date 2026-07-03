@@ -92,7 +92,7 @@ export default async function DashboardClientPage({
       <form className="mb-6 rounded-xl border border-gray-200 bg-white p-4">
         <div className="flex flex-wrap items-end gap-3">
           <div>
-            <label className="mb-1 block text-xs font-medium text-gray-700">Domaine</label>
+            <label className="mb-1 block text-xs font-medium text-gray-700">Domaine du coach</label>
             <input name="specialite" type="text" defaultValue={searchParams.specialite ?? ""} placeholder="Ex. coach sportif, coach mental..." className="w-72 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none" list="domaines-list" />
             <datalist id="domaines-list">
               <option value="Coach sportif" /><option value="Coach en finance" /><option value="Coach en développement personnel" />
