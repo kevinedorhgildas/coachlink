@@ -54,7 +54,7 @@ export default async function Home() {
           {DOMAINES.map(({ label, icon }) => (
             <Link
               key={label}
-              href={`/connexion`}
+              href={`/coachs?domaine=${encodeURIComponent(label)}`}
               className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm font-medium text-gray-700 shadow-sm transition hover:border-blue-300 hover:text-blue-700 hover:shadow-md"
             >
               <span className="text-2xl">{icon}</span>
