@@ -18,7 +18,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (profile?.role !== "admin") redirect("/");
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#FAF8F5" }}>
+    <div className="min-h-screen flex" style={{ background: "#FAF8F5", position: "relative", zIndex: 0 }}>
+      <style>{`body > footer { display: none !important; }`}</style>
       {/* Sidebar */}
       <aside className="w-56 shrink-0 border-r border-gray-200 bg-white flex flex-col">
         <div className="px-5 py-5 border-b border-gray-100">
