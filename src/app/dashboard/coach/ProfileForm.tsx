@@ -3,6 +3,11 @@
 import { useFormState } from "react-dom";
 import { updateCoachProfile } from "./actions";
 
+const GOLD = "#C9A96E";
+
+const inputCls = "w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#C9A96E] transition";
+const labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500";
+
 type Coach = {
   specialite: string | null;
   ville: string | null;
@@ -19,11 +24,11 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
   );
 
   return (
-    <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6">
+    <form action={formAction} className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 className="text-base font-semibold text-gray-900">Informations du profil</h2>
+
       <div>
-        <label htmlFor="specialite" className="mb-1 block text-sm font-medium text-gray-700">
-          Domaine du coach
-        </label>
+        <label htmlFor="specialite" className={labelCls}>Domaine du coach</label>
         <input
           id="specialite"
           name="specialite"
@@ -32,7 +37,7 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
           required
           placeholder="Rechercher ou saisir un domaine..."
           list="domaines-list"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          className={inputCls}
         />
         <datalist id="domaines-list">
           <option value="Coach sportif" />
@@ -48,23 +53,19 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
       </div>
 
       <div>
-        <label htmlFor="ville" className="mb-1 block text-sm font-medium text-gray-700">
-          Ville
-        </label>
+        <label htmlFor="ville" className={labelCls}>Ville</label>
         <input
           id="ville"
           name="ville"
           type="text"
           defaultValue={coach.ville ?? ""}
           required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          className={inputCls}
         />
       </div>
 
       <div>
-        <label htmlFor="tarif_horaire" className="mb-1 block text-sm font-medium text-gray-700">
-          Tarif horaire (€)
-        </label>
+        <label htmlFor="tarif_horaire" className={labelCls}>Tarif horaire (€)</label>
         <input
           id="tarif_horaire"
           name="tarif_horaire"
@@ -73,36 +74,35 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
           step="0.5"
           defaultValue={coach.tarif_horaire ?? ""}
           required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          className={inputCls}
         />
       </div>
 
       <div>
-        <label htmlFor="description" className="mb-1 block text-sm font-medium text-gray-700">
-          Description
-        </label>
+        <label htmlFor="description" className={labelCls}>Description</label>
         <textarea
           id="description"
           name="description"
           rows={4}
           defaultValue={coach.description ?? ""}
           placeholder="Présentez votre expérience, votre approche..."
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          className={inputCls}
         />
       </div>
 
       {state?.error && (
-        <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{state.error}</p>
+        <p className="rounded-xl bg-red-50 px-4 py-2 text-sm text-red-700">{state.error}</p>
       )}
       {state?.success && (
-        <p className="rounded-lg bg-green-50 px-4 py-2 text-sm text-green-700">
-          Profil mis à jour avec succès.
+        <p className="rounded-xl px-4 py-2 text-sm font-medium" style={{ background: `${GOLD}11`, color: "#9A7A2E" }}>
+          ✓ Profil mis à jour avec succès.
         </p>
       )}
 
       <button
         type="submit"
-        className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+        className="rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90"
+        style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}
       >
         Enregistrer
       </button>
