@@ -89,12 +89,15 @@ export async function requestReservation(formData: FormData) {
     return { error: "Veuillez choisir un créneau et une date." };
   }
 
+  const typeSeance = (formData.get("type_seance") as string) || "individuel";
+
   const { error } = await supabase.from("reservations").insert({
     coach_id: coachId,
     client_id: userData.user.id,
     disponibilite_id: disponibiliteId,
     date_souhaitee: dateSouhaitee,
     message,
+    type_seance: typeSeance,
   });
 
   if (error) {

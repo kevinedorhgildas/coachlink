@@ -19,14 +19,14 @@ export default async function DashboardCoachPage() {
   const { data: profile } = await supabase.from("profiles").select("nom").eq("id", userId).single();
 
   const [{ data: coach }, { data: disponibilites }, { data: reservations }] = await Promise.all([
-    supabase.from("coaches").select("*").eq("id", userId).single(),
+    supabase.from("coaches").select("*, tarif_individuel, tarif_groupe, tarif_enligne").eq("id", userId).single(),
     supabase
       .from("disponibilites")
       .select("id, jour_semaine, heure_debut, heure_fin")
       .eq("coach_id", userId),
     supabase
       .from("reservations")
-      .select("id, date_souhaitee, message, statut, disponibilites(jour_semaine, heure_debut, heure_fin)")
+      .select("id, date_souhaitee, message, statut, type_seance, lien_visio, disponibilites(jour_semaine, heure_debut, heure_fin)")
       .eq("coach_id", userId)
       .order("created_at", { ascending: false }),
   ]);
@@ -39,7 +39,7 @@ export default async function DashboardCoachPage() {
       </div>
 
       <PhotoUpload photoUrl={coach?.photo_url ?? null} />
-      <ProfileForm coach={coach ?? {}} />
+      <ProfileForm coach={{ specialite: coach?.specialite ?? null, ville: coach?.ville ?? null, tarif_horaire: coach?.tarif_horaire ?? null, tarif_individuel: (coach as Record<string,unknown>)?.tarif_individuel as number|null ?? null, tarif_groupe: (coach as Record<string,unknown>)?.tarif_groupe as number|null ?? null, tarif_enligne: (coach as Record<string,unknown>)?.tarif_enligne as number|null ?? null, description: coach?.description ?? null }} />
       <ParcoursForm parcours={{
         diplomes: coach?.diplomes ?? [],
         competences: coach?.competences ?? [],

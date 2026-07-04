@@ -275,7 +275,7 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
         {isClient && (
           <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <SectionTitle noBorder>Réserver un créneau</SectionTitle>
-            <ReservationForm coachId={coach.id} disponibilites={disposTriees} />
+            <ReservationForm coachId={coach.id} disponibilites={disposTriees} coach={{ tarif_horaire: coach.tarif_horaire, tarif_individuel: (coach as Record<string, unknown>).tarif_individuel as number | null, tarif_groupe: (coach as Record<string, unknown>).tarif_groupe as number | null, tarif_enligne: (coach as Record<string, unknown>).tarif_enligne as number | null }} />
           </section>
         )}
 

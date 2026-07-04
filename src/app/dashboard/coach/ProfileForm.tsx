@@ -12,6 +12,9 @@ type Coach = {
   specialite: string | null;
   ville: string | null;
   tarif_horaire: number | null;
+  tarif_individuel?: number | null;
+  tarif_groupe?: number | null;
+  tarif_enligne?: number | null;
   description: string | null;
 };
 
@@ -65,17 +68,21 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
       </div>
 
       <div>
-        <label htmlFor="tarif_horaire" className={labelCls}>Tarif horaire (€)</label>
-        <input
-          id="tarif_horaire"
-          name="tarif_horaire"
-          type="number"
-          min={0}
-          step="0.5"
-          defaultValue={coach.tarif_horaire ?? ""}
-          required
-          className={inputCls}
-        />
+        <label htmlFor="tarif_horaire" className={labelCls}>Tarif horaire général (€)</label>
+        <input id="tarif_horaire" name="tarif_horaire" type="number" min={0} step="0.5" defaultValue={coach.tarif_horaire ?? ""} className={inputCls} />
+      </div>
+
+      <div className="grid grid-cols-3 gap-3">
+        {[
+          { key: "tarif_individuel", label: "Individuel (€)", val: coach.tarif_individuel, icon: "👤" },
+          { key: "tarif_groupe",     label: "Groupe (€)",     val: coach.tarif_groupe,     icon: "👥" },
+          { key: "tarif_enligne",    label: "En ligne (€)",   val: coach.tarif_enligne,    icon: "💻" },
+        ].map(({ key, label, val, icon }) => (
+          <div key={key}>
+            <label className={labelCls}>{icon} {label}</label>
+            <input name={key} type="number" min={0} step="0.5" defaultValue={val ?? ""} placeholder="—" className={inputCls} />
+          </div>
+        ))}
       </div>
 
       <div>

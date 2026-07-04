@@ -12,12 +12,15 @@ export async function updateCoachProfile(formData: FormData) {
 
   const specialite = formData.get("specialite") as string;
   const ville = formData.get("ville") as string;
-  const tarif_horaire = Number(formData.get("tarif_horaire"));
+  const tarif_horaire = Number(formData.get("tarif_horaire")) || null;
+  const tarif_individuel = formData.get("tarif_individuel") ? Number(formData.get("tarif_individuel")) : null;
+  const tarif_groupe = formData.get("tarif_groupe") ? Number(formData.get("tarif_groupe")) : null;
+  const tarif_enligne = formData.get("tarif_enligne") ? Number(formData.get("tarif_enligne")) : null;
   const description = formData.get("description") as string;
 
   const { error } = await supabase
     .from("coaches")
-    .update({ specialite, ville, tarif_horaire, description })
+    .update({ specialite, ville, tarif_horaire, tarif_individuel, tarif_groupe, tarif_enligne, description })
     .eq("id", userData.user.id);
 
   if (error) {
@@ -141,6 +144,20 @@ export async function updateCoachParcours(formData: FormData) {
     return { error: error.message };
   }
 
+  revalidatePath("/dashboard/coach");
+  return { success: true };
+}
+
+export async function updateLienVisio(reservationId: string, lien: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return { error: "Non authentifié." };
+  const { error } = await supabase
+    .from("reservations")
+    .update({ lien_visio: lien || null })
+    .eq("id", reservationId)
+    .eq("coach_id", userData.user.id);
+  if (error) return { error: error.message };
   revalidatePath("/dashboard/coach");
   return { success: true };
 }

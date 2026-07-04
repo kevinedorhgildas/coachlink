@@ -19,7 +19,7 @@ export default async function ReservationsClientPage() {
 
   const { data: reservations } = await supabase
     .from("reservations")
-    .select("id, date_souhaitee, statut, message, coaches(id, specialite, photo_url, profiles(nom)), disponibilites(jour_semaine, heure_debut, heure_fin)")
+    .select("id, date_souhaitee, statut, message, type_seance, lien_visio, coaches(id, specialite, photo_url, profiles(nom)), disponibilites(jour_semaine, heure_debut, heure_fin)")
     .eq("client_id", userData.user.id)
     .gte("date_souhaitee", today)
     .order("date_souhaitee", { ascending: true });
@@ -47,6 +47,9 @@ export default async function ReservationsClientPage() {
             const dispo = Array.isArray(r.disponibilites) ? r.disponibilites[0] : r.disponibilites as { jour_semaine: string; heure_debut: string; heure_fin: string } | null;
             const badge = BADGES[r.statut] ?? BADGES.en_attente;
 
+            const typeLabel: Record<string, string> = { individuel: "👤 Individuel", groupe: "👥 Groupe", enligne: "💻 En ligne" };
+            const lienVisio = (r as Record<string, unknown>).lien_visio as string | null;
+            const typeSeance = (r as Record<string, unknown>).type_seance as string | null;
             return (
               <div key={r.id} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
                 <div className="flex items-start gap-4">
@@ -62,12 +65,20 @@ export default async function ReservationsClientPage() {
                         {badge.label}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-xs text-gray-400">{coachData?.specialite}</p>
+                    <div className="mt-0.5 flex items-center gap-2 flex-wrap">
+                      <p className="text-xs text-gray-400">{coachData?.specialite}</p>
+                      {typeSeance && <span className="text-xs text-gray-400">· {typeLabel[typeSeance] ?? typeSeance}</span>}
+                    </div>
                     <p className="mt-1.5 text-sm text-gray-600">
                       📅 {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                       {dispo && <span className="ml-2 text-gray-400">· {dispo.heure_debut.slice(0, 5)}–{dispo.heure_fin.slice(0, 5)}</span>}
                     </p>
                     {r.message && <p className="mt-1.5 text-xs italic text-gray-400">"{r.message}"</p>}
+                    {lienVisio && r.statut === "confirmee" && (
+                      <a href={lienVisio} target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center gap-1.5 text-xs font-semibold hover:underline" style={{ color: "#9A7A2E" }}>
+                        💻 Rejoindre la visioconférence →
+                      </a>
+                    )}
                     <div className="mt-3">
                       <Link href={`/coachs/${coachData?.id}`} className="rounded-full border px-4 py-1.5 text-xs font-semibold transition hover:opacity-80" style={{ borderColor: `${GOLD}66`, color: "#9A7A2E", background: `${GOLD}11` }}>
                         Voir le profil →
