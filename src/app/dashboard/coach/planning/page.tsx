@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import PlanningView, { Evenement } from "@/components/planning/PlanningView";
 import { Suspense } from "react";
@@ -30,16 +29,16 @@ export default async function CoachPlanningPage() {
   });
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Mon planning</h1>
-        <Link href="/dashboard/coach" className="text-sm text-blue-600 hover:underline">
-          ← Tableau de bord
-        </Link>
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-6">
+        <h1 className="text-xl font-bold text-gray-900">Mon planning</h1>
+        <p className="mt-1 text-sm text-gray-500">Visualisez toutes vos séances à venir.</p>
       </div>
-      <Suspense>
-        <PlanningView evenements={evenements} baseUrl="/dashboard/coach/planning" />
-      </Suspense>
-    </main>
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+        <Suspense>
+          <PlanningView evenements={evenements} baseUrl="/dashboard/coach/planning" />
+        </Suspense>
+      </div>
+    </div>
   );
 }

@@ -145,7 +145,7 @@ export default function PlanningView({
           const isToday = dateStr === fmt(new Date());
           return (
             <div key={i} className="min-h-24">
-              <div className={`mb-1 rounded px-1 py-0.5 text-center text-xs font-medium ${isToday ? "bg-blue-600 text-white" : "text-gray-500"}`}>
+              <div className="mb-1 rounded-lg px-1 py-0.5 text-center text-xs font-medium" style={isToday ? { background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", color: "#0B1120" } : { color: "#6b7280" }}>
                 <p>{JOURS[i]}</p>
                 <p className="text-base font-bold">{jour.getDate()}</p>
               </div>
@@ -193,9 +193,10 @@ export default function PlanningView({
               <button
                 key={i}
                 onClick={() => navigate("jour", dateStr)}
-                className={`min-h-16 rounded-lg border p-1 text-left transition hover:border-blue-300 ${isToday ? "border-blue-500 bg-blue-50" : "border-gray-100 bg-white"}`}
+                className="min-h-16 rounded-xl border p-1 text-left transition hover:shadow-sm"
+                style={isToday ? { borderColor: "#C9A96E", background: "#C9A96E11" } : { borderColor: "#f3f4f6", background: "white" }}
               >
-                <p className={`text-xs font-semibold ${isToday ? "text-blue-600" : "text-gray-700"}`}>{jour.getDate()}</p>
+                <p className="text-xs font-semibold" style={isToday ? { color: "#C9A96E" } : { color: "#374151" }}>{jour.getDate()}</p>
                 <div className="mt-0.5 space-y-0.5">
                   {evts.slice(0, 2).map((e) => (
                     <div key={e.id} className={`truncate rounded px-1 text-xs ${statutStyle(e.statut)}`}>
@@ -226,11 +227,11 @@ export default function PlanningView({
             <button
               key={moisIdx}
               onClick={() => navigate("mois", fmt(premier))}
-              className="rounded-lg border border-gray-200 bg-white p-4 text-left transition hover:border-blue-300"
+              className="rounded-xl border border-gray-200 bg-white p-4 text-left transition hover:shadow-md hover:border-transparent"
             >
               <p className="text-sm font-semibold text-gray-800">{nomMois}</p>
               {nbEvts > 0 ? (
-                <p className="mt-1 text-xs text-blue-600">{nbEvts} réservation{nbEvts > 1 ? "s" : ""}</p>
+                <p className="mt-1 text-xs font-semibold" style={{ color: "#C9A96E" }}>{nbEvts} réservation{nbEvts > 1 ? "s" : ""}</p>
               ) : (
                 <p className="mt-1 text-xs text-gray-300">Aucune</p>
               )}
@@ -244,12 +245,13 @@ export default function PlanningView({
   return (
     <div>
       {/* Onglets */}
-      <div className="mb-4 flex gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1">
+      <div className="mb-4 flex gap-1 rounded-xl border border-gray-200 bg-gray-50 p-1">
         {(["jour", "semaine", "mois", "annee"] as Vue[]).map((v) => (
           <button
             key={v}
             onClick={() => navigate(v, dateParam)}
-            className={`flex-1 rounded-md py-1.5 text-sm font-medium capitalize transition ${vue === v ? "bg-white shadow text-blue-600" : "text-gray-500 hover:text-gray-800"}`}
+            className="flex-1 rounded-lg py-1.5 text-sm font-medium capitalize transition"
+            style={vue === v ? { background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", color: "#0B1120", boxShadow: "0 1px 4px #C9A96E44" } : { color: "#6b7280" }}
           >
             {v === "annee" ? "Année" : v.charAt(0).toUpperCase() + v.slice(1)}
           </button>
@@ -258,9 +260,9 @@ export default function PlanningView({
 
       {/* Navigation */}
       <div className="flex items-center justify-between">
-        <button onClick={navPrev} className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:border-gray-300">← Préc.</button>
-        <p className="text-sm font-medium text-gray-800 capitalize">{navLabel()}</p>
-        <button onClick={navNext} className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:border-gray-300">Suiv. →</button>
+        <button onClick={navPrev} className="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 shadow-sm hover:border-gray-300 transition">← Préc.</button>
+        <p className="text-sm font-semibold text-gray-800 capitalize">{navLabel()}</p>
+        <button onClick={navNext} className="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 shadow-sm hover:border-gray-300 transition">Suiv. →</button>
       </div>
 
       {vue === "jour" && <VueJour />}
