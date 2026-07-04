@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
-import SpaceSelector from "./SpaceSelector";
+import SpaceSelector from "@/components/SpaceSelector";
 
 const NAV = [
   { href: "/dashboard/coach", label: "Mon profil", icon: "✏️" },
@@ -145,7 +145,7 @@ export default async function CoachLayout({ children }: { children: React.ReactN
         {/* Desktop top bar */}
         <div className="hidden md:flex items-center justify-between border-b border-gray-200 bg-white px-8 py-4 shadow-sm">
           <p className="text-lg font-bold text-gray-900">Bonjour, {prenom} 👋</p>
-          <SpaceSelector role={profile?.role ?? "coach"} />
+          <SpaceSelector current="coach" role={profile?.role ?? "coach"} />
         </div>
         <main className="flex-1 px-4 pb-24 pt-24 md:px-8 md:pb-8 md:pt-6">
           {children}

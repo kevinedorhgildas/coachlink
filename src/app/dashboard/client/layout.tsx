@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
+import SpaceSelector from "@/components/SpaceSelector";
 
 const NAV = [
   { href: "/dashboard/client", label: "Trouver un coach", icon: "🔍" },
@@ -27,7 +28,7 @@ export default async function ClientLayout({ children }: { children: React.React
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("nom, email")
+    .select("nom, email, role")
     .eq("id", userData.user.id)
     .single();
 
@@ -121,9 +122,7 @@ export default async function ClientLayout({ children }: { children: React.React
         {/* Desktop top bar */}
         <div className="hidden md:flex items-center justify-between border-b border-gray-200 bg-white px-8 py-4 shadow-sm">
           <p className="text-lg font-bold text-gray-900">Bonjour, {prenom} 👋</p>
-          <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: "#C9A96E22", color: "#9A7A2E" }}>
-            Espace client
-          </span>
+          <SpaceSelector current="client" role={profile?.role ?? "client"} />
         </div>
         <main className="flex-1 px-4 pb-24 pt-24 md:px-8 md:pb-8 md:pt-6">
           {children}
