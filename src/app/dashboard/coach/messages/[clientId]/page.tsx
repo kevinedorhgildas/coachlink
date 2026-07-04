@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { marquerCommeLu } from "@/app/dashboard/messages/actions";
 import MessageForm from "@/components/MessageForm";
 
+const GOLD = "#C9A96E";
+
 export default async function CoachConversationPage({ params }: { params: { clientId: string } }) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -26,10 +28,11 @@ export default async function CoachConversationPage({ params }: { params: { clie
   return (
     <div className="mx-auto flex max-w-2xl flex-col" style={{ height: "calc(100vh - 120px)" }}>
       {/* Header */}
-      <div className="mb-4 flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4">
+      <div className="mb-4 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
         <Link href="/dashboard/coach/messages" className="text-gray-400 hover:text-gray-600 text-sm">←</Link>
         <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
           {profile?.photo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={profile.photo_url} alt="" className="h-full w-full object-cover" />
           ) : (
             <span className="text-gray-300">👤</span>
@@ -42,7 +45,7 @@ export default async function CoachConversationPage({ params }: { params: { clie
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
         {(!messages || messages.length === 0) && (
           <p className="text-center text-sm text-gray-400 mt-8">Commencez la conversation avec {nomClient}.</p>
         )}
@@ -50,9 +53,12 @@ export default async function CoachConversationPage({ params }: { params: { clie
           const isMe = msg.sender_id === userData.user.id;
           return (
             <div key={msg.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-xs rounded-2xl px-4 py-2.5 text-sm ${isMe ? "bg-emerald-600 text-white rounded-br-sm" : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm"}`}>
+              <div
+                className={`max-w-xs rounded-2xl px-4 py-2.5 text-sm ${isMe ? "rounded-br-sm" : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm"}`}
+                style={isMe ? { background: `linear-gradient(135deg, #0B1120, #1a2540)`, color: "white" } : undefined}
+              >
                 <p>{msg.contenu}</p>
-                <p className={`mt-1 text-xs ${isMe ? "text-emerald-200" : "text-gray-400"}`}>
+                <p className="mt-1 text-xs" style={{ color: isMe ? `${GOLD}aa` : "#9ca3af" }}>
                   {new Date(msg.created_at).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
                 </p>
               </div>

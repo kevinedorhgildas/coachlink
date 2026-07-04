@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import VitrineManager from "./VitrineManager";
 import PhotoGallery from "@/app/coachs/[id]/photos/PhotoGallery";
 
+const GOLD = "#C9A96E";
+
 export default async function CoachVitrinePage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -15,6 +17,8 @@ export default async function CoachVitrinePage() {
   ]);
 
   const temoignagesList = temoignages ?? [];
+  const photos = (medias ?? []).filter((m) => m.type === "photo");
+  const videos = (medias ?? []).filter((m) => m.type === "video");
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -25,26 +29,28 @@ export default async function CoachVitrinePage() {
 
       <VitrineManager medias={medias ?? []} temoignages={temoignagesList} coachId={userData.user.id} />
 
-      {(medias ?? []).filter((m) => m.type === "photo").length > 0 && (
-        <div>
+      {photos.length > 0 && (
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-base font-semibold text-gray-900">Mes photos ({(medias ?? []).filter((m) => m.type === "photo").length})</h2>
-            <Link href={`/coachs/${userData.user.id}/photos`} target="_blank" className="text-xs font-medium text-emerald-600 hover:underline">⛶ Voir en plein écran →</Link>
+            <h2 className="text-base font-semibold text-gray-900">Mes photos <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{photos.length}</span></h2>
+            <Link href={`/coachs/${userData.user.id}/photos`} target="_blank" className="text-xs font-medium transition hover:opacity-70" style={{ color: GOLD }}>
+              ⛶ Voir en plein écran →
+            </Link>
           </div>
-          <PhotoGallery photos={(medias ?? []).filter((m) => m.type === "photo")} />
+          <PhotoGallery photos={photos} />
         </div>
       )}
 
-      {(medias ?? []).filter((m) => m.type === "video").length > 0 && (
-        <div>
+      {videos.length > 0 && (
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-base font-semibold text-gray-900">Mes vidéos ({(medias ?? []).filter((m) => m.type === "video").length})</h2>
-            <Link href={`/coachs/${userData.user.id}/videos`} target="_blank" className="text-xs font-medium text-emerald-600 hover:underline">
+            <h2 className="text-base font-semibold text-gray-900">Mes vidéos <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{videos.length}</span></h2>
+            <Link href={`/coachs/${userData.user.id}/videos`} target="_blank" className="text-xs font-medium transition hover:opacity-70" style={{ color: GOLD }}>
               ⛶ Voir en plein écran →
             </Link>
           </div>
           <div className="space-y-3">
-            {(medias ?? []).filter((m) => m.type === "video").map((m) => (
+            {videos.map((m) => (
               <div key={m.id} className="overflow-hidden rounded-xl border border-gray-200 bg-black">
                 <video src={m.url} controls className="w-full max-h-64" />
                 {m.legende && <p className="bg-white px-3 py-2 text-xs text-gray-500">{m.legende}</p>}
@@ -55,14 +61,16 @@ export default async function CoachVitrinePage() {
       )}
 
       {temoignagesList.length > 0 && (
-        <div>
-          <h2 className="mb-4 text-base font-semibold text-gray-900">Aperçu des témoignages ({temoignagesList.length})</h2>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-4 text-base font-semibold text-gray-900">
+            Aperçu des témoignages <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{temoignagesList.length}</span>
+          </h2>
           <div className="space-y-3">
             {temoignagesList.map((t) => (
-              <div key={t.id} className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <div key={t.id} className="rounded-xl border p-4" style={{ borderColor: `${GOLD}33`, background: `${GOLD}08` }}>
                 <div className="flex items-center gap-2 mb-1">
                   <p className="font-semibold text-gray-900 text-sm">{t.auteur}</p>
-                  {t.note && <span className="text-sm text-amber-500">{"★".repeat(t.note)}{"☆".repeat(5 - (t.note ?? 0))}</span>}
+                  {t.note && <span className="text-sm" style={{ color: GOLD }}>{"★".repeat(t.note)}{"☆".repeat(5 - (t.note ?? 0))}</span>}
                 </div>
                 <p className="text-sm text-gray-600 italic">"{t.contenu}"</p>
                 <p className="mt-1 text-xs text-gray-400">
