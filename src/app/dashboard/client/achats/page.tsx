@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
+const GOLD = "#C9A96E";
+
 export default async function AchatsClientPage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -30,27 +32,30 @@ export default async function AchatsClientPage() {
           <p className="mt-1 text-sm text-gray-500">Vos séances confirmées et effectuées.</p>
         </div>
         {(reservations?.length ?? 0) > 0 && (
-          <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-right">
-            <p className="text-xs text-gray-400">Total dépensé</p>
-            <p className="text-lg font-bold text-gray-900">{total} €</p>
+          <div className="rounded-2xl border px-5 py-3 text-right shadow-sm" style={{ borderColor: `${GOLD}44`, background: `${GOLD}0a` }}>
+            <p className="text-xs font-medium" style={{ color: `${GOLD}99` }}>Total dépensé</p>
+            <p className="text-xl font-bold text-gray-900">{total} €</p>
           </div>
         )}
       </div>
 
       {!reservations || reservations.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center">
-          <p className="text-gray-500">Aucun achat pour le moment.</p>
-          <Link href="/dashboard/client" className="mt-4 inline-block rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">Trouver un coach</Link>
+        <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>🧾</div>
+          <p className="font-medium text-gray-700">Aucun achat pour le moment.</p>
+          <Link href="/dashboard/client" className="mt-4 inline-block rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
+            Trouver un coach
+          </Link>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
-                <th className="px-4 py-3 text-left font-medium text-gray-500">Coach</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-500">Date</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-500">Horaire</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-500">Tarif</th>
+              <tr className="border-b border-gray-100" style={{ background: `${GOLD}0a` }}>
+                <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Coach</th>
+                <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Date</th>
+                <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Horaire</th>
+                <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">Tarif</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -59,25 +64,29 @@ export default async function AchatsClientPage() {
                 const p = Array.isArray(c?.profiles) ? c?.profiles[0] : c?.profiles as { nom: string } | null;
                 const d = Array.isArray(r.disponibilites) ? r.disponibilites[0] : r.disponibilites as { heure_debut: string; heure_fin: string } | null;
                 return (
-                  <tr key={r.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-gray-900">{p?.nom ?? "–"}</p>
-                      <p className="text-xs text-gray-400">{c?.specialite}</p>
-                      <Link href={`/coachs/${c?.id}`} className="mt-1 inline-block rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition">
+                  <tr key={r.id} className="hover:bg-gray-50 transition">
+                    <td className="px-5 py-3.5">
+                      <p className="font-semibold text-gray-900">{p?.nom ?? "–"}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{c?.specialite}</p>
+                      <Link href={`/coachs/${c?.id}`} className="mt-1.5 inline-block rounded-full border px-3 py-0.5 text-xs font-semibold transition hover:opacity-80" style={{ borderColor: `${GOLD}66`, color: "#9A7A2E", background: `${GOLD}11` }}>
                         Voir le profil →
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-600">{new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</td>
-                    <td className="px-4 py-3 text-gray-600">{d ? `${d.heure_debut.slice(0, 5)} – ${d.heure_fin.slice(0, 5)}` : "–"}</td>
-                    <td className="px-4 py-3 text-right font-semibold text-gray-900">{c?.tarif_horaire ?? "–"} €</td>
+                    <td className="px-5 py-3.5 text-sm text-gray-600">
+                      {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
+                    </td>
+                    <td className="px-5 py-3.5 text-sm text-gray-600">
+                      {d ? `${d.heure_debut.slice(0, 5)} – ${d.heure_fin.slice(0, 5)}` : "–"}
+                    </td>
+                    <td className="px-5 py-3.5 text-right font-bold text-gray-900">{c?.tarif_horaire ?? "–"} €</td>
                   </tr>
                 );
               })}
             </tbody>
             <tfoot>
-              <tr className="border-t border-gray-200 bg-gray-50">
-                <td colSpan={3} className="px-4 py-3 text-right text-sm font-medium text-gray-600">Total</td>
-                <td className="px-4 py-3 text-right font-bold text-gray-900">{total} €</td>
+              <tr className="border-t border-gray-200" style={{ background: `${GOLD}0a` }}>
+                <td colSpan={3} className="px-5 py-3 text-right text-sm font-semibold text-gray-600">Total</td>
+                <td className="px-5 py-3 text-right font-bold text-gray-900">{total} €</td>
               </tr>
             </tfoot>
           </table>

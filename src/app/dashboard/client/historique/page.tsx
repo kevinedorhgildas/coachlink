@@ -2,6 +2,13 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
+const GOLD = "#C9A96E";
+const STATUT_STYLE: Record<string, { bg: string; text: string; border: string; label: string }> = {
+  confirmee:  { bg: "#f0fdf4", text: "#166534", border: "#bbf7d0", label: "Confirmée" },
+  refusee:    { bg: "#fef2f2", text: "#991b1b", border: "#fecaca", label: "Refusée" },
+  en_attente: { bg: "#fffbeb", text: "#92400e", border: "#fde68a", label: "En attente" },
+};
+
 export default async function ClientHistoriquePage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -33,8 +40,6 @@ export default async function ClientHistoriquePage() {
   }
 
   const coachs = Array.from(parCoach.values());
-  const statutStyle: Record<string, string> = { confirmee: "bg-emerald-50 text-emerald-700", refusee: "bg-red-50 text-red-700", en_attente: "bg-amber-50 text-amber-700" };
-  const statutLabel: Record<string, string> = { confirmee: "Confirmée", refusee: "Refusée", en_attente: "En attente" };
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -44,39 +49,58 @@ export default async function ClientHistoriquePage() {
       </div>
 
       {coachs.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center">
-          <p className="text-gray-500">Aucun cours passé pour le moment.</p>
-          <Link href="/dashboard/client" className="mt-4 inline-block text-sm text-indigo-600 hover:underline">Trouver un coach</Link>
+        <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>📋</div>
+          <p className="font-medium text-gray-700">Aucun cours passé pour le moment.</p>
+          <Link href="/dashboard/client" className="mt-4 inline-block rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
+            Trouver un coach
+          </Link>
         </div>
       ) : (
         <div className="space-y-4">
           {coachs.map((coach) => (
-            <div key={coach.coachId} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+            <div key={coach.coachId} className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+              {/* Header coach */}
               <div className="flex items-center gap-4 border-b border-gray-100 p-4">
                 <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
-                  {coach.photoUrl ? <img src={coach.photoUrl} alt={coach.nom} className="h-full w-full object-cover" /> : <span className="text-gray-300 text-lg">👤</span>}
+                  {coach.photoUrl
+                    ? <img src={coach.photoUrl} alt={coach.nom} className="h-full w-full object-cover" />
+                    : <span className="text-gray-300 text-lg">👤</span>}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-900">{coach.nom}</p>
-                  <p className="text-sm text-gray-500">{coach.specialite}</p>
+                  <p className="text-xs text-gray-400">{coach.specialite}</p>
                 </div>
-                <div className="flex gap-2">
-                  <Link href={`/coachs/${coach.coachId}`} className="rounded-lg border border-indigo-200 px-3 py-1.5 text-xs text-indigo-600 hover:bg-indigo-50">Voir le profil</Link>
-                  <Link href={`/dashboard/client?specialite=${encodeURIComponent(coach.specialite)}`} className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">Reprendre</Link>
+                <div className="flex gap-2 shrink-0">
+                  <Link href={`/coachs/${coach.coachId}`} className="rounded-full border px-3 py-1.5 text-xs font-semibold transition hover:opacity-80" style={{ borderColor: `${GOLD}66`, color: "#9A7A2E", background: `${GOLD}11` }}>
+                    Voir le profil →
+                  </Link>
                 </div>
               </div>
+
+              {/* Sessions */}
               <div className="divide-y divide-gray-50">
-                {coach.sessions.map((s) => (
-                  <div key={s.id} className="flex items-center justify-between px-4 py-3 text-sm">
-                    <div>
-                      <p className="font-medium text-gray-800 capitalize">{new Date(s.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</p>
-                      <p className="text-gray-500 text-xs">{s.heureDebut} – {s.heureFin}</p>
+                {coach.sessions.map((s) => {
+                  const badge = STATUT_STYLE[s.statut] ?? STATUT_STYLE.en_attente;
+                  return (
+                    <div key={s.id} className="flex items-center justify-between px-4 py-3">
+                      <div>
+                        <p className="text-sm font-medium text-gray-800 capitalize">
+                          {new Date(s.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                        </p>
+                        <p className="text-xs text-gray-400">{s.heureDebut} – {s.heureFin}</p>
+                      </div>
+                      <span className="rounded-full border px-3 py-0.5 text-xs font-semibold" style={{ background: badge.bg, color: badge.text, borderColor: badge.border }}>
+                        {badge.label}
+                      </span>
                     </div>
-                    <span className={`rounded-full px-3 py-1 text-xs font-medium ${statutStyle[s.statut]}`}>{statutLabel[s.statut]}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-              <div className="border-t border-gray-100 px-4 py-2 text-xs text-gray-400">{coach.sessions.length} session{coach.sessions.length > 1 ? "s" : ""} au total</div>
+
+              <div className="border-t border-gray-100 px-4 py-2 text-xs text-gray-400">
+                {coach.sessions.length} session{coach.sessions.length > 1 ? "s" : ""} au total
+              </div>
             </div>
           ))}
         </div>
