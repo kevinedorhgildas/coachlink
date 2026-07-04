@@ -2,6 +2,14 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
+const GOLD = "#C9A96E";
+
+const BADGES: Record<string, { bg: string; text: string; border: string; label: string }> = {
+  confirmee: { bg: "#f0fdf4", text: "#166534", border: "#bbf7d0", label: "Confirmé" },
+  refusee:   { bg: "#fef2f2", text: "#991b1b", border: "#fecaca", label: "Refusé" },
+  en_attente:{ bg: "#fffbeb", text: "#92400e", border: "#fde68a", label: "En attente" },
+};
+
 export default async function ReservationsClientPage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -16,12 +24,6 @@ export default async function ReservationsClientPage() {
     .gte("date_souhaitee", today)
     .order("date_souhaitee", { ascending: true });
 
-  const badges: Record<string, { bg: string; text: string; label: string }> = {
-    confirmee: { bg: "bg-emerald-50", text: "text-emerald-700", label: "Confirmé" },
-    refusee: { bg: "bg-red-50", text: "text-red-700", label: "Refusé" },
-    en_attente: { bg: "bg-amber-50", text: "text-amber-700", label: "En attente" },
-  };
-
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mb-6">
@@ -30,9 +32,12 @@ export default async function ReservationsClientPage() {
       </div>
 
       {!reservations || reservations.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center">
-          <p className="text-gray-500">Aucune réservation à venir.</p>
-          <Link href="/dashboard/client" className="mt-4 inline-block rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">Trouver un coach</Link>
+        <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>📌</div>
+          <p className="font-medium text-gray-700">Aucune réservation à venir.</p>
+          <Link href="/dashboard/client" className="mt-4 inline-block rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
+            Trouver un coach
+          </Link>
         </div>
       ) : (
         <div className="space-y-3">
@@ -40,23 +45,31 @@ export default async function ReservationsClientPage() {
             const coachData = Array.isArray(r.coaches) ? r.coaches[0] : r.coaches as { id: string; specialite: string; photo_url: string | null; profiles: { nom: string } | { nom: string }[] | null } | null;
             const coachProfile = Array.isArray(coachData?.profiles) ? coachData?.profiles[0] : coachData?.profiles as { nom: string } | null;
             const dispo = Array.isArray(r.disponibilites) ? r.disponibilites[0] : r.disponibilites as { jour_semaine: string; heure_debut: string; heure_fin: string } | null;
-            const badge = badges[r.statut];
+            const badge = BADGES[r.statut] ?? BADGES.en_attente;
+
             return (
-              <div key={r.id} className="rounded-xl border border-gray-200 bg-white p-4">
-                <div className="flex items-start gap-3">
-                  <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
-                    {coachData?.photo_url ? <img src={coachData.photo_url} alt="" className="h-full w-full object-cover" /> : <span className="text-gray-300 text-sm">👤</span>}
+              <div key={r.id} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
+                    {coachData?.photo_url
+                      ? <img src={coachData.photo_url} alt="" className="h-full w-full object-cover" />
+                      : <span className="text-gray-300 text-lg">👤</span>}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <Link href={`/coachs/${coachData?.id}`} className="font-medium text-gray-900 hover:underline truncate">{coachProfile?.nom ?? "Coach"}</Link>
-                      <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${badge?.bg} ${badge?.text}`}>{badge?.label}</span>
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <p className="font-semibold text-gray-900">{coachProfile?.nom ?? "Coach"}</p>
+                      <span className="rounded-full border px-3 py-0.5 text-xs font-semibold" style={{ background: badge.bg, color: badge.text, borderColor: badge.border }}>
+                        {badge.label}
+                      </span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-0.5">{coachData?.specialite}</p>
-                    <p className="text-xs text-gray-500 mt-1">📅 {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}{dispo && <span className="ml-2">· {dispo.heure_debut.slice(0, 5)}–{dispo.heure_fin.slice(0, 5)}</span>}</p>
-                    {r.message && <p className="mt-2 text-xs italic text-gray-400">"{r.message}"</p>}
-                    <div className="mt-2">
-                      <Link href={`/coachs/${coachData?.id}`} className="rounded-lg border border-indigo-200 px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition">
+                    <p className="mt-0.5 text-xs text-gray-400">{coachData?.specialite}</p>
+                    <p className="mt-1.5 text-sm text-gray-600">
+                      📅 {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                      {dispo && <span className="ml-2 text-gray-400">· {dispo.heure_debut.slice(0, 5)}–{dispo.heure_fin.slice(0, 5)}</span>}
+                    </p>
+                    {r.message && <p className="mt-1.5 text-xs italic text-gray-400">"{r.message}"</p>}
+                    <div className="mt-3">
+                      <Link href={`/coachs/${coachData?.id}`} className="rounded-full border px-4 py-1.5 text-xs font-semibold transition hover:opacity-80" style={{ borderColor: `${GOLD}66`, color: "#9A7A2E", background: `${GOLD}11` }}>
                         Voir le profil →
                       </Link>
                     </div>
