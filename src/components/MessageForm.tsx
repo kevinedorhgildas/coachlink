@@ -19,11 +19,12 @@ export default function MessageForm({ receiverId }: { receiverId: string }) {
         type="text"
         placeholder="Écrire un message..."
         required
-        className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-400 focus:bg-white transition"
+        className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none focus:border-[#C9A96E] focus:bg-white transition"
       />
       <button
         type="submit"
-        className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition"
+        style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", color: "#0B1120" }}
+        className="rounded-xl px-4 py-2.5 text-sm font-semibold transition hover:opacity-90"
       >
         Envoyer
       </button>

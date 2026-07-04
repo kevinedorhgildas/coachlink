@@ -45,10 +45,10 @@ function startOfMonth(d: Date) {
   return new Date(d.getFullYear(), d.getMonth(), 1);
 }
 
-function statutStyle(statut: string) {
-  if (statut === "confirmee") return "bg-green-100 text-green-800 border-green-200";
-  if (statut === "refusee") return "bg-red-100 text-red-800 border-red-200";
-  return "bg-amber-100 text-amber-800 border-amber-200";
+function statutStyle(statut: string): React.CSSProperties {
+  if (statut === "confirmee") return { background: "#f0fdf4", color: "#166534", borderColor: "#bbf7d0" };
+  if (statut === "refusee")   return { background: "#fef2f2", color: "#991b1b", borderColor: "#fecaca" };
+  return { background: "#fffbeb", color: "#92400e", borderColor: "#fde68a" };
 }
 
 function statutLabel(statut: string) {
@@ -117,7 +117,7 @@ export default function PlanningView({
         ) : (
           <div className="space-y-3">
             {evts.map((e) => (
-              <div key={e.id} className={`rounded-lg border p-4 ${statutStyle(e.statut)}`}>
+              <div key={e.id} className="rounded-lg border p-4" style={statutStyle(e.statut)}>
                 <p className="font-medium">{e.titre}</p>
                 <p className="text-sm">{e.heureDebut} – {e.heureFin} · <span className="font-medium">{statutLabel(e.statut)}</span></p>
                 {e.coachId && (
@@ -151,7 +151,7 @@ export default function PlanningView({
               </div>
               <div className="space-y-1">
                 {evts.map((e) => (
-                  <div key={e.id} className={`rounded border px-1 py-0.5 text-xs ${statutStyle(e.statut)}`}>
+                  <div key={e.id} className="rounded border px-1 py-0.5 text-xs" style={statutStyle(e.statut)}>
                     <p className="truncate font-medium">{e.heureDebut}</p>
                     <p className="truncate">{e.titre}</p>
                   </div>
@@ -199,7 +199,7 @@ export default function PlanningView({
                 <p className="text-xs font-semibold" style={isToday ? { color: "#C9A96E" } : { color: "#374151" }}>{jour.getDate()}</p>
                 <div className="mt-0.5 space-y-0.5">
                   {evts.slice(0, 2).map((e) => (
-                    <div key={e.id} className={`truncate rounded px-1 text-xs ${statutStyle(e.statut)}`}>
+                    <div key={e.id} className="truncate rounded px-1 text-xs" style={statutStyle(e.statut)}>
                       {e.heureDebut} {e.titre}
                     </div>
                   ))}
