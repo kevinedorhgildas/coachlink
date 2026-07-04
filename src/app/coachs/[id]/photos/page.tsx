@@ -3,6 +3,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import PhotoGallery from "./PhotoGallery";
 
+const GOLD = "#C9A96E";
+
 export default async function CoachPhotosPage({ params }: { params: { id: string } }) {
   const supabase = await createClient();
 
@@ -18,26 +20,32 @@ export default async function CoachPhotosPage({ params }: { params: { id: string
 
   if (!medias || medias.length === 0) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gray-950 px-4 text-center">
-        <p className="text-xl text-white mb-4">Aucune photo disponible</p>
-        <Link href={`/coachs/${params.id}`} className="text-sm text-gray-400 hover:text-white">← Retour au profil</Link>
+      <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center" style={{ background: "#0B1120" }}>
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full text-3xl" style={{ background: `${GOLD}22` }}>🖼️</div>
+        <p className="text-lg font-semibold text-white mb-2">Aucune photo disponible</p>
+        <Link href={`/coachs/${params.id}`} className="text-sm transition hover:opacity-70" style={{ color: GOLD }}>← Retour au profil</Link>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-950 px-4 py-8">
+    <main className="min-h-screen px-4 py-10" style={{ background: "#0B1120" }}>
       <div className="mx-auto max-w-5xl">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-white">Photos de {nom}</h1>
-            <p className="mt-1 text-sm text-gray-400">{medias.length} photo{medias.length > 1 ? "s" : ""}</p>
+            <p className="mt-1 text-sm" style={{ color: `${GOLD}99` }}>
+              {medias.length} photo{medias.length > 1 ? "s" : ""}
+            </p>
           </div>
-          <Link href={`/coachs/${params.id}`} className="rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-300 hover:border-gray-500 hover:text-white transition">
+          <Link
+            href={`/coachs/${params.id}`}
+            className="rounded-full border px-4 py-2 text-sm font-semibold transition hover:opacity-80"
+            style={{ borderColor: `${GOLD}66`, color: GOLD, background: `${GOLD}11` }}
+          >
             ← Retour au profil
           </Link>
         </div>
-
         <PhotoGallery photos={medias} />
       </div>
     </main>

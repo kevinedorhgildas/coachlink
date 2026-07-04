@@ -4,18 +4,13 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { uploadMedia, deleteMedia, addTemoignage, deleteTemoignage } from "./actions";
 
+const GOLD = "#C9A96E";
+const inputCls = "w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-[#C9A96E] transition";
+
 type Media = { id: string; type: string; url: string; legende: string | null; created_at: string };
 type Temoignage = { id: string; auteur: string; contenu: string; note: number | null; created_at: string };
 
-export default function VitrineManager({
-  medias,
-  temoignages,
-  coachId,
-}: {
-  medias: Media[];
-  temoignages: Temoignage[];
-  coachId: string;
-}) {
+export default function VitrineManager({ medias, temoignages, coachId }: { medias: Media[]; temoignages: Temoignage[]; coachId: string }) {
   const [mediaList, setMediaList] = useState(medias);
   const [temoList, setTemoList] = useState(temoignages);
   const [activeTab, setActiveTab] = useState<"photos" | "videos" | "temoignages">("photos");
@@ -76,9 +71,9 @@ export default function VitrineManager({
   const videos = mediaList.filter((m) => m.type === "video");
 
   const tabs = [
-    { key: "photos" as const, label: "Photos", icon: "🖼️", count: photos.length },
-    { key: "videos" as const, label: "Vidéos", icon: "🎬", count: videos.length },
-    { key: "temoignages" as const, label: "Témoignages", icon: "💬", count: temoList.length },
+    { key: "photos" as const,      label: "Photos",       icon: "🖼️", count: photos.length },
+    { key: "videos" as const,      label: "Vidéos",       icon: "🎬", count: videos.length },
+    { key: "temoignages" as const, label: "Témoignages",  icon: "💬", count: temoList.length },
   ];
 
   const accept = activeTab === "photos" ? "image/*" : "video/*";
@@ -87,19 +82,19 @@ export default function VitrineManager({
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-1 rounded-xl border border-gray-200 bg-gray-50 p-1">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => { setActiveTab(tab.key); setUploadError(null); setUploadSuccess(false); }}
-            className={`flex items-center gap-2 border-b-2 px-4 py-2.5 text-sm font-medium transition ${
-              activeTab === tab.key
-                ? "border-emerald-600 text-emerald-700"
-                : "border-transparent text-gray-500 hover:text-gray-700"
-            }`}
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition"
+            style={activeTab === tab.key
+              ? { background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }
+              : { color: "#6b7280" }}
           >
-            <span>{tab.icon}</span> {tab.label}
-            <span className={`rounded-full px-1.5 py-0.5 text-xs ${activeTab === tab.key ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
+            <span>{tab.icon}</span>
+            {tab.label}
+            <span className="rounded-full px-1.5 py-0.5 text-xs font-bold" style={activeTab === tab.key ? { background: "#0B112022", color: "#0B1120" } : { background: "#e5e7eb", color: "#6b7280" }}>
               {tab.count}
             </span>
           </button>
@@ -109,45 +104,50 @@ export default function VitrineManager({
       {/* Photos / Vidéos */}
       {(activeTab === "photos" || activeTab === "videos") && (
         <>
-          <form onSubmit={handleMediaUpload} className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-5">
+          <form onSubmit={handleMediaUpload} className="rounded-2xl border border-dashed p-5" style={{ borderColor: `${GOLD}66`, background: `${GOLD}06` }}>
             <h3 className="mb-4 text-sm font-semibold text-gray-700">
               {activeTab === "photos" ? "Ajouter une photo" : "Ajouter une vidéo"}
             </h3>
             <div className="mb-3">
-              <label className="mb-1 block text-xs font-medium text-gray-600">Légende (optionnelle)</label>
-              <input name="legende" type="text" placeholder="Ex. Séance de coaching en plein air..." className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" />
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Légende (optionnelle)</label>
+              <input name="legende" type="text" placeholder="Ex. Séance de coaching en plein air..." className={inputCls} />
             </div>
             <div
-              className="mb-4 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white px-4 py-8 transition hover:border-emerald-400"
+              className="mb-4 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed bg-white px-4 py-8 transition"
+              style={{ borderColor: fileName ? GOLD : "#e5e7eb" }}
               onClick={() => fileRef.current?.click()}
             >
               {fileName ? (
-                <div className="flex items-center gap-2 text-sm text-emerald-700">
+                <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#9A7A2E" }}>
                   <span className="text-2xl">{activeTab === "photos" ? "🖼️" : "🎬"}</span>
-                  <span className="font-medium">{fileName}</span>
+                  <span>{fileName}</span>
                 </div>
               ) : (
                 <>
-                  <span className="text-3xl text-gray-300">{activeTab === "photos" ? "🖼️" : "🎬"}</span>
+                  <span className="text-3xl" style={{ opacity: 0.35 }}>{activeTab === "photos" ? "🖼️" : "🎬"}</span>
                   <p className="mt-2 text-sm text-gray-500">Cliquez pour sélectionner un fichier</p>
                   <p className="text-xs text-gray-400">{acceptLabel}</p>
                 </>
               )}
             </div>
             <input ref={fileRef} name="fichier" type="file" accept={accept} required className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)} />
-            {uploadError && <p className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{uploadError}</p>}
-            {uploadSuccess && <p className="mb-3 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">Fichier ajouté avec succès ✓</p>}
-            <button type="submit" disabled={uploading} className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">
-              {uploading ? "Envoi en cours..." : "Envoyer"}
+            {uploadError && <p className="mb-3 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">{uploadError}</p>}
+            {uploadSuccess && <p className="mb-3 rounded-xl px-3 py-2 text-sm font-medium" style={{ background: `${GOLD}11`, color: "#9A7A2E" }}>✓ Fichier ajouté avec succès</p>}
+            <button type="submit" disabled={uploading} className="rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90 disabled:opacity-50" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
+              {uploading ? "Envoi en cours…" : "Envoyer"}
             </button>
           </form>
 
-          {/* Galerie */}
+          {/* Galerie photos */}
           {activeTab === "photos" && (
             <div>
-              <p className="mb-3 text-sm font-semibold text-gray-700">Mes photos ({photos.length})</p>
+              <p className="mb-3 text-sm font-semibold text-gray-700">
+                Mes photos <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{photos.length}</span>
+              </p>
               {photos.length === 0 ? (
-                <p className="text-sm text-gray-400">Aucune photo pour le moment.</p>
+                <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center">
+                  <p className="text-sm text-gray-400">Aucune photo pour le moment.</p>
+                </div>
               ) : (
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {photos.map((m) => (
@@ -163,18 +163,23 @@ export default function VitrineManager({
             </div>
           )}
 
+          {/* Galerie vidéos */}
           {activeTab === "videos" && (
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <p className="text-sm font-semibold text-gray-700">Mes vidéos ({videos.length})</p>
+                <p className="text-sm font-semibold text-gray-700">
+                  Mes vidéos <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{videos.length}</span>
+                </p>
                 {videos.length > 0 && (
-                  <Link href={`/coachs/${coachId}/videos`} target="_blank" className="text-xs font-medium text-emerald-600 hover:underline">
+                  <Link href={`/coachs/${coachId}/videos`} target="_blank" className="text-xs font-medium transition hover:opacity-70" style={{ color: GOLD }}>
                     ⛶ Voir en plein écran →
                   </Link>
                 )}
               </div>
               {videos.length === 0 ? (
-                <p className="text-sm text-gray-400">Aucune vidéo pour le moment.</p>
+                <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center">
+                  <p className="text-sm text-gray-400">Aucune vidéo pour le moment.</p>
+                </div>
               ) : (
                 <div className="space-y-3">
                   {videos.map((m) => (
@@ -182,7 +187,7 @@ export default function VitrineManager({
                       <video src={m.url} controls className="w-full max-h-64 bg-black" />
                       <div className="flex items-center justify-between px-3 py-2">
                         <p className="text-sm text-gray-600">{m.legende ?? "Vidéo sans légende"}</p>
-                        <button onClick={() => handleDeleteMedia(m.id, m.url)} className="text-xs text-red-500 hover:underline">Supprimer</button>
+                        <button onClick={() => handleDeleteMedia(m.id, m.url)} className="text-xs text-red-400 hover:text-red-600 transition">Supprimer</button>
                       </div>
                     </div>
                   ))}
@@ -196,19 +201,19 @@ export default function VitrineManager({
       {/* Témoignages */}
       {activeTab === "temoignages" && (
         <>
-          <form ref={temoFormRef} onSubmit={handleTemoignage} className="rounded-xl border border-gray-200 bg-gray-50 p-5 space-y-3">
+          <form ref={temoFormRef} onSubmit={handleTemoignage} className="rounded-2xl border border-dashed p-5 space-y-4" style={{ borderColor: `${GOLD}66`, background: `${GOLD}06` }}>
             <h3 className="text-sm font-semibold text-gray-700">Ajouter un témoignage</h3>
             <div>
-              <label className="mb-1 block text-xs font-medium text-gray-600">Nom de l'élève *</label>
-              <input name="auteur" type="text" required placeholder="Ex. Marie D." className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" />
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Nom de l'élève *</label>
+              <input name="auteur" type="text" required placeholder="Ex. Marie D." className={inputCls} />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-gray-600">Témoignage *</label>
-              <textarea name="contenu" required rows={3} placeholder="Ce que l'élève a dit..." className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none resize-none" />
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Témoignage *</label>
+              <textarea name="contenu" required rows={3} placeholder="Ce que l'élève a dit..." className={`${inputCls} resize-none`} />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-gray-600">Note (optionnelle)</label>
-              <select name="note" className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Note (optionnelle)</label>
+              <select name="note" className="rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-[#C9A96E] transition">
                 <option value="">— Sans note —</option>
                 <option value="5">⭐⭐⭐⭐⭐ — Excellent</option>
                 <option value="4">⭐⭐⭐⭐ — Très bien</option>
@@ -217,31 +222,35 @@ export default function VitrineManager({
                 <option value="1">⭐ — Décevant</option>
               </select>
             </div>
-            {temoError && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{temoError}</p>}
-            {temoSuccess && <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">Témoignage ajouté ✓</p>}
-            <button type="submit" className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+            {temoError && <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">{temoError}</p>}
+            {temoSuccess && <p className="rounded-xl px-3 py-2 text-sm font-medium" style={{ background: `${GOLD}11`, color: "#9A7A2E" }}>✓ Témoignage ajouté</p>}
+            <button type="submit" className="rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
               Ajouter
             </button>
           </form>
 
           <div>
-            <p className="mb-3 text-sm font-semibold text-gray-700">Témoignages ({temoList.length})</p>
+            <p className="mb-3 text-sm font-semibold text-gray-700">
+              Témoignages <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{temoList.length}</span>
+            </p>
             {temoList.length === 0 ? (
-              <p className="text-sm text-gray-400">Aucun témoignage pour le moment.</p>
+              <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center">
+                <p className="text-sm text-gray-400">Aucun témoignage pour le moment.</p>
+              </div>
             ) : (
               <div className="space-y-3">
                 {temoList.map((t) => (
-                  <div key={t.id} className="rounded-xl border border-gray-200 bg-white p-4">
+                  <div key={t.id} className="rounded-2xl border p-4" style={{ borderColor: `${GOLD}33`, background: `${GOLD}08` }}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <p className="font-semibold text-gray-900 text-sm">{t.auteur}</p>
-                          {t.note && <span className="text-sm">{"⭐".repeat(t.note)}</span>}
+                          {t.note && <span className="text-sm" style={{ color: GOLD }}>{"★".repeat(t.note)}{"☆".repeat(5 - t.note)}</span>}
                         </div>
                         <p className="text-sm text-gray-600 italic">"{t.contenu}"</p>
                         <p className="mt-1 text-xs text-gray-400">{new Date(t.created_at).toLocaleDateString("fr-FR")}</p>
                       </div>
-                      <button onClick={() => handleDeleteTemo(t.id)} className="shrink-0 text-xs text-red-400 hover:underline">Supprimer</button>
+                      <button onClick={() => handleDeleteTemo(t.id)} className="shrink-0 text-xs text-red-400 hover:text-red-600 transition">Supprimer</button>
                     </div>
                   </div>
                 ))}
