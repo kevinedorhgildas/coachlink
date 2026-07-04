@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { useFormState } from "react-dom";
 import { uploadDocument, deleteDocument } from "./actions";
 
+const GOLD = "#C9A96E";
+
 type Document = {
   id: string;
   nom: string;
@@ -39,34 +41,35 @@ export default function DocumentsManager({ documents }: { documents: Document[] 
   return (
     <div className="space-y-6">
       {/* Formulaire upload */}
-      <form action={formAction} className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-6">
+      <form action={formAction} className="rounded-2xl border border-dashed p-6" style={{ borderColor: `${GOLD}66`, background: `${GOLD}06` }}>
         <h3 className="mb-4 text-sm font-semibold text-gray-700">Ajouter un document PDF</h3>
 
         <div className="mb-4">
-          <label className="mb-1 block text-sm font-medium text-gray-700">Nom du document</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Nom du document</label>
           <input
             name="nom"
             type="text"
             required
             placeholder="Ex. Programme musculation 8 semaines, Cours de nutrition..."
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-[#C9A96E] transition"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="mb-1 block text-sm font-medium text-gray-700">Fichier PDF (max 10 Mo)</label>
+        <div className="mb-5">
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Fichier PDF (max 10 Mo)</label>
           <div
-            className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white px-4 py-8 transition hover:border-blue-400"
+            className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed bg-white px-4 py-8 transition hover:border-[#C9A96E]"
+            style={{ borderColor: fileName ? GOLD : "#e5e7eb" }}
             onClick={() => fileRef.current?.click()}
           >
             {fileName ? (
-              <div className="flex items-center gap-2 text-sm text-blue-700">
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#9A7A2E" }}>
                 <span className="text-2xl">📄</span>
-                <span className="font-medium">{fileName}</span>
+                <span>{fileName}</span>
               </div>
             ) : (
               <>
-                <span className="text-3xl text-gray-300">📄</span>
+                <span className="text-3xl" style={{ opacity: 0.4 }}>📄</span>
                 <p className="mt-2 text-sm text-gray-500">Cliquez pour sélectionner un PDF</p>
                 <p className="text-xs text-gray-400">Format PDF uniquement · 10 Mo max</p>
               </>
@@ -84,15 +87,16 @@ export default function DocumentsManager({ documents }: { documents: Document[] 
         </div>
 
         {state?.error && (
-          <p className="mb-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{state.error}</p>
+          <p className="mb-3 rounded-xl bg-red-50 px-4 py-2 text-sm text-red-700">{state.error}</p>
         )}
         {state?.success && (
-          <p className="mb-3 rounded-lg bg-green-50 px-4 py-2 text-sm text-green-700">Document ajouté avec succès.</p>
+          <p className="mb-3 rounded-xl px-4 py-2 text-sm font-medium" style={{ background: `${GOLD}11`, color: "#9A7A2E" }}>✓ Document ajouté avec succès.</p>
         )}
 
         <button
           type="submit"
-          className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+          className="rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90"
+          style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}
         >
           Envoyer le document
         </button>
@@ -101,21 +105,22 @@ export default function DocumentsManager({ documents }: { documents: Document[] 
       {/* Liste des documents */}
       <div>
         <h3 className="mb-3 text-sm font-semibold text-gray-700">
-          Mes documents ({liste.length})
+          Mes documents{" "}
+          <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: `${GOLD}22`, color: "#9A7A2E" }}>{liste.length}</span>
         </h3>
 
         {liste.length === 0 ? (
-          <p className="text-sm text-gray-400">Aucun document pour le moment.</p>
+          <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center shadow-sm">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-xl" style={{ background: `${GOLD}22` }}>📄</div>
+            <p className="text-sm text-gray-400">Aucun document pour le moment.</p>
+          </div>
         ) : (
           <div className="space-y-2">
             {liste.map((doc) => (
-              <div
-                key={doc.id}
-                className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3"
-              >
-                <span className="text-2xl">📄</span>
+              <div key={doc.id} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:border-gray-300">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: `${GOLD}15` }}>📄</div>
                 <div className="flex-1 min-w-0">
-                  <p className="truncate font-medium text-gray-900 text-sm">{doc.nom}</p>
+                  <p className="truncate font-semibold text-gray-900 text-sm">{doc.nom}</p>
                   <p className="text-xs text-gray-400">
                     Ajouté le {new Date(doc.created_at).toLocaleDateString("fr-FR")}
                   </p>
@@ -125,16 +130,17 @@ export default function DocumentsManager({ documents }: { documents: Document[] 
                     href={doc.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                    className="rounded-full border px-3 py-1.5 text-xs font-semibold transition hover:opacity-80"
+                    style={{ borderColor: `${GOLD}66`, color: "#9A7A2E", background: `${GOLD}11` }}
                   >
                     Voir
                   </a>
                   <button
                     onClick={() => handleDelete(doc.id, doc.url)}
                     disabled={suppression === doc.id}
-                    className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+                    className="rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-100 disabled:opacity-50"
                   >
-                    {suppression === doc.id ? "..." : "Supprimer"}
+                    {suppression === doc.id ? "…" : "Supprimer"}
                   </button>
                 </div>
               </div>
