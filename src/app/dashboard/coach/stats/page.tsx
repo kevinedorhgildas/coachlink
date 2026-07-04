@@ -2,27 +2,25 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
+const GOLD = "#C9A96E";
+
 const PERIODES = [
-  { key: "1m", label: "1 mois", mois: 1 },
-  { key: "3m", label: "3 mois", mois: 3 },
-  { key: "6m", label: "6 mois", mois: 6 },
-  { key: "1an", label: "1 an", mois: 12 },
-  { key: "3ans", label: "3 ans", mois: 36 },
-  { key: "5ans", label: "5 ans", mois: 60 },
-  { key: "10ans", label: "10 ans", mois: 120 },
+  { key: "1m",   label: "1 mois",  mois: 1 },
+  { key: "3m",   label: "3 mois",  mois: 3 },
+  { key: "6m",   label: "6 mois",  mois: 6 },
+  { key: "1an",  label: "1 an",    mois: 12 },
+  { key: "3ans", label: "3 ans",   mois: 36 },
+  { key: "5ans", label: "5 ans",   mois: 60 },
+  { key: "10ans",label: "10 ans",  mois: 120 },
 ];
 
-export default async function StatsCoachPage({
-  searchParams,
-}: {
-  searchParams: { periode?: string };
-}) {
+export default async function StatsCoachPage({ searchParams }: { searchParams: { periode?: string } }) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
 
   const periodeKey = searchParams.periode ?? "6m";
-  const periode = PERIODES.find((p) => p.key === periodeKey) ?? PERIODES[0];
+  const periode = PERIODES.find((p) => p.key === periodeKey) ?? PERIODES[2];
 
   const today = new Date().toISOString().split("T")[0];
   const maintenant = new Date();
@@ -33,21 +31,13 @@ export default async function StatsCoachPage({
     { count: totalRealises },
     { count: totalConfirmes },
     { count: totalEnAttente },
-    { data: toutes },
     { data: dansPeriode },
     { data: coach },
   ] = await Promise.all([
-    supabase.from("reservations").select("id", { count: "exact", head: true })
-      .eq("coach_id", userData.user.id).eq("statut", "confirmee").lt("date_souhaitee", today),
-    supabase.from("reservations").select("id", { count: "exact", head: true })
-      .eq("coach_id", userData.user.id).eq("statut", "confirmee"),
-    supabase.from("reservations").select("id", { count: "exact", head: true })
-      .eq("coach_id", userData.user.id).eq("statut", "en_attente"),
-    supabase.from("reservations").select("date_souhaitee")
-      .eq("coach_id", userData.user.id).eq("statut", "confirmee").lt("date_souhaitee", today),
-    supabase.from("reservations").select("date_souhaitee")
-      .eq("coach_id", userData.user.id).eq("statut", "confirmee")
-      .gte("date_souhaitee", debutStr).lt("date_souhaitee", today),
+    supabase.from("reservations").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("statut", "confirmee").lt("date_souhaitee", today),
+    supabase.from("reservations").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("statut", "confirmee"),
+    supabase.from("reservations").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("statut", "en_attente"),
+    supabase.from("reservations").select("date_souhaitee").eq("coach_id", userData.user.id).eq("statut", "confirmee").gte("date_souhaitee", debutStr).lt("date_souhaitee", today),
     supabase.from("coaches").select("tarif_horaire").eq("id", userData.user.id).single(),
   ]);
 
@@ -55,11 +45,7 @@ export default async function StatsCoachPage({
   const revenuTotal = (totalRealises ?? 0) * tarif;
   const revenuPeriode = (dansPeriode?.length ?? 0) * tarif;
 
-  // Construire les colonnes du graphe
-  // Pour ≤12 mois → colonnes mensuelles
-  // Pour >12 mois → colonnes annuelles
   const parAnnee = periode.mois > 12;
-
   type Colonne = { key: string; label: string };
   let colonnes: Colonne[] = [];
 
@@ -79,7 +65,6 @@ export default async function StatsCoachPage({
     });
   }
 
-  // Agréger les données
   const dataMap: Record<string, number> = {};
   for (const r of dansPeriode ?? []) {
     const key = parAnnee ? r.date_souhaitee.slice(0, 4) : r.date_souhaitee.slice(0, 7);
@@ -88,55 +73,54 @@ export default async function StatsCoachPage({
 
   const valeurs = colonnes.map((c) => dataMap[c.key] ?? 0);
   const maxVal = Math.max(...valeurs, 1);
-
-  // Meilleur mois/année
   const meilleurIdx = valeurs.indexOf(Math.max(...valeurs));
   const meilleur = valeurs[meilleurIdx] > 0 ? colonnes[meilleurIdx]?.label : null;
 
+  const KPIS = [
+    { label: "Cours réalisés",  value: totalRealises ?? 0,   icon: "✅" },
+    { label: "Cours confirmés", value: totalConfirmes ?? 0,  icon: "📌" },
+    { label: "En attente",      value: totalEnAttente ?? 0,  icon: "⏳" },
+    { label: "Revenu estimé",   value: `${revenuTotal} €`,   icon: "💰" },
+  ];
+
   return (
-    <div>
+    <div className="mx-auto max-w-3xl">
       <div className="mb-6">
         <h1 className="text-xl font-bold text-gray-900">Cours réalisés</h1>
         <p className="mt-1 text-sm text-gray-500">Vue d'ensemble de votre activité de coaching.</p>
       </div>
 
       {/* KPIs */}
-      <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {[
-          { label: "Cours réalisés", value: totalRealises ?? 0, color: "text-teal-600", bg: "bg-teal-50" },
-          { label: "Cours confirmés", value: totalConfirmes ?? 0, color: "text-green-600", bg: "bg-green-50" },
-          { label: "En attente", value: totalEnAttente ?? 0, color: "text-amber-600", bg: "bg-amber-50" },
-          { label: "Revenu estimé", value: `${revenuTotal} €`, color: "text-blue-600", bg: "bg-blue-50" },
-        ].map(({ label, value, color, bg }) => (
-          <div key={label} className={`rounded-xl border border-gray-200 ${bg} p-4 text-center`}>
-            <p className={`text-2xl font-bold ${color}`}>{value}</p>
-            <p className="mt-1 text-xs text-gray-500">{label}</p>
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {KPIS.map(({ label, value, icon }) => (
+          <div key={label} className="rounded-2xl border p-4 text-center shadow-sm" style={{ borderColor: `${GOLD}44`, background: `${GOLD}0a` }}>
+            <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-full text-lg" style={{ background: `${GOLD}22` }}>{icon}</div>
+            <p className="text-2xl font-bold text-gray-900">{value}</p>
+            <p className="mt-0.5 text-xs font-medium" style={{ color: "#9A7A2E" }}>{label}</p>
           </div>
         ))}
       </div>
 
       {/* Graphe */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
-        {/* Titre + sélecteur de période */}
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold text-gray-700">Cours réalisés</h2>
+            <h2 className="text-sm font-semibold text-gray-900">Activité sur {periode.label}</h2>
             <p className="text-xs text-gray-400">
-              {dansPeriode?.length ?? 0} cours · {revenuPeriode} € sur {periode.label}
-              {meilleur && <span> · 🏆 Meilleur : {meilleur}</span>}
+              {dansPeriode?.length ?? 0} cours · {revenuPeriode} €
+              {meilleur && <span style={{ color: GOLD }}> · 🏆 Meilleur : {meilleur}</span>}
             </p>
           </div>
-          {/* Boutons période */}
-          <div className="flex gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1">
+          {/* Sélecteur de période */}
+          <div className="flex flex-wrap gap-1 rounded-xl border border-gray-200 bg-gray-50 p-1">
             {PERIODES.map((p) => (
               <Link
                 key={p.key}
                 href={`/dashboard/coach/stats?periode=${p.key}`}
-                className={`rounded-md px-3 py-1 text-xs font-medium transition ${
-                  periodeKey === p.key
-                    ? "bg-teal-600 text-white shadow"
-                    : "text-gray-500 hover:text-gray-800"
-                }`}
+                className="rounded-lg px-3 py-1 text-xs font-semibold transition"
+                style={periodeKey === p.key
+                  ? { background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }
+                  : { color: "#6b7280" }}
               >
                 {p.label}
               </Link>
@@ -154,17 +138,23 @@ export default async function StatsCoachPage({
               <div key={col.key} className="flex min-w-[28px] flex-1 flex-col items-center gap-1">
                 <span className="text-[10px] font-medium text-gray-500">{val > 0 ? val : ""}</span>
                 <div
-                  className={`w-full rounded-t-md transition-all ${isTop ? "bg-teal-400" : "bg-teal-600"}`}
-                  style={{ height: `${pct}%`, minHeight: val > 0 ? "4px" : "0" }}
+                  className="w-full rounded-t-md transition-all"
+                  style={{
+                    height: `${pct}%`,
+                    minHeight: val > 0 ? "4px" : "0",
+                    background: isTop
+                      ? `linear-gradient(135deg, ${GOLD}, #E8D5A3)`
+                      : `${GOLD}66`,
+                  }}
                 />
-                <span className="text-[9px] leading-tight text-gray-400 text-center">{col.label}</span>
+                <span className="text-[9px] leading-tight text-center text-gray-400">{col.label}</span>
               </div>
             );
           })}
         </div>
 
         {(dansPeriode?.length ?? 0) === 0 && (
-          <p className="mt-3 text-center text-sm text-gray-400">Aucun cours réalisé sur cette période.</p>
+          <p className="mt-4 text-center text-sm text-gray-400">Aucun cours réalisé sur cette période.</p>
         )}
       </div>
     </div>
