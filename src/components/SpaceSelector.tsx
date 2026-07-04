@@ -15,6 +15,7 @@ export default function SpaceSelector({ current, role }: { current: "coach" | "c
     { href: "/dashboard/client", label: "Espace client", icon: "👤" },
     ...(role === "admin" ? [{ href: "/admin/dashboard", label: "Espace admin", icon: "⚙️" }] : []),
   ];
+  // Tous les comptes voient les deux espaces — un coach peut prendre des cours et vice versa
 
   const currentLabel = current === "coach" ? "Espace coach" : "Espace client";
 

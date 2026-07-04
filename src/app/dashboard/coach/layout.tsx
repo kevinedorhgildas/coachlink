@@ -34,6 +34,15 @@ export default async function CoachLayout({ children }: { children: React.ReactN
     .eq("id", userData.user.id)
     .single();
 
+  // Auto-créer l'enregistrement coach si l'utilisateur vient du dashboard client
+  await supabase.from("coaches").upsert({
+    id: userData.user.id,
+    specialite: "",
+    tarif_horaire: 0,
+    ville: "",
+    description: "",
+  }, { onConflict: "id", ignoreDuplicates: true });
+
   const { data: coach } = await supabase
     .from("coaches")
     .select("photo_url, specialite")

@@ -40,26 +40,19 @@ export async function signup(formData: FormData) {
     return { error: profileError.message };
   }
 
-  if (role === "coach") {
-    const { error: coachError } = await supabase.from("coaches").insert({
-      id: userId,
-      specialite,
-      tarif_horaire: 0,
-      ville: "",
-      description: "",
-    });
-    if (coachError) {
-      return { error: coachError.message };
-    }
-  } else {
-    const { error: clientError } = await supabase.from("clients").insert({
-      id: userId,
-      ville: "",
-    });
-    if (clientError) {
-      return { error: clientError.message };
-    }
-  }
+  // Créer les deux enregistrements pour permettre de switcher entre espaces
+  await supabase.from("coaches").upsert({
+    id: userId,
+    specialite: specialite || "",
+    tarif_horaire: 0,
+    ville: "",
+    description: "",
+  }, { onConflict: "id" });
+
+  await supabase.from("clients").upsert({
+    id: userId,
+    ville: "",
+  }, { onConflict: "id" });
 
   redirect(role === "coach" ? "/dashboard/coach" : "/dashboard/client");
 }

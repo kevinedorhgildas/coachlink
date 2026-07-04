@@ -26,6 +26,12 @@ export default async function ClientLayout({ children }: { children: React.React
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
 
+  // Auto-créer l'enregistrement client si l'utilisateur vient du dashboard coach
+  await supabase.from("clients").upsert({
+    id: userData.user.id,
+    ville: "",
+  }, { onConflict: "id", ignoreDuplicates: true });
+
   const { data: profile } = await supabase
     .from("profiles")
     .select("nom, email, role")
