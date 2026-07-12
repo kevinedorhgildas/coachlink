@@ -19,6 +19,7 @@ const NAV = [
   { href: "/dashboard/coach/packs", label: "Packs de séances", icon: "📦" },
   { href: "/dashboard/coach/vitrine", label: "Ma vitrine", icon: "🖼️" },
   { href: "/dashboard/coach/documents", label: "Mes documents", icon: "📄" },
+  { href: "/dashboard/coach/abonnement", label: "Mon abonnement", icon: "💎" },
   { href: "/dashboard/coach/compte", label: "Mon compte", icon: "👤" },
 ];
 

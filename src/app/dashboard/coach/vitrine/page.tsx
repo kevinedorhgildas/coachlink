@@ -3,6 +3,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import VitrineManager from "./VitrineManager";
 import PhotoGallery from "@/app/coachs/[id]/photos/PhotoGallery";
+import PlanGate from "@/components/PlanGate";
+import { canAccess } from "@/lib/plans";
 
 const GOLD = "#C9A96E";
 
@@ -10,6 +12,10 @@ export default async function CoachVitrinePage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
+
+  const { data: coachPlan } = await supabase.from("coaches").select("abonnement").eq("id", userData.user.id).single();
+  const plan = ((coachPlan as Record<string,unknown>)?.abonnement as string) ?? "gratuit";
+  if (!canAccess(plan as Parameters<typeof canAccess>[0], "vitrine")) return <PlanGate feature="Ma vitrine" plan="starter" />;
 
   const [{ data: medias }, { data: temoignages }] = await Promise.all([
     supabase.from("media_coach").select("id, type, url, legende, created_at").eq("coach_id", userData.user.id).order("created_at", { ascending: false }),

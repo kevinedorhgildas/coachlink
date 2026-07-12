@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import PlanGate from "@/components/PlanGate";
+import { canAccess } from "@/lib/plans";
 import NewPublicationForm from "./NewPublicationForm";
 import PublicationsFeed from "./PublicationsFeed";
 
@@ -7,6 +9,10 @@ export default async function PublicationsCoachPage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
+
+  const { data: coachPlan } = await supabase.from("coaches").select("abonnement").eq("id", userData.user.id).single();
+  const plan = ((coachPlan as Record<string,unknown>)?.abonnement as string) ?? "gratuit";
+  if (!canAccess(plan as Parameters<typeof canAccess>[0], "publications")) return <PlanGate feature="Fil d'actualité" plan="pro" />;
 
   const [{ data: profile }, { data: coach }, { data: pubs }] = await Promise.all([
     supabase.from("profiles").select("nom").eq("id", userData.user.id).single(),

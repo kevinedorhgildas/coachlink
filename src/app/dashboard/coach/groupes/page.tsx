@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CreateGroupeForm from "./CreateGroupeForm";
+import PlanGate from "@/components/PlanGate";
+import { canAccess } from "@/lib/plans";
 
 const GOLD = "#C9A96E";
 
@@ -9,6 +11,10 @@ export default async function GroupesCoachPage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
+
+  const { data: coachPlan } = await supabase.from("coaches").select("abonnement").eq("id", userData.user.id).single();
+  const plan = ((coachPlan as Record<string,unknown>)?.abonnement as string) ?? "gratuit";
+  if (!canAccess(plan as Parameters<typeof canAccess>[0], "groupes")) return <PlanGate feature="Groupes de discussion" plan="pro" />;
 
   const { data: groupes } = await supabase
     .from("groupes_discussion")

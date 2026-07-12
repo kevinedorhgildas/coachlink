@@ -1,11 +1,17 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import DocumentsManager from "./DocumentsManager";
+import PlanGate from "@/components/PlanGate";
+import { canAccess } from "@/lib/plans";
 
 export default async function CoachDocumentsPage() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
+
+  const { data: coachPlan } = await supabase.from("coaches").select("abonnement").eq("id", userData.user.id).single();
+  const plan = ((coachPlan as Record<string,unknown>)?.abonnement as string) ?? "gratuit";
+  if (!canAccess(plan as Parameters<typeof canAccess>[0], "documents")) return <PlanGate feature="Documents clients" plan="pro" />;
 
   const { data: documents } = await supabase
     .from("documents")
