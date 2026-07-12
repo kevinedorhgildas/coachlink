@@ -7,6 +7,7 @@ const GOLD = "#C9A96E";
 const NAV = [
   { href: "/admin/dashboard",  label: "Tableau de bord", icon: "📊" },
   { href: "/admin/coachs",     label: "Coachs",          icon: "🧑‍💼" },
+  { href: "/admin/prospects",  label: "Prospects",       icon: "🎯" },
   { href: "/admin/newsletter", label: "Newsletter",      icon: "📧" },
 ];
 
