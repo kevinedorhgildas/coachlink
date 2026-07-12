@@ -1,6 +1,5 @@
 import Link from "next/link";
 import InscriptionForm from "./InscriptionForm";
-import Logo from "@/components/Logo";
 
 export default function InscriptionPage() {
   return (
@@ -10,7 +9,9 @@ export default function InscriptionPage() {
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12" style={{ background: "linear-gradient(135deg, #060C18 0%, #0B1120 60%, #111827 100%)" }}>
         <div className="pointer-events-none absolute left-0 top-1/3 h-96 w-96 -translate-y-1/2 rounded-full opacity-15" style={{ background: "radial-gradient(circle, #C9A96E 0%, transparent 70%)" }} />
 
-        <Link href="/"><Logo size="md" theme="dark" /></Link>
+        <Link href="/" className="text-2xl font-bold tracking-tight text-white">
+          Coach<span style={{ color: "#C9A96E" }}>Link</span>
+        </Link>
 
         <div>
           <p className="mb-4 text-sm font-semibold uppercase tracking-widest" style={{ color: "#C9A96E" }}>
@@ -42,7 +43,9 @@ export default function InscriptionPage() {
         <div className="w-full max-w-sm">
 
           {/* Logo mobile */}
-          <Link href="/" className="mb-8 flex justify-center lg:hidden"><Logo size="sm" theme="light" /></Link>
+          <Link href="/" className="mb-8 block text-center text-xl font-bold tracking-tight text-gray-900 lg:hidden">
+            Coach<span style={{ color: "#C9A96E" }}>Link</span>
+          </Link>
 
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900">Créer un compte</h1>

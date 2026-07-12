@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import NewsletterForm from "@/components/NewsletterForm";
-import Logo from "@/components/Logo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,7 +32,7 @@ export default function RootLayout({
         <footer className="mt-auto bg-navy-900 text-white">
           <div className="mx-auto max-w-5xl px-6 py-12">
             <div className="mb-8 flex flex-col items-center gap-2 text-center">
-              <Logo size="md" theme="dark" showTagline />
+              <span className="text-2xl font-bold tracking-tight text-white">Coach<span className="text-gold-500">Link</span></span>
               <p className="text-sm text-white/50">La plateforme premium de coaching.</p>
             </div>
             <NewsletterForm />

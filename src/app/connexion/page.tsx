@@ -1,6 +1,5 @@
 import Link from "next/link";
 import ConnexionForm from "./ConnexionForm";
-import Logo from "@/components/Logo";
 
 export default function ConnexionPage() {
   return (
@@ -11,7 +10,9 @@ export default function ConnexionPage() {
         {/* Glow */}
         <div className="pointer-events-none absolute left-0 top-1/3 h-96 w-96 -translate-y-1/2 rounded-full opacity-15" style={{ background: "radial-gradient(circle, #C9A96E 0%, transparent 70%)" }} />
 
-        <Link href="/"><Logo size="md" theme="dark" /></Link>
+        <Link href="/" className="text-2xl font-bold tracking-tight text-white">
+          Coach<span style={{ color: "#C9A96E" }}>Link</span>
+        </Link>
 
         <div>
           <p className="mb-4 text-sm font-semibold uppercase tracking-widest" style={{ color: "#C9A96E" }}>
@@ -33,7 +34,9 @@ export default function ConnexionPage() {
         <div className="w-full max-w-sm">
 
           {/* Logo mobile */}
-          <Link href="/" className="mb-8 flex justify-center lg:hidden"><Logo size="sm" theme="light" /></Link>
+          <Link href="/" className="mb-8 block text-center text-xl font-bold tracking-tight text-gray-900 lg:hidden">
+            Coach<span style={{ color: "#C9A96E" }}>Link</span>
+          </Link>
 
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900">Connexion</h1>

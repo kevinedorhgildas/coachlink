@@ -3,7 +3,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import SpaceSelector from "@/components/SpaceSelector";
-import Logo from "@/components/Logo";
 
 const NAV = [
   { href: "/dashboard/client", label: "Trouver un coach", icon: "🔍" },
@@ -53,7 +52,9 @@ export default async function ClientLayout({ children }: { children: React.React
 
         {/* Logo + profil */}
         <div className="px-6 py-7 border-b" style={{ borderColor: "#ffffff0f" }}>
-          <Link href="/dashboard/client"><Logo size="sm" theme="dark" /></Link>
+          <Link href="/dashboard/client" className="text-xl font-bold tracking-tight text-white">
+            Coach<span style={{ color: GOLD }}>Link</span>
+          </Link>
           <div className="mt-6 flex items-center gap-3">
             <div
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold"
@@ -102,7 +103,9 @@ export default async function ClientLayout({ children }: { children: React.React
       {/* ── MOBILE HEADER ── */}
       <div className="fixed left-0 right-0 top-0 z-10 px-4 py-3 md:hidden" style={{ background: "#0B1120" }}>
         <div className="flex items-center justify-between">
-          <Link href="/dashboard/client"><Logo size="sm" theme="dark" /></Link>
+          <Link href="/dashboard/client" className="text-base font-bold text-white">
+            Coach<span style={{ color: GOLD }}>Link</span>
+          </Link>
           <div
             className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold"
             style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_LIGHT})`, color: "#0B1120" }}

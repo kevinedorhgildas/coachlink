@@ -3,7 +3,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import SpaceSelector from "@/components/SpaceSelector";
-import Logo from "@/components/Logo";
 
 const NAV = [
   { href: "/dashboard/coach", label: "Mon profil", icon: "✏️" },
@@ -65,7 +64,9 @@ export default async function CoachLayout({ children }: { children: React.ReactN
 
         {/* Logo + profil */}
         <div className="px-6 py-7 border-b" style={{ borderColor: "#ffffff0f" }}>
-          <Link href="/dashboard/coach"><Logo size="sm" theme="dark" /></Link>
+          <Link href="/dashboard/coach" className="text-xl font-bold tracking-tight text-white">
+            Coach<span style={{ color: GOLD }}>Link</span>
+          </Link>
           <div className="mt-6 flex items-center gap-3">
             <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full" style={{ outline: `2px solid ${GOLD}44` }}>
               {coach?.photo_url ? (
@@ -125,7 +126,9 @@ export default async function CoachLayout({ children }: { children: React.ReactN
       {/* ── MOBILE HEADER ── */}
       <div className="fixed left-0 right-0 top-0 z-10 px-4 py-3 md:hidden" style={{ background: "#0B1120" }}>
         <div className="flex items-center justify-between">
-          <Link href="/dashboard/coach"><Logo size="sm" theme="dark" /></Link>
+          <Link href="/dashboard/coach" className="text-base font-bold text-white">
+            Coach<span style={{ color: GOLD }}>Link</span>
+          </Link>
           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full">
             {coach?.photo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
