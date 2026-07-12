@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
     mode: "subscription",
     payment_method_types: ["card"],
     line_items: [{ price: priceId, quantity: 1 }],
+    allow_promotion_codes: true,
     success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/coach/abonnement?success=1`,
     cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/tarifs`,
     metadata: { supabase_id: userData.user.id },
