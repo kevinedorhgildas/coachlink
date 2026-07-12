@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import ContactForm from "./ContactForm";
 import AvisForm from "./AvisForm";
 import ReservationForm from "./ReservationForm";
+import PacksSection from "./PacksSection";
 
 const JOURS_ORDRE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const GOLD = "#C9A96E";
@@ -22,13 +23,14 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
   const profileData = coach.profiles as unknown as { nom: string; email: string } | { nom: string; email: string }[] | null;
   const profile = Array.isArray(profileData) ? profileData[0] : profileData;
 
-  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }, { data: medias }, { data: temoignages }] = await Promise.all([
+  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }, { data: medias }, { data: temoignages }, { data: packs }] = await Promise.all([
     supabase.from("disponibilites").select("id, jour_semaine, heure_debut, heure_fin").eq("coach_id", params.id),
     supabase.from("avis").select("id, note, commentaire, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.auth.getUser(),
     supabase.from("documents").select("id, nom, url").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.from("media_coach").select("id, type, url, legende").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.from("temoignages").select("id, auteur, contenu, note, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }),
+    supabase.from("packs_seances").select("id, nom, description, nb_seances, prix").eq("coach_id", params.id).eq("actif", true).order("prix", { ascending: true }),
   ]);
 
   const disposTriees = (disponibilites ?? []).sort(
@@ -276,6 +278,13 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
           <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <SectionTitle noBorder>Réserver un créneau</SectionTitle>
             <ReservationForm coachId={coach.id} disponibilites={disposTriees} coach={{ tarif_horaire: coach.tarif_horaire, tarif_individuel: (coach as Record<string, unknown>).tarif_individuel as number | null, tarif_groupe: (coach as Record<string, unknown>).tarif_groupe as number | null, tarif_enligne: (coach as Record<string, unknown>).tarif_enligne as number | null }} />
+          </section>
+        )}
+
+        {/* Packs de séances */}
+        {packs && packs.length > 0 && (
+          <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <PacksSection packs={packs} coachId={coach.id} />
           </section>
         )}
 
