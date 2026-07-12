@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import Logo from "@/components/Logo";
 
 const GOLD = "#C9A96E";
 
@@ -24,8 +25,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Sidebar */}
       <aside className="w-56 shrink-0 border-r border-gray-200 bg-white flex flex-col">
         <div className="px-5 py-5 border-b border-gray-100">
-          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: GOLD }}>Admin</p>
-          <p className="text-lg font-bold text-gray-900">CoachLink</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: GOLD }}>Admin</p>
+          <Logo size="sm" theme="light" />
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {NAV.map((item) => (

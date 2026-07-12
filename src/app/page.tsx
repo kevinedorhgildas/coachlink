@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import Logo from "@/components/Logo";
 
 const DOMAINES = [
   { label: "Coach sportif", icon: "🏋️" },
@@ -33,7 +34,7 @@ export default async function Home() {
 
         {/* Nav */}
         <nav className="absolute left-0 right-0 top-0 flex items-center justify-between px-8 py-5">
-          <span className="text-xl font-bold tracking-tight text-white">Coach<span style={{ color: "#C9A96E" }}>Link</span></span>
+          <Logo size="sm" theme="dark" />
           <div className="flex items-center gap-4">
             <Link href="/coachs" className="text-sm font-medium text-white/70 hover:text-white transition">Nos coachs</Link>
             <Link href="/connexion" className="text-sm font-medium text-white/70 hover:text-white transition">Se connecter</Link>
