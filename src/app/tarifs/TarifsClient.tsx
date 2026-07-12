@@ -15,13 +15,11 @@ export default function TarifsClient({ currentPlan, isLoggedIn }: { currentPlan:
   async function handleSubscribe(planKey: string) {
     if (!isLoggedIn) { router.push("/connexion"); return; }
     if (planKey === "gratuit") return;
-    const plan = PLANS[planKey as keyof typeof PLANS];
-    if (!("priceId" in plan)) return;
     setLoading(planKey);
     const res = await fetch("/api/stripe/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ priceId: plan.priceId }),
+      body: JSON.stringify({ plan: planKey }),
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;

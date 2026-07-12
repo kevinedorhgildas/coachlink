@@ -9,8 +9,16 @@ export async function POST(req: NextRequest) {
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) return NextResponse.json({ error: "Non authentifié." }, { status: 401 });
 
-  const { priceId } = await req.json();
-  if (!priceId) return NextResponse.json({ error: "Prix manquant." }, { status: 400 });
+  const { plan: planKey } = await req.json();
+  if (!planKey) return NextResponse.json({ error: "Plan manquant." }, { status: 400 });
+
+  const PRICE_IDS: Record<string, string> = {
+    starter: process.env.STRIPE_PRICE_STARTER!,
+    pro: process.env.STRIPE_PRICE_PRO!,
+    elite: process.env.STRIPE_PRICE_ELITE!,
+  };
+  const priceId = PRICE_IDS[planKey];
+  if (!priceId) return NextResponse.json({ error: "Plan invalide." }, { status: 400 });
 
   const { data: coach } = await supabase
     .from("coaches")
