@@ -7,6 +7,7 @@ import SpaceSelector from "@/components/SpaceSelector";
 const NAV = [
   { href: "/dashboard/coach", label: "Mon profil", icon: "✏️" },
   { href: "/dashboard/coach/messages", label: "Messages", icon: "💬" },
+  { href: "/dashboard/coach/groupes", label: "Groupes", icon: "👥" },
   { href: "/dashboard/coach/notifications", label: "Notifications", icon: "🔔" },
   { href: "/dashboard/coach/cours-a-venir", label: "Cours à venir", icon: "📌" },
   { href: "/dashboard/coach/stats", label: "Cours réalisés", icon: "📊" },

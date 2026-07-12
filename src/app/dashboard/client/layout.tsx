@@ -12,6 +12,7 @@ const NAV = [
   { href: "/dashboard/client/packs", label: "Mes packs", icon: "📦" },
   { href: "/dashboard/client/paiement", label: "Méthodes de paiement", icon: "💳" },
   { href: "/dashboard/client/messages", label: "Messages", icon: "💬" },
+  { href: "/dashboard/client/groupes", label: "Groupes", icon: "👥" },
   { href: "/dashboard/client/notifications", label: "Notifications", icon: "🔔" },
   { href: "/dashboard/client/favoris", label: "Mes favoris", icon: "⭐" },
   { href: "/dashboard/client/planning", label: "Mon planning", icon: "📅" },
