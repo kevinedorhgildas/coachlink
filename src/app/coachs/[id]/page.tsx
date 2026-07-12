@@ -5,6 +5,7 @@ import ContactForm from "./ContactForm";
 import AvisForm from "./AvisForm";
 import ReservationForm from "./ReservationForm";
 import PacksSection from "./PacksSection";
+import PublicationCard from "@/components/PublicationCard";
 
 const JOURS_ORDRE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const GOLD = "#C9A96E";
@@ -23,7 +24,7 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
   const profileData = coach.profiles as unknown as { nom: string; email: string } | { nom: string; email: string }[] | null;
   const profile = Array.isArray(profileData) ? profileData[0] : profileData;
 
-  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }, { data: medias }, { data: temoignages }, { data: packs }] = await Promise.all([
+  const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }, { data: medias }, { data: temoignages }, { data: packs }, { data: pubsRaw }] = await Promise.all([
     supabase.from("disponibilites").select("id, jour_semaine, heure_debut, heure_fin").eq("coach_id", params.id),
     supabase.from("avis").select("id, note, commentaire, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.auth.getUser(),
@@ -31,6 +32,7 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
     supabase.from("media_coach").select("id, type, url, legende").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.from("temoignages").select("id, auteur, contenu, note, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }),
     supabase.from("packs_seances").select("id, nom, description, nb_seances, prix").eq("coach_id", params.id).eq("actif", true).order("prix", { ascending: true }),
+    supabase.from("publications").select("id, contenu, media_url, type, created_at").eq("coach_id", params.id).order("created_at", { ascending: false }).limit(10),
   ]);
 
   const disposTriees = (disponibilites ?? []).sort(
@@ -278,6 +280,26 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
           <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <SectionTitle noBorder>Réserver un créneau</SectionTitle>
             <ReservationForm coachId={coach.id} disponibilites={disposTriees} coach={{ tarif_horaire: coach.tarif_horaire, tarif_individuel: (coach as Record<string, unknown>).tarif_individuel as number | null, tarif_groupe: (coach as Record<string, unknown>).tarif_groupe as number | null, tarif_enligne: (coach as Record<string, unknown>).tarif_enligne as number | null }} />
+          </section>
+        )}
+
+        {/* Fil d'actualité */}
+        {pubsRaw && pubsRaw.length > 0 && (
+          <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-lg font-bold text-gray-900">Fil d'actualité</h2>
+            <div className="space-y-4">
+              {pubsRaw.map((p) => (
+                <PublicationCard key={p.id} pub={{
+                  ...p,
+                  coach_nom: profile?.nom ?? "Coach",
+                  coach_photo: coach?.photo_url ?? null,
+                  coach_id: params.id,
+                  nb_likes: 0,
+                  liked_by_me: false,
+                  commentaires: [],
+                }} currentUserId={currentUserId ?? null} />
+              ))}
+            </div>
           </section>
         )}
 
