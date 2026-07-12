@@ -14,6 +14,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "CoachLink — Coaching d'excellence",
   description: "La plateforme premium qui met en relation les meilleurs coachs et leurs clients.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
