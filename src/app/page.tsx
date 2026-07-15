@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import Navbar from "@/components/Navbar";
 
 const DOMAINES = [
   { label: "Coach sportif", icon: "🏋️" },
@@ -32,16 +33,7 @@ export default async function Home() {
         <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-64 w-64 translate-x-1/2 translate-y-1/2 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #C9A96E 0%, transparent 70%)" }} />
 
         {/* Nav */}
-        <nav className="absolute left-0 right-0 top-0 flex items-center justify-between px-8 py-5">
-          <span className="text-xl font-bold tracking-tight text-white">Coach<span style={{ color: "#C9A96E" }}>Link</span></span>
-          <div className="flex items-center gap-4">
-            <Link href="/coachs" className="text-sm font-medium text-white/70 hover:text-white transition">Nos coachs</Link>
-            <Link href="/connexion" className="text-sm font-medium text-white/70 hover:text-white transition">Se connecter</Link>
-            <Link href="/inscription" className="rounded-full px-5 py-2 text-sm font-semibold text-navy-900 transition hover:opacity-90" style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)" }}>
-              Commencer
-            </Link>
-          </div>
-        </nav>
+        <Navbar />
 
         {/* Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium" style={{ borderColor: "#C9A96E44", background: "#C9A96E11", color: "#C9A96E" }}>
