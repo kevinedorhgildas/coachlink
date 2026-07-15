@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
+import EditProfilCoach from "./EditProfilCoach";
 
 const GOLD = "#C9A96E";
 
@@ -12,7 +13,7 @@ export default async function CompteCoachPage() {
 
   const [{ data: profile }, { data: coach }] = await Promise.all([
     supabase.from("profiles").select("nom, email, created_at").eq("id", userData.user.id).single(),
-    supabase.from("coaches").select("specialite, ville, tarif_horaire, photo_url").eq("id", userData.user.id).single(),
+    supabase.from("coaches").select("specialite, ville, tarif_horaire, photo_url, description").eq("id", userData.user.id).single(),
   ]);
 
   const [{ count: nbClients }, { count: nbCoursTotal }] = await Promise.all([
@@ -51,6 +52,15 @@ export default async function CompteCoachPage() {
         <p className="mt-4 border-t border-gray-100 pt-3 text-xs text-gray-400">
           Membre depuis le {profile?.created_at ? new Date(profile.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "–"}
         </p>
+        <div className="mt-4">
+          <EditProfilCoach
+            nom={profile?.nom ?? ""}
+            ville={coach?.ville ?? ""}
+            specialite={coach?.specialite ?? ""}
+            tarif_horaire={coach?.tarif_horaire ?? 0}
+            description={(coach as Record<string,unknown>)?.description as string ?? ""}
+          />
+        </div>
       </div>
 
       {/* Stats */}

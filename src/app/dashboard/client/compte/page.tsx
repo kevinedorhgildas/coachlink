@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
+import EditProfilClient from "./EditProfilClient";
 
 const GOLD = "#C9A96E";
 
@@ -42,6 +43,12 @@ export default async function CompteClientPage() {
         <p className="mt-4 border-t border-gray-100 pt-3 text-xs text-gray-400">
           Membre depuis le {profile?.created_at ? new Date(profile.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "–"}
         </p>
+        <div className="mt-4">
+          <EditProfilClient
+            nom={profile?.nom ?? ""}
+            ville={client?.ville ?? ""}
+          />
+        </div>
       </div>
 
       {/* Stat */}
