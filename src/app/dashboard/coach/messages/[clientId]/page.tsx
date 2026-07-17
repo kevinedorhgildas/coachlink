@@ -14,13 +14,14 @@ export default async function CoachConversationPage({ params }: { params: { clie
   const clientId = params.clientId;
   await marquerCommeLu(clientId);
 
-  const [{ data: messages }, { data: profile }] = await Promise.all([
+  const [{ data: messages }, { data: profile }, { data: clientData }] = await Promise.all([
     supabase
       .from("messages")
       .select("id, contenu, created_at, sender_id")
       .or(`and(sender_id.eq.${userData.user.id},receiver_id.eq.${clientId}),and(sender_id.eq.${clientId},receiver_id.eq.${userData.user.id})`)
       .order("created_at", { ascending: true }),
-    supabase.from("profiles").select("id, nom, photo_url").eq("id", clientId).single(),
+    supabase.from("profiles").select("id, nom").eq("id", clientId).single(),
+    supabase.from("clients").select("photo_url").eq("id", clientId).single(),
   ]);
 
   const nomClient = profile?.nom ?? "Client";
@@ -31,9 +32,9 @@ export default async function CoachConversationPage({ params }: { params: { clie
       <div className="mb-4 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
         <Link href="/dashboard/coach/messages" className="text-gray-400 hover:text-gray-600 text-sm">←</Link>
         <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
-          {profile?.photo_url ? (
+          {clientData?.photo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={profile.photo_url} alt="" className="h-full w-full object-cover" />
+            <img src={clientData.photo_url} alt="" className="h-full w-full object-cover" />
           ) : (
             <span className="text-gray-300">👤</span>
           )}
@@ -52,7 +53,17 @@ export default async function CoachConversationPage({ params }: { params: { clie
         {(messages ?? []).map((msg) => {
           const isMe = msg.sender_id === userData.user.id;
           return (
-            <div key={msg.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+            <div key={msg.id} className={`flex items-end gap-2 ${isMe ? "justify-end" : "justify-start"}`}>
+              {!isMe && (
+                <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
+                  {clientData?.photo_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={clientData.photo_url} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-gray-300 text-xs">👤</span>
+                  )}
+                </div>
+              )}
               <div
                 className={`max-w-xs rounded-2xl px-4 py-2.5 text-sm ${isMe ? "rounded-br-sm" : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm"}`}
                 style={isMe ? { background: `linear-gradient(135deg, #0B1120, #1a2540)`, color: "white" } : undefined}

@@ -56,7 +56,17 @@ export default async function ClientConversationPage({ params }: { params: { coa
         {(messages ?? []).map((msg) => {
           const isMe = msg.sender_id === userData.user.id;
           return (
-            <div key={msg.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+            <div key={msg.id} className={`flex items-end gap-2 ${isMe ? "justify-end" : "justify-start"}`}>
+              {!isMe && (
+                <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
+                  {coachData?.photo_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={coachData.photo_url} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-gray-300 text-xs">👤</span>
+                  )}
+                </div>
+              )}
               <div
                 className={`max-w-xs rounded-2xl px-4 py-2.5 text-sm ${isMe ? "rounded-br-sm" : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm"}`}
                 style={isMe ? { background: `linear-gradient(135deg, #0B1120, #1a2540)`, color: "white" } : undefined}
