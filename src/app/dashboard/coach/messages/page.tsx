@@ -29,11 +29,15 @@ export default async function CoachMessagesPage() {
 
   const clientIds = Array.from(conversationsMap.keys());
 
-  const { data: profiles } = clientIds.length > 0
-    ? await supabase.from("profiles").select("id, nom, photo_url").in("id", clientIds)
-    : { data: [] };
+  const [{ data: profiles }, { data: clientPhotos }] = clientIds.length > 0
+    ? await Promise.all([
+        supabase.from("profiles").select("id, nom").in("id", clientIds),
+        supabase.from("clients").select("id, photo_url").in("id", clientIds),
+      ])
+    : [{ data: [] }, { data: [] }];
 
-  const profileMap = new Map((profiles ?? []).map((p) => [p.id, p]));
+  const photoMap = new Map((clientPhotos ?? []).map((c) => [c.id, c.photo_url]));
+  const profileMap = new Map((profiles ?? []).map((p) => [p.id, { ...p, photo_url: photoMap.get(p.id) ?? null }]));
 
   const conversations = clientIds.map((id) => ({
     clientId: id,
