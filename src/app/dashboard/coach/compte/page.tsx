@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import EditProfilCoach from "./EditProfilCoach";
+import UploadPhoto from "./UploadPhoto";
 
 const GOLD = "#C9A96E";
 
@@ -33,16 +34,7 @@ export default async function CompteCoachPage() {
       {/* Profil */}
       <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full" style={{ outline: `2px solid ${GOLD}44` }}>
-            {coach?.photo_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={coach.photo_url} alt="" className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-xl font-bold" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
-                {initiale}
-              </div>
-            )}
-          </div>
+          <UploadPhoto photoUrl={coach?.photo_url ?? undefined} initiale={initiale} />
           <div>
             <p className="text-lg font-semibold text-gray-900">{profile?.nom}</p>
             <p className="text-sm text-gray-500">{profile?.email}</p>

@@ -42,6 +42,27 @@ export async function updateProfilCoach(formData: FormData) {
   return { success: true };
 }
 
+export async function uploadPhotoCoach(formData: FormData) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) throw new Error("Non authentifié");
+
+  const file = formData.get("photo") as File;
+  if (!file || file.size === 0) throw new Error("Aucun fichier");
+
+  const ext = file.name.split(".").pop();
+  const path = `photos-profil/${userData.user.id}.${ext}`;
+
+  const { error } = await supabase.storage.from("media").upload(path, file, { upsert: true });
+  if (error) throw new Error(error.message);
+
+  const { data: urlData } = supabase.storage.from("media").getPublicUrl(path);
+  await supabase.from("coaches").update({ photo_url: urlData.publicUrl }).eq("id", userData.user.id);
+
+  revalidatePath("/dashboard/coach/compte");
+  return { success: true };
+}
+
 export async function updateProfilClient(formData: FormData) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
