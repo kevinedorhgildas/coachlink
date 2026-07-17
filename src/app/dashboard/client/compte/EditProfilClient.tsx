@@ -14,6 +14,7 @@ export default function EditProfilClient({ nom, ville }: Props) {
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,9 +59,15 @@ export default function EditProfilClient({ nom, ville }: Props) {
 
               <div className="border-t border-gray-100 pt-4">
                 <label className="block text-xs font-medium text-gray-500 mb-1">Nouveau mot de passe <span className="font-normal text-gray-400">(laisser vide pour ne pas changer)</span></label>
-                <input name="new_password" type="password" minLength={6}
-                  className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#C9A96E]"
-                  placeholder="6 caractères minimum" />
+                <div className="relative">
+                  <input name="new_password" type={showPassword ? "text" : "password"} minLength={6}
+                    className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#C9A96E]"
+                    placeholder="6 caractères minimum" />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
+                    {showPassword ? "🙈" : "👁️"}
+                  </button>
+                </div>
               </div>
 
               <div className="flex gap-2 pt-1">
