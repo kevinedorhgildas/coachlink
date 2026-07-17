@@ -24,7 +24,10 @@ export default function ConnexionForm() {
       </div>
 
       <div>
-        <label htmlFor="password" className={labelClass}>Mot de passe</label>
+        <div className="flex items-center justify-between mb-1.5">
+          <label htmlFor="password" className={labelClass} style={{ marginBottom: 0 }}>Mot de passe</label>
+          <a href="/mot-de-passe-oublie" className="text-xs font-medium hover:underline" style={{ color: "#C9A96E" }}>Mot de passe oublié ?</a>
+        </div>
         <div className="relative">
           <input id="password" name="password" type={showPassword ? "text" : "password"} required placeholder="••••••••" className={inputClass} />
           <button type="button" onClick={() => setShowPassword(!showPassword)}
