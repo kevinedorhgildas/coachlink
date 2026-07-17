@@ -13,7 +13,7 @@ export default async function CompteCoachPage() {
 
   const [{ data: profile }, { data: coach }] = await Promise.all([
     supabase.from("profiles").select("nom, email, created_at").eq("id", userData.user.id).single(),
-    supabase.from("coaches").select("specialite, ville, tarif_horaire, photo_url, description").eq("id", userData.user.id).single(),
+    supabase.from("coaches").select("specialite, ville, tarif_horaire, photo_url, description, instagram, tiktok, snapchat, facebook, x, youtube").eq("id", userData.user.id).single(),
   ]);
 
   const [{ count: nbClients }, { count: nbCoursTotal }] = await Promise.all([
@@ -59,6 +59,12 @@ export default async function CompteCoachPage() {
             specialite={coach?.specialite ?? ""}
             tarif_horaire={coach?.tarif_horaire ?? 0}
             description={(coach as Record<string,unknown>)?.description as string ?? ""}
+            instagram={(coach as Record<string,unknown>)?.instagram as string ?? ""}
+            tiktok={(coach as Record<string,unknown>)?.tiktok as string ?? ""}
+            snapchat={(coach as Record<string,unknown>)?.snapchat as string ?? ""}
+            facebook={(coach as Record<string,unknown>)?.facebook as string ?? ""}
+            x={(coach as Record<string,unknown>)?.x as string ?? ""}
+            youtube={(coach as Record<string,unknown>)?.youtube as string ?? ""}
           />
         </div>
       </div>

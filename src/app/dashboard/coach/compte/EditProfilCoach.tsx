@@ -17,9 +17,15 @@ type Props = {
   specialite: string;
   tarif_horaire: number;
   description: string;
+  instagram?: string;
+  tiktok?: string;
+  snapchat?: string;
+  facebook?: string;
+  x?: string;
+  youtube?: string;
 };
 
-export default function EditProfilCoach({ nom, ville, specialite, tarif_horaire, description }: Props) {
+export default function EditProfilCoach({ nom, ville, specialite, tarif_horaire, description, instagram, tiktok, snapchat, facebook, x, youtube }: Props) {
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -85,6 +91,25 @@ export default function EditProfilCoach({ nom, ville, specialite, tarif_horaire,
                 <textarea name="description" defaultValue={description} rows={3}
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#C9A96E] resize-none"
                   placeholder="Présentez-vous en quelques mots…" />
+              </div>
+
+              <div className="border-t border-gray-100 pt-4">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Réseaux sociaux</p>
+                {[
+                  { name: "instagram", icon: "📸", placeholder: "https://instagram.com/tonprofil", defaultValue: instagram },
+                  { name: "tiktok", icon: "🎵", placeholder: "https://tiktok.com/@tonprofil", defaultValue: tiktok },
+                  { name: "youtube", icon: "▶️", placeholder: "https://youtube.com/@tachaîne", defaultValue: youtube },
+                  { name: "snapchat", icon: "👻", placeholder: "https://snapchat.com/add/tonprofil", defaultValue: snapchat },
+                  { name: "facebook", icon: "👤", placeholder: "https://facebook.com/tonprofil", defaultValue: facebook },
+                  { name: "x", icon: "𝕏", placeholder: "https://x.com/tonprofil", defaultValue: x },
+                ].map(({ name, icon, placeholder, defaultValue }) => (
+                  <div key={name} className="mb-2">
+                    <label className="block text-xs font-medium text-gray-500 mb-1 capitalize">{icon} {name === "x" ? "X (Twitter)" : name.charAt(0).toUpperCase() + name.slice(1)}</label>
+                    <input name={name} defaultValue={defaultValue ?? ""} type="url"
+                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#C9A96E]"
+                      placeholder={placeholder} />
+                  </div>
+                ))}
               </div>
 
               <div className="border-t border-gray-100 pt-4">

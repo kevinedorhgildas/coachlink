@@ -116,6 +116,34 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
           </section>
         )}
 
+        {/* Réseaux sociaux */}
+        {(() => {
+          const c = coach as Record<string, unknown>;
+          const reseaux = [
+            { key: "instagram", label: "Instagram", icon: "📸" },
+            { key: "tiktok", label: "TikTok", icon: "🎵" },
+            { key: "youtube", label: "YouTube", icon: "▶️" },
+            { key: "snapchat", label: "Snapchat", icon: "👻" },
+            { key: "facebook", label: "Facebook", icon: "👤" },
+            { key: "x", label: "X", icon: "𝕏" },
+          ].filter(({ key }) => c[key]);
+          if (reseaux.length === 0) return null;
+          return (
+            <section>
+              <SectionTitle>Réseaux sociaux</SectionTitle>
+              <div className="flex flex-wrap gap-3">
+                {reseaux.map(({ key, label, icon }) => (
+                  <a key={key} href={c[key] as string} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition hover:shadow-md"
+                    style={{ borderColor: `${GOLD}44`, color: "#9A7A2E", background: `${GOLD}11` }}>
+                    <span>{icon}</span> {label}
+                  </a>
+                ))}
+              </div>
+            </section>
+          );
+        })()}
+
         {/* Diplômes */}
         {coach.diplomes && (coach.diplomes as string[]).length > 0 && (
           <section>

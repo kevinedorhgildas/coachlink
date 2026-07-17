@@ -13,11 +13,25 @@ export async function updateProfilCoach(formData: FormData) {
   const specialite = formData.get("specialite") as string;
   const tarif_horaire = parseFloat(formData.get("tarif_horaire") as string) || 0;
   const description = formData.get("description") as string;
+  const instagram = formData.get("instagram") as string;
+  const tiktok = formData.get("tiktok") as string;
+  const snapchat = formData.get("snapchat") as string;
+  const facebook = formData.get("facebook") as string;
+  const x = formData.get("x") as string;
+  const youtube = formData.get("youtube") as string;
   const newPassword = formData.get("new_password") as string;
 
   await Promise.all([
     supabase.from("profiles").update({ nom }).eq("id", userData.user.id),
-    supabase.from("coaches").update({ ville, specialite, tarif_horaire, description }).eq("id", userData.user.id),
+    supabase.from("coaches").update({
+      ville, specialite, tarif_horaire, description,
+      instagram: instagram || null,
+      tiktok: tiktok || null,
+      snapchat: snapchat || null,
+      facebook: facebook || null,
+      x: x || null,
+      youtube: youtube || null,
+    }).eq("id", userData.user.id),
   ]);
 
   if (newPassword && newPassword.length >= 6) {
