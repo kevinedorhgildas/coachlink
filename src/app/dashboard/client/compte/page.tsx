@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import EditProfilClient from "./EditProfilClient";
+import UploadPhotoClient from "./UploadPhotoClient";
 
 const GOLD = "#C9A96E";
 
@@ -13,7 +14,7 @@ export default async function CompteClientPage() {
 
   const [{ data: profile }, { data: client }] = await Promise.all([
     supabase.from("profiles").select("nom, email, created_at").eq("id", userData.user.id).single(),
-    supabase.from("clients").select("ville").eq("id", userData.user.id).single(),
+    supabase.from("clients").select("ville, photo_url").eq("id", userData.user.id).single(),
   ]);
 
   const { count: nbReservations } = await supabase
@@ -31,9 +32,7 @@ export default async function CompteClientPage() {
       {/* Profil */}
       <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-xl font-bold" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
-            {initiale}
-          </div>
+          <UploadPhotoClient photoUrl={client?.photo_url ?? undefined} initiale={initiale} />
           <div>
             <p className="font-semibold text-gray-900">{profile?.nom}</p>
             <p className="text-sm text-gray-500">{profile?.email}</p>
