@@ -12,6 +12,7 @@ const labelClass = "mb-1.5 block text-sm font-medium text-gray-700";
 
 export default function InscriptionForm() {
   const [role, setRole] = useState<Role>("client");
+  const [showPassword, setShowPassword] = useState(false);
   const [state, formAction] = useFormState(
     async (_prevState: { error?: string } | undefined, formData: FormData) => {
       return await signup(formData);
@@ -87,7 +88,13 @@ export default function InscriptionForm() {
 
       <div>
         <label htmlFor="password" className={labelClass}>Mot de passe</label>
-        <input id="password" name="password" type="password" required minLength={6} placeholder="Minimum 6 caractères" className={inputClass} />
+        <div className="relative">
+          <input id="password" name="password" type={showPassword ? "text" : "password"} required minLength={6} placeholder="Minimum 6 caractères" className={inputClass} />
+          <button type="button" onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
       </div>
 
       <div className="flex items-start gap-3">

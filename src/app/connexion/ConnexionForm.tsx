@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useFormState } from "react-dom";
 import { login } from "@/app/auth/actions";
 
@@ -7,6 +8,7 @@ const inputClass = "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 
 const labelClass = "mb-1.5 block text-sm font-medium text-gray-700";
 
 export default function ConnexionForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const [state, formAction] = useFormState(
     async (_prevState: { error?: string } | undefined, formData: FormData) => {
       return await login(formData);
@@ -23,7 +25,13 @@ export default function ConnexionForm() {
 
       <div>
         <label htmlFor="password" className={labelClass}>Mot de passe</label>
-        <input id="password" name="password" type="password" required placeholder="••••••••" className={inputClass} />
+        <div className="relative">
+          <input id="password" name="password" type={showPassword ? "text" : "password"} required placeholder="••••••••" className={inputClass} />
+          <button type="button" onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
       </div>
 
       {state?.error && (
