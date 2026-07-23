@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 const GOLD = "#C9A96E";
 
 export default function ReinitialiserMotDePassePage() {
+  const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setReady(true);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -45,6 +56,12 @@ export default function ReinitialiserMotDePassePage() {
               style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
               Se connecter
             </Link>
+          </div>
+        ) : !ready ? (
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl animate-pulse" style={{ background: `${GOLD}22` }}>🔐</div>
+            <h1 className="text-xl font-bold text-gray-900">Vérification en cours…</h1>
+            <p className="mt-2 text-sm text-gray-500">Veuillez patienter quelques secondes.</p>
           </div>
         ) : (
           <>

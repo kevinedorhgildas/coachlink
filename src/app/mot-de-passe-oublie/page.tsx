@@ -19,7 +19,7 @@ export default function MotDePasseOubliePage() {
 
     const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `https://www.coach-link.fr/auth/callback?type=recovery`,
+      redirectTo: `https://www.coach-link.fr/reinitialiser-mot-de-passe`,
     });
 
     setLoading(false);
