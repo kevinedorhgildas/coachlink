@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import NewsletterForm from "@/components/NewsletterForm";
+import AuthRecoveryRedirect from "@/components/AuthRecoveryRedirect";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-cream">
+        <AuthRecoveryRedirect />
         {children}
         {/* Footer */}
         <footer className="mt-auto bg-navy-900 text-white">
