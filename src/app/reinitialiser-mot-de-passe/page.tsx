@@ -16,8 +16,20 @@ export default function ReinitialiserMotDePassePage() {
 
   useEffect(() => {
     const supabase = createClient();
+
+    // Si le hash contient type=recovery, le token est déjà là
+    if (window.location.hash.includes("type=recovery")) {
+      setReady(true);
+      return;
+    }
+
+    // Vérifie si une session active existe déjà
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setReady(true);
+    });
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
+      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
         setReady(true);
       }
     });
