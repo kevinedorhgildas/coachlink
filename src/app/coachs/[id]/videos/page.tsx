@@ -21,7 +21,7 @@ export default async function CoachVideosPage({ params }: { params: { id: string
   if (!medias || medias.length === 0) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center" style={{ background: "#0B1120" }}>
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full text-3xl" style={{ background: `${GOLD}22` }}>🎬</div>
+        <div className="mb-4 h-0.5 w-12 rounded-full mx-auto" style={{ background: `${GOLD}44` }} />
         <p className="text-lg font-semibold text-white mb-2">Aucune vidéo disponible</p>
         <Link href={`/coachs/${params.id}`} className="text-sm transition hover:opacity-70" style={{ color: GOLD }}>← Retour au profil</Link>
       </main>

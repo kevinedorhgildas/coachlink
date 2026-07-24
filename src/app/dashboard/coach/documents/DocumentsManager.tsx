@@ -64,12 +64,12 @@ export default function DocumentsManager({ documents }: { documents: Document[] 
           >
             {fileName ? (
               <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#9A7A2E" }}>
-                <span className="text-2xl">📄</span>
+                <span className="text-xs font-bold uppercase tracking-wide" style={{ color: "#C9A96E" }}>PDF</span>
                 <span>{fileName}</span>
               </div>
             ) : (
               <>
-                <span className="text-3xl" style={{ opacity: 0.4 }}>📄</span>
+                <span className="text-xs font-bold uppercase tracking-wide text-gray-300">PDF</span>
                 <p className="mt-2 text-sm text-gray-500">Cliquez pour sélectionner un PDF</p>
                 <p className="text-xs text-gray-400">Format PDF uniquement · 10 Mo max</p>
               </>
@@ -111,14 +111,14 @@ export default function DocumentsManager({ documents }: { documents: Document[] 
 
         {liste.length === 0 ? (
           <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center shadow-sm">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-xl" style={{ background: `${GOLD}22` }}>📄</div>
+            
             <p className="text-sm text-gray-400">Aucun document pour le moment.</p>
           </div>
         ) : (
           <div className="space-y-2">
             {liste.map((doc) => (
               <div key={doc.id} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:border-gray-300">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: `${GOLD}15` }}>📄</div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: `${GOLD}15` }}><span className="text-xs font-bold uppercase" style={{ color: "#C9A96E" }}>PDF</span></div>
                 <div className="flex-1 min-w-0">
                   <p className="truncate font-semibold text-gray-900 text-sm">{doc.nom}</p>
                   <p className="text-xs text-gray-400">

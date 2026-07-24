@@ -89,7 +89,7 @@ export default function CoachsAdminList({ coaches }: { coaches: Coach[] }) {
                         <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
                           {c.photo_url
                             ? <img src={c.photo_url} alt="" className="h-full w-full object-cover" />
-                            : <span className="text-gray-300 text-sm">👤</span>}
+                            : <span className="text-gray-400 text-xs font-bold">?</span>}
                         </div>
                         <div>
                           <p className="font-semibold text-gray-900">{c.nom}</p>

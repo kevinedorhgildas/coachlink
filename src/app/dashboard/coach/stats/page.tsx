@@ -78,9 +78,9 @@ export default async function StatsCoachPage({ searchParams }: { searchParams: {
 
   const KPIS = [
     { label: "Cours réalisés",  value: totalRealises ?? 0,   icon: "✅" },
-    { label: "Cours confirmés", value: totalConfirmes ?? 0,  icon: "📌" },
-    { label: "En attente",      value: totalEnAttente ?? 0,  icon: "⏳" },
-    { label: "Revenu estimé",   value: `${revenuTotal} €`,   icon: "💰" },
+    { label: "Cours confirmés", value: totalConfirmes ?? 0 },
+    { label: "En attente",      value: totalEnAttente ?? 0 },
+    { label: "Revenu estimé",   value: `${revenuTotal} €` },
   ];
 
   return (
@@ -108,7 +108,7 @@ export default async function StatsCoachPage({ searchParams }: { searchParams: {
             <h2 className="text-sm font-semibold text-gray-900">Activité sur {periode.label}</h2>
             <p className="text-xs text-gray-400">
               {dansPeriode?.length ?? 0} cours · {revenuPeriode} €
-              {meilleur && <span style={{ color: GOLD }}> · 🏆 Meilleur : {meilleur}</span>}
+              {meilleur && <span style={{ color: GOLD }}> · Meilleur : {meilleur}</span>}
             </p>
           </div>
           {/* Sélecteur de période */}

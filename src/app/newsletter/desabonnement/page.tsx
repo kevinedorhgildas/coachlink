@@ -31,7 +31,7 @@ export default async function DesabonnementPage({
         {result.success ? (
           <>
             <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: `${GOLD}22` }}>
-              <span className="text-3xl">👋</span>
+              
             </div>
             <h1 className="text-xl font-bold text-gray-900">Vous êtes désabonné(e)</h1>
             <p className="mt-3 text-sm leading-relaxed text-gray-500">

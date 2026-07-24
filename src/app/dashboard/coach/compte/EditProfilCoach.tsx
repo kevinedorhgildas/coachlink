@@ -48,7 +48,7 @@ export default function EditProfilCoach({ nom, ville, specialite, tarif_horaire,
         onClick={() => setOpen(true)}
         className="rounded-xl px-4 py-2 text-sm font-semibold transition hover:opacity-90"
         style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#5a3e00" }}>
-        ✏️ Modifier mes infos
+        Modifier mes infos
       </button>
 
       {open && (
@@ -98,15 +98,15 @@ export default function EditProfilCoach({ nom, ville, specialite, tarif_horaire,
               <div className="border-t border-gray-100 pt-4">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Réseaux sociaux</p>
                 {[
-                  { name: "instagram", icon: "📸", placeholder: "https://instagram.com/tonprofil", defaultValue: instagram },
-                  { name: "tiktok", icon: "🎵", placeholder: "https://tiktok.com/@tonprofil", defaultValue: tiktok },
-                  { name: "youtube", icon: "▶️", placeholder: "https://youtube.com/@tachaîne", defaultValue: youtube },
-                  { name: "snapchat", icon: "👻", placeholder: "https://snapchat.com/add/tonprofil", defaultValue: snapchat },
-                  { name: "facebook", icon: "👤", placeholder: "https://facebook.com/tonprofil", defaultValue: facebook },
-                  { name: "x", icon: "𝕏", placeholder: "https://x.com/tonprofil", defaultValue: x },
-                ].map(({ name, icon, placeholder, defaultValue }) => (
+                  { name: "instagram", placeholder: "https://instagram.com/tonprofil", defaultValue: instagram },
+                  { name: "tiktok", placeholder: "https://tiktok.com/@tonprofil", defaultValue: tiktok },
+                  { name: "youtube", placeholder: "https://youtube.com/@tachaîne", defaultValue: youtube },
+                  { name: "snapchat", placeholder: "https://snapchat.com/add/tonprofil", defaultValue: snapchat },
+                  { name: "facebook", placeholder: "https://facebook.com/tonprofil", defaultValue: facebook },
+                  { name: "x", placeholder: "https://x.com/tonprofil", defaultValue: x },
+                ].map(({ name, placeholder, defaultValue }) => (
                   <div key={name} className="mb-2">
-                    <label className="block text-xs font-medium text-gray-500 mb-1 capitalize">{icon} {name === "x" ? "X (Twitter)" : name.charAt(0).toUpperCase() + name.slice(1)}</label>
+                    <label className="block text-xs font-medium text-gray-500 mb-1 capitalize">{name === "x" ? "X (Twitter)" : name.charAt(0).toUpperCase() + name.slice(1)}</label>
                     <input name={name} defaultValue={defaultValue ?? ""} type="url"
                       className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#C9A96E]"
                       placeholder={placeholder} />
@@ -122,7 +122,7 @@ export default function EditProfilCoach({ nom, ville, specialite, tarif_horaire,
                     placeholder="6 caractères minimum" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
-                    {showPassword ? "🙈" : "👁️"}
+                    {showPassword ? "Cacher" : "Voir"}
                   </button>
                 </div>
               </div>

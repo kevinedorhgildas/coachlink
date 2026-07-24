@@ -22,7 +22,7 @@ export default function PublicationsFeed({ pubs: initial, currentUserId }: { pub
 
   if (pubs.length === 0) return (
     <div className="rounded-2xl border border-dashed border-gray-200 bg-white py-16 text-center">
-      <p className="text-3xl mb-3">📝</p>
+      
       <p className="text-sm font-medium text-gray-500">Aucune publication pour l'instant.</p>
       <p className="text-xs text-gray-400 mt-1">Partagez des conseils, actualités ou photos avec vos clients.</p>
     </div>

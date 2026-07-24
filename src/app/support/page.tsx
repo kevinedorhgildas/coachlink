@@ -41,7 +41,7 @@ export default function SupportPage() {
 
         {/* Contact direct */}
         <div className="flex items-center gap-4 rounded-2xl p-5" style={{ background: "linear-gradient(135deg, #0B1120, #111827)", border: `1px solid ${GOLD}22` }}>
-          <div className="text-2xl shrink-0">✉️</div>
+          <div className="text-xl shrink-0 font-medium" style={{ color: "#C9A96E" }}>@</div>
           <div>
             <p className="text-sm font-semibold text-white">Contactez-nous directement</p>
             <p className="mt-0.5 text-sm" style={{ color: "#ffffff60" }}>

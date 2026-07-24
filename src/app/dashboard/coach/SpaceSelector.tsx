@@ -9,8 +9,8 @@ export default function SpaceSelector({ role }: { role: string }) {
   const [open, setOpen] = useState(false);
 
   const options = [
-    { href: "/dashboard/coach", label: "Espace coach", icon: "🧑‍💼", active: true },
-    ...(role === "admin" ? [{ href: "/admin/dashboard", label: "Espace admin", icon: "⚙️", active: false }] : []),
+    { href: "/dashboard/coach", label: "Espace coach", active: true },
+    ...(role === "admin" ? [{ href: "/admin/dashboard", label: "Espace admin", active: false }] : []),
   ];
 
   return (
@@ -38,7 +38,6 @@ export default function SpaceSelector({ role }: { role: string }) {
                 className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition hover:bg-gray-50"
                 style={o.active ? { color: "#9A7A2E" } : { color: "#374151" }}
               >
-                <span>{o.icon}</span>
                 {o.label}
                 {o.active && <span className="ml-auto h-1.5 w-1.5 rounded-full" style={{ background: GOLD }} />}
               </Link>

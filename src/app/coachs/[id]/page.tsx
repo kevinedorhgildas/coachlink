@@ -73,8 +73,8 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={coach.photo_url} alt={profile?.nom ?? "Coach"} className="h-full w-full object-cover" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-3xl" style={{ background: `linear-gradient(135deg, ${GOLD}33, ${GOLD}11)` }}>
-                  👤
+                <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-white/30" style={{ background: `linear-gradient(135deg, ${GOLD}33, ${GOLD}11)` }}>
+                  {profile?.nom?.charAt(0).toUpperCase() ?? "?"}
                 </div>
               )}
             </div>
@@ -85,7 +85,7 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
               <h1 className="text-3xl font-bold text-white">{profile?.nom}</h1>
               <div className="mt-2 flex flex-wrap items-center gap-3">
                 {coach.ville && (
-                  <span className="text-sm" style={{ color: "#ffffff60" }}>📍 {coach.ville}</span>
+                  <span className="text-sm" style={{ color: "#ffffff60" }}>{coach.ville}</span>
                 )}
                 {noteMoyenne !== null && (
                   <span className="text-sm" style={{ color: GOLD }}>
@@ -120,23 +120,23 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
         {(() => {
           const c = coach as Record<string, unknown>;
           const reseaux = [
-            { key: "instagram", label: "Instagram", icon: "📸" },
-            { key: "tiktok", label: "TikTok", icon: "🎵" },
-            { key: "youtube", label: "YouTube", icon: "▶️" },
-            { key: "snapchat", label: "Snapchat", icon: "👻" },
-            { key: "facebook", label: "Facebook", icon: "👤" },
-            { key: "x", label: "X", icon: "𝕏" },
+            { key: "instagram", label: "Instagram" },
+            { key: "tiktok", label: "TikTok" },
+            { key: "youtube", label: "YouTube" },
+            { key: "snapchat", label: "Snapchat" },
+            { key: "facebook", label: "Facebook" },
+            { key: "x", label: "X (Twitter)" },
           ].filter(({ key }) => c[key]);
           if (reseaux.length === 0) return null;
           return (
             <section>
               <SectionTitle>Réseaux sociaux</SectionTitle>
               <div className="flex flex-wrap gap-3">
-                {reseaux.map(({ key, label, icon }) => (
+                {reseaux.map(({ key, label }) => (
                   <a key={key} href={c[key] as string} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition hover:shadow-md"
                     style={{ borderColor: `${GOLD}44`, color: "#9A7A2E", background: `${GOLD}11` }}>
-                    <span>{icon}</span> {label}
+                    {label}
                   </a>
                 ))}
               </div>
@@ -151,7 +151,7 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
             <ul className="space-y-2">
               {(coach.diplomes as string[]).map((d, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm text-gray-700">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full text-sm shrink-0" style={{ background: `${GOLD}22`, color: GOLD }}>🎓</span>
+                  <span className="flex h-2 w-2 rounded-full shrink-0" style={{ background: GOLD }} />
                   {d}
                 </li>
               ))}
@@ -197,7 +197,7 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
               {documents.map((doc) => (
                 <a key={doc.id} href={doc.url} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-5 py-3.5 shadow-sm transition hover:border-transparent hover:shadow-md">
-                  <span className="text-xl">📄</span>
+                  <span className="text-xs font-bold uppercase tracking-wide" style={{ color: GOLD }}>PDF</span>
                   <span className="flex-1 text-sm font-medium text-gray-800">{doc.nom}</span>
                   <span className="text-xs font-semibold" style={{ color: GOLD }}>Télécharger →</span>
                 </a>

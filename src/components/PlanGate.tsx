@@ -11,7 +11,7 @@ export default function PlanGate({ feature, plan }: { feature: string; plan: str
 
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white py-20 text-center px-8">
-      <div className="mb-4 text-5xl">🔒</div>
+      <div className="mb-4 h-1 w-12 rounded-full mx-auto" style={{ background: "#C9A96E44" }} />
       <h2 className="text-lg font-bold text-gray-900">Fonctionnalité verrouillée</h2>
       <p className="mt-2 text-sm text-gray-500">
         <span className="font-semibold">{feature}</span> est disponible à partir du plan{" "}

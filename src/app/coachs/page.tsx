@@ -2,15 +2,15 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 const DOMAINES = [
-  { label: "Coach sportif", icon: "🏋️" },
-  { label: "Coach mental", icon: "🧠" },
-  { label: "Coach en développement personnel", icon: "🌱" },
-  { label: "Coach en finance", icon: "💰" },
-  { label: "Coach en développement business", icon: "🚀" },
-  { label: "Coach marketing", icon: "📣" },
-  { label: "Coach en bien être et santé", icon: "🧘" },
-  { label: "Coach en séduction", icon: "💫" },
-  { label: "Coach en langue", icon: "🌍" },
+  "Coach sportif",
+  "Coach mental",
+  "Coach en développement personnel",
+  "Coach en finance",
+  "Coach en développement business",
+  "Coach marketing",
+  "Coach en bien être et santé",
+  "Coach en séduction",
+  "Coach en langue",
 ];
 
 export default async function CoachsPage({
@@ -59,7 +59,7 @@ export default async function CoachsPage({
           >
             Tous
           </Link>
-          {DOMAINES.map(({ label, icon }) => (
+          {DOMAINES.map((label) => (
             <Link
               key={label}
               href={`/coachs?domaine=${encodeURIComponent(label)}${searchParams.ville ? `&ville=${encodeURIComponent(searchParams.ville)}` : ""}`}
@@ -70,7 +70,7 @@ export default async function CoachsPage({
               }`}
               style={domaineActif === label ? { background: "linear-gradient(135deg, #C9A96E, #E8D5A3)" } : {}}
             >
-              {icon} {label}
+              {label}
             </Link>
           ))}
         </div>
@@ -99,7 +99,7 @@ export default async function CoachsPage({
         {/* Liste */}
         {!coaches || coaches.length === 0 ? (
           <div className="rounded-2xl border border-gray-200 bg-white px-6 py-16 text-center shadow-sm">
-            <p className="text-2xl mb-3">🔍</p>
+            <p className="text-2xl mb-3 text-gray-200">—</p>
             <p className="font-medium text-gray-700">Aucun coach trouvé pour ce domaine.</p>
             <Link href="/coachs" className="mt-4 inline-block text-sm font-medium hover:underline" style={{ color: "#C9A96E" }}>Voir tous les coachs →</Link>
           </div>
@@ -116,7 +116,7 @@ export default async function CoachsPage({
                   <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full bg-gray-100 ring-2 ring-transparent transition group-hover:ring-gold-500/30" style={{ ["--tw-ring-color" as string]: "#C9A96E44" }}>
                     {coach.photo_url
                       ? <img src={coach.photo_url} alt={nom ?? ""} className="h-full w-full object-cover" />
-                      : <div className="flex h-full w-full items-center justify-center text-xl text-gray-300">👤</div>}
+                      : <div className="flex h-full w-full items-center justify-center text-sm font-bold text-gray-300">{nom?.charAt(0).toUpperCase() ?? "?"}</div>}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900">{nom}</p>

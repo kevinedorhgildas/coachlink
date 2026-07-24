@@ -110,14 +110,14 @@ export default function PublicationCard({ pub, currentUserId, isCoach = false, o
           className="flex items-center gap-1.5 text-sm font-medium transition hover:opacity-70 disabled:opacity-40"
           style={{ color: liked ? "#dc2626" : "#9ca3af" }}
         >
-          <span className="text-base">{liked ? "❤️" : "🤍"}</span>
+          <span className="text-base">{liked ? "♥" : "♡"}</span>
           <span>{nbLikes}</span>
         </button>
         <button
           onClick={() => setShowComments((v) => !v)}
           className="flex items-center gap-1.5 text-sm font-medium text-gray-400 transition hover:text-gray-600"
         >
-          <span className="text-base">💬</span>
+          <span className="text-base text-gray-400">✉</span>
           <span>{commentaires.length}</span>
         </button>
       </div>

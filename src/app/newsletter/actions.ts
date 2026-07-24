@@ -29,7 +29,7 @@ export async function sInscrireNewsletter(formData: FormData) {
   await resend.emails.send({
     from: "CoachLink <onboarding@resend.dev>",
     to: email,
-    subject: "Bienvenue dans la newsletter CoachLink 🎉",
+    subject: "Bienvenue dans la newsletter CoachLink",
     text: `Bonjour,\n\nVous êtes maintenant inscrit(e) à la newsletter CoachLink.\nVous recevrez nos actualités, conseils et offres exclusives.\n\nL'équipe CoachLink\ncontact@coachlink.fr`,
   });
 

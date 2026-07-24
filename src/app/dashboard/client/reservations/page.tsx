@@ -33,7 +33,7 @@ export default async function ReservationsClientPage() {
 
       {!reservations || reservations.length === 0 ? (
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>📌</div>
+          <div className="mx-auto mb-4 h-0.5 w-12 rounded-full" style={{ background: `${GOLD}44` }} />
           <p className="font-medium text-gray-700">Aucune réservation à venir.</p>
           <Link href="/dashboard/client" className="mt-4 inline-block rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
             Trouver un coach
@@ -47,7 +47,7 @@ export default async function ReservationsClientPage() {
             const dispo = Array.isArray(r.disponibilites) ? r.disponibilites[0] : r.disponibilites as { jour_semaine: string; heure_debut: string; heure_fin: string } | null;
             const badge = BADGES[r.statut] ?? BADGES.en_attente;
 
-            const typeLabel: Record<string, string> = { individuel: "👤 Individuel", groupe: "👥 Groupe", enligne: "💻 En ligne" };
+            const typeLabel: Record<string, string> = { individuel: "Individuel", groupe: "Groupe", enligne: "En ligne" };
             const lienVisio = (r as Record<string, unknown>).lien_visio as string | null;
             const typeSeance = (r as Record<string, unknown>).type_seance as string | null;
             return (
@@ -56,7 +56,7 @@ export default async function ReservationsClientPage() {
                   <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
                     {coachData?.photo_url
                       ? <img src={coachData.photo_url} alt="" className="h-full w-full object-cover" />
-                      : <span className="text-gray-300 text-lg">👤</span>}
+                      : <span className="text-gray-400 font-bold text-xs">?</span>}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -70,13 +70,13 @@ export default async function ReservationsClientPage() {
                       {typeSeance && <span className="text-xs text-gray-400">· {typeLabel[typeSeance] ?? typeSeance}</span>}
                     </div>
                     <p className="mt-1.5 text-sm text-gray-600">
-                      📅 {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                      { new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                       {dispo && <span className="ml-2 text-gray-400">· {dispo.heure_debut.slice(0, 5)}–{dispo.heure_fin.slice(0, 5)}</span>}
                     </p>
                     {r.message && <p className="mt-1.5 text-xs italic text-gray-400">"{r.message}"</p>}
                     {lienVisio && r.statut === "confirmee" && (
                       <a href={lienVisio} target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center gap-1.5 text-xs font-semibold hover:underline" style={{ color: "#9A7A2E" }}>
-                        💻 Rejoindre la visioconférence →
+                        Rejoindre la visioconférence →
                       </a>
                     )}
                     <div className="mt-3">

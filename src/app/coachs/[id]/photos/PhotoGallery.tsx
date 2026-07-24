@@ -32,7 +32,7 @@ export default function PhotoGallery({ photos }: { photos: Photo[] }) {
               </div>
             )}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
-              <span className="rounded-full bg-black/50 px-3 py-1 text-xs text-white backdrop-blur-sm">🔍 Agrandir</span>
+              <span className="rounded-full bg-black/50 px-3 py-1 text-xs text-white backdrop-blur-sm">Agrandir</span>
             </div>
           </button>
         ))}

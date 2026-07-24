@@ -26,12 +26,12 @@ export default async function AdminDashboardPage() {
   ]);
 
   const KPIS = [
-    { label: "Coachs actifs",       value: nbCoachs ?? 0,            icon: "🧑‍💼", color: GOLD },
-    { label: "Clients inscrits",     value: nbClients ?? 0,           icon: "👥", color: "#6366f1" },
-    { label: "Séances réalisées",    value: nbReservationsTotal ?? 0, icon: "✅", color: "#16a34a" },
-    { label: "Séances ce mois",      value: nbReservationsMois ?? 0,  icon: "📅", color: "#0891b2" },
-    { label: "Réservations en att.", value: nbEnAttente ?? 0,         icon: "⏳", color: "#d97706" },
-    { label: "Coachs en validation", value: nbCoachsEnAttente ?? 0,   icon: "🔍", color: "#dc2626" },
+    { label: "Coachs actifs",       value: nbCoachs ?? 0,            color: GOLD },
+    { label: "Clients inscrits",     value: nbClients ?? 0,           color: "#6366f1" },
+    { label: "Séances réalisées",    value: nbReservationsTotal ?? 0, color: "#16a34a" },
+    { label: "Séances ce mois",      value: nbReservationsMois ?? 0,  color: "#0891b2" },
+    { label: "Réservations en att.", value: nbEnAttente ?? 0,         color: "#d97706" },
+    { label: "Coachs en validation", value: nbCoachsEnAttente ?? 0,   color: "#dc2626" },
   ];
 
   return (
@@ -43,10 +43,10 @@ export default async function AdminDashboardPage() {
 
       {/* KPIs */}
       <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {KPIS.map(({ label, value, icon, color }) => (
+        {KPIS.map(({ label, value, color }) => (
           <div key={label} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-2xl">{icon}</span>
+              <span className="h-2 w-2 rounded-full" style={{ background: color }} />
               {label.includes("en att") || label.includes("validation") ? (
                 <span className="rounded-full px-2 py-0.5 text-xs font-bold text-white" style={{ background: color }}>{value}</span>
               ) : null}

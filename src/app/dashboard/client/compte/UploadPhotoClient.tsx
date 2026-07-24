@@ -48,7 +48,7 @@ export default function UploadPhotoClient({ photoUrl, initiale }: { photoUrl?: s
           {isPending ? (
             <span className="text-white text-xs">...</span>
           ) : (
-            <span className="text-white text-lg">📷</span>
+            <span className="text-white text-lg">+</span>
           )}
         </div>
       </div>

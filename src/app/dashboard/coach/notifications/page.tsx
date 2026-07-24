@@ -5,9 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 const GOLD = "#C9A96E";
 
 const NOTIF_STYLE = {
-  confirmee: { bg: "#f0fdf4", border: "#bbf7d0", text: "#166534", icon: "✅" },
-  refusee:   { bg: "#fef2f2", border: "#fecaca", text: "#991b1b", icon: "❌" },
-  en_attente:{ bg: "#fffbeb", border: "#fde68a", text: "#92400e", icon: "📩" },
+  confirmee: { bg: "#f0fdf4", border: "#bbf7d0", text: "#166534" },
+  refusee:   { bg: "#fef2f2", border: "#fecaca", text: "#991b1b" },
+  en_attente:{ bg: "#fffbeb", border: "#fde68a", text: "#92400e" },
 };
 
 export default async function CoachNotificationsPage() {
@@ -55,7 +55,7 @@ export default async function CoachNotificationsPage() {
 
       {notifications.length === 0 ? (
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>🔔</div>
+          <div className="mx-auto mb-4 h-0.5 w-12 rounded-full" style={{ background: `${GOLD}44` }} />
           <p className="font-medium text-gray-700">Aucune notification pour le moment.</p>
         </div>
       ) : (
@@ -63,7 +63,7 @@ export default async function CoachNotificationsPage() {
           {notifications.map((n) => (
             <div key={n.id} className="rounded-2xl border p-4 shadow-sm" style={{ background: n.style.bg, borderColor: n.style.border }}>
               <div className="flex items-start gap-3">
-                <span className="text-xl shrink-0">{n.style.icon}</span>
+                <span className="text-xl shrink-0"></span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium" style={{ color: n.style.text }}>{n.msg}</p>
                   {n.message && n.statut === "en_attente" && (

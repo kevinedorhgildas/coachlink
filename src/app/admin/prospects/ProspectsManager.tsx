@@ -9,15 +9,15 @@ const STATUTS = [
   { key: "a_contacter",  label: "À contacter",  color: "#6b7280", bg: "#f3f4f6" },
   { key: "contacte",     label: "Contacté",      color: "#2563eb", bg: "#eff6ff" },
   { key: "repondu",      label: "A répondu",     color: "#d97706", bg: "#fffbeb" },
-  { key: "converti",     label: "Converti 🎉",   color: "#059669", bg: "#ecfdf5" },
+  { key: "converti",     label: "Converti",     color: "#059669", bg: "#ecfdf5" },
   { key: "sans_suite",   label: "Sans suite",    color: "#9ca3af", bg: "#f9fafb" },
 ];
 
 const CANAUX = [
-  { key: "email",     label: "Email",     icon: "✉️" },
-  { key: "instagram", label: "Instagram", icon: "📸" },
-  { key: "linkedin",  label: "LinkedIn",  icon: "💼" },
-  { key: "autre",     label: "Autre",     icon: "💬" },
+  { key: "email",     label: "Email" },
+  { key: "instagram", label: "Instagram" },
+  { key: "linkedin",  label: "LinkedIn" },
+  { key: "autre",     label: "Autre" },
 ];
 
 type Prospect = {
@@ -66,7 +66,7 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
     startTransition(() => deleteProspect(id));
   }
 
-  const canalIcon = (c: string) => CANAUX.find((x) => x.key === c)?.icon ?? "💬";
+  
   const statutStyle = (s: string) => STATUTS.find((x) => x.key === s) ?? STATUTS[0];
 
   return (
@@ -109,7 +109,7 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
             <input name="nom" required placeholder="Nom / pseudo *" className="rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#C9A96E]" />
             <input name="contact" required placeholder="Email ou @handle *" className="rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#C9A96E]" />
             <select name="canal" className="rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#C9A96E]">
-              {CANAUX.map((c) => <option key={c.key} value={c.key}>{c.icon} {c.label}</option>)}
+              {CANAUX.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
             </select>
             <input name="specialite" placeholder="Spécialité (ex: coaching sportif)" className="rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#C9A96E]" />
             <input name="code_promo" placeholder="Code promo attribué" className="rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#C9A96E]" />
@@ -130,7 +130,7 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
       <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
         {filtered.length === 0 ? (
           <div className="py-16 text-center text-gray-400">
-            <p className="text-3xl mb-2">🎯</p>
+            
             <p className="text-sm font-medium">Aucun prospect pour l'instant.</p>
             <p className="text-xs mt-1">Ajoute des coachs à démarcher pour suivre ta prospection.</p>
           </div>
@@ -157,7 +157,7 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
                       {p.specialite && <p className="text-xs text-gray-400 mt-0.5">{p.specialite}</p>}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-base">{canalIcon(p.canal)}</span>
+                      <span className="text-xs text-gray-500">{CANAUX.find((x) => x.key === p.canal)?.label ?? p.canal}</span>
                     </td>
                     <td className="px-4 py-3">
                       <select
@@ -201,7 +201,7 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <button onClick={() => handleDelete(p.id)} className="text-gray-300 hover:text-red-400 transition text-base">🗑</button>
+                      <button onClick={() => handleDelete(p.id)} className="text-gray-300 hover:text-red-400 transition text-xs font-medium">Sup.</button>
                     </td>
                   </tr>
                 );

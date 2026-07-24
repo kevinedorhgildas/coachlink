@@ -61,7 +61,7 @@ export default function ReinitialiserMotDePassePage() {
 
         {done ? (
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-3xl" style={{ background: `${GOLD}22` }}>✅</div>
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold" style={{ background: `${GOLD}22`, color: GOLD }}>✓</div>
             <h1 className="text-2xl font-bold text-gray-900">Mot de passe mis à jour !</h1>
             <p className="mt-3 text-sm text-gray-500">Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.</p>
             <Link href="/connexion" className="mt-6 inline-block rounded-xl px-6 py-3 text-sm font-semibold shadow-md transition hover:opacity-90"
@@ -71,7 +71,7 @@ export default function ReinitialiserMotDePassePage() {
           </div>
         ) : !ready ? (
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl animate-pulse" style={{ background: `${GOLD}22` }}>🔐</div>
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full animate-pulse" style={{ background: `${GOLD}22` }}><span className="h-3 w-3 rounded-full" style={{ background: GOLD }} /></div>
             <h1 className="text-xl font-bold text-gray-900">Vérification en cours…</h1>
             <p className="mt-2 text-sm text-gray-500">Veuillez patienter quelques secondes.</p>
           </div>
@@ -94,7 +94,7 @@ export default function ReinitialiserMotDePassePage() {
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
-                    {showPassword ? "🙈" : "👁️"}
+                    {showPassword ? "Cacher" : "Voir"}
                   </button>
                 </div>
               </div>

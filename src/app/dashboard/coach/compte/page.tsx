@@ -77,23 +77,23 @@ export default async function CompteCoachPage() {
       {/* Liens */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm divide-y divide-gray-100">
         <Link href={`/coachs/${userData.user.id}`} className="flex items-center justify-between px-5 py-3.5 text-sm text-gray-700 transition hover:bg-gray-50">
-          <span className="flex items-center gap-3"><span>🌐</span> Voir mon profil public</span>
+          Voir mon profil public
           <span className="text-gray-300 text-xs">→</span>
         </Link>
         {[
-          { href: "/faq", icon: "❓", label: "Foire aux questions" },
-          { href: "/support", icon: "💬", label: "Contacter le support" },
-          { href: "/cgu", icon: "📄", label: "Conditions générales" },
-          { href: "/confidentialite", icon: "🔒", label: "Politique de confidentialité" },
-        ].map(({ href, icon, label }) => (
+          { href: "/faq", label: "Foire aux questions" },
+          { href: "/support", label: "Contacter le support" },
+          { href: "/cgu", label: "Conditions générales" },
+          { href: "/confidentialite", label: "Politique de confidentialité" },
+        ].map(({ href, label }) => (
           <Link key={href} href={href} className="flex items-center justify-between px-5 py-3.5 text-sm text-gray-700 transition hover:bg-gray-50">
-            <span className="flex items-center gap-3"><span>{icon}</span>{label}</span>
+            {label}
             <span className="text-gray-300 text-xs">→</span>
           </Link>
         ))}
         <form action={logout}>
-          <button type="submit" className="flex w-full items-center gap-3 px-5 py-3.5 text-left text-sm text-red-500 transition hover:bg-red-50">
-            <span>🚪</span> Se déconnecter
+          <button type="submit" className="flex w-full items-center px-5 py-3.5 text-left text-sm text-red-500 transition hover:bg-red-50">
+            Se déconnecter
           </button>
         </form>
       </div>

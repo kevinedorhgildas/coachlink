@@ -32,7 +32,7 @@ export default function EditProfilClient({ nom, ville }: Props) {
         onClick={() => setOpen(true)}
         className="rounded-xl px-4 py-2 text-sm font-semibold transition hover:opacity-90"
         style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#5a3e00" }}>
-        ✏️ Modifier mes infos
+        Modifier mes infos
       </button>
 
       {open && (
@@ -65,7 +65,7 @@ export default function EditProfilClient({ nom, ville }: Props) {
                     placeholder="6 caractères minimum" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
-                    {showPassword ? "🙈" : "👁️"}
+                    {showPassword ? "Cacher" : "Voir"}
                   </button>
                 </div>
               </div>

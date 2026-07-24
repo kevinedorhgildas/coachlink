@@ -5,19 +5,19 @@ import { logout } from "@/app/auth/actions";
 import SpaceSelector from "@/components/SpaceSelector";
 
 const NAV = [
-  { href: "/dashboard/client", label: "Trouver un coach", icon: "🔍" },
-  { href: "/dashboard/client/reservations", label: "Cours à réserver", icon: "📌" },
-  { href: "/dashboard/client/historique", label: "Historique de cours", icon: "📋" },
-  { href: "/dashboard/client/achats", label: "Historique d'achats", icon: "🧾" },
-  { href: "/dashboard/client/packs", label: "Mes packs", icon: "📦" },
-  { href: "/dashboard/client/paiement", label: "Méthodes de paiement", icon: "💳" },
-  { href: "/dashboard/client/feed", label: "Fil d'actualité", icon: "📰" },
-  { href: "/dashboard/client/messages", label: "Messages", icon: "💬" },
-  { href: "/dashboard/client/groupes", label: "Groupes", icon: "👥" },
-  { href: "/dashboard/client/notifications", label: "Notifications", icon: "🔔" },
-  { href: "/dashboard/client/favoris", label: "Mes favoris", icon: "⭐" },
-  { href: "/dashboard/client/planning", label: "Mon planning", icon: "📅" },
-  { href: "/dashboard/client/compte", label: "Mon compte", icon: "👤" },
+  { href: "/dashboard/client", label: "Trouver un coach" },
+  { href: "/dashboard/client/reservations", label: "Cours à réserver" },
+  { href: "/dashboard/client/historique", label: "Historique de cours" },
+  { href: "/dashboard/client/achats", label: "Historique d'achats" },
+  { href: "/dashboard/client/packs", label: "Mes packs" },
+  { href: "/dashboard/client/paiement", label: "Méthodes de paiement" },
+  { href: "/dashboard/client/feed", label: "Fil d'actualité" },
+  { href: "/dashboard/client/messages", label: "Messages" },
+  { href: "/dashboard/client/groupes", label: "Groupes" },
+  { href: "/dashboard/client/notifications", label: "Notifications" },
+  { href: "/dashboard/client/favoris", label: "Mes favoris" },
+  { href: "/dashboard/client/planning", label: "Mon planning" },
+  { href: "/dashboard/client/compte", label: "Mon compte" },
 ];
 
 const SIDEBAR_BG = "linear-gradient(180deg, #0B1120 0%, #111827 100%)";
@@ -72,14 +72,13 @@ export default async function ClientLayout({ children }: { children: React.React
         {/* Nav */}
         <nav className="flex flex-1 flex-col px-3 py-4">
           <ul className="space-y-0.5">
-            {NAV.map(({ href, label, icon }) => (
+            {NAV.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 hover:bg-white/8 hover:text-white"
+                  className="flex items-center rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 hover:bg-white/8 hover:text-white"
                   style={{ color: "#ffffff70" }}
                 >
-                  <span>{icon}</span>
                   {label}
                 </Link>
               </li>
@@ -90,10 +89,10 @@ export default async function ClientLayout({ children }: { children: React.React
             <form action={logout}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition hover:bg-white/8 hover:text-white"
+                className="flex w-full items-center rounded-xl px-4 py-2.5 text-sm font-medium transition hover:bg-white/8 hover:text-white"
                 style={{ color: "#ffffff40" }}
               >
-                <span>🚪</span> Déconnexion
+                Déconnexion
               </button>
             </form>
           </div>
@@ -113,15 +112,14 @@ export default async function ClientLayout({ children }: { children: React.React
             {initiale}
           </div>
         </div>
-        <p className="mt-0.5 text-sm font-medium" style={{ color: GOLD }}>Bonjour, {prenom} 👋</p>
+        <p className="mt-0.5 text-sm font-medium" style={{ color: GOLD }}>Bonjour, {prenom}</p>
       </div>
 
       {/* ── MOBILE BOTTOM NAV ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t border-gray-200 bg-white px-1 py-2 md:hidden">
-        {NAV.slice(0, 5).map(({ href, icon, label }) => (
+        {NAV.slice(0, 5).map(({ href, label }) => (
           <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-600 transition">
-            <span className="text-xl">{icon}</span>
-            <span className="w-12 truncate text-center text-[10px] font-medium">{label.split(" ")[0]}</span>
+            <span className="w-14 truncate text-center text-[10px] font-medium">{label.split(" ")[0]}</span>
           </Link>
         ))}
       </nav>
@@ -130,7 +128,7 @@ export default async function ClientLayout({ children }: { children: React.React
       <div className="flex flex-1 flex-col min-w-0">
         {/* Desktop top bar */}
         <div className="hidden md:flex items-center justify-between border-b border-gray-200 bg-white px-8 py-4 shadow-sm">
-          <p className="text-lg font-bold text-gray-900">Bonjour, {prenom} 👋</p>
+          <p className="text-lg font-bold text-gray-900">Bonjour, {prenom}</p>
           <SpaceSelector current="client" role={profile?.role ?? "client"} />
         </div>
         <main className="flex-1 px-4 pb-24 pt-24 md:px-8 md:pb-8 md:pt-6">

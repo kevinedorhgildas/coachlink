@@ -36,7 +36,7 @@ export default async function ClientConversationPage({ params }: { params: { coa
             // eslint-disable-next-line @next/next/no-img-element
             <img src={coachData.photo_url} alt="" className="h-full w-full object-cover" />
           ) : (
-            <span className="text-gray-300">👤</span>
+            <span className="text-gray-400 text-xs">?</span>
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -63,7 +63,7 @@ export default async function ClientConversationPage({ params }: { params: { coa
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={coachData.photo_url} alt="" className="h-full w-full object-cover" />
                   ) : (
-                    <span className="text-gray-300 text-xs">👤</span>
+                    <span className="text-gray-400 text-xs">?</span>
                   )}
                 </div>
               )}

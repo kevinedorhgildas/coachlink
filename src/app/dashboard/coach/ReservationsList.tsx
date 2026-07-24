@@ -16,7 +16,7 @@ type Reservation = {
 };
 
 const LABELS: Record<string, string> = { en_attente: "En attente", confirmee: "Confirmée", refusee: "Refusée" };
-const TYPE_LABELS: Record<string, string> = { individuel: "👤 Individuel", groupe: "👥 Groupe", enligne: "💻 En ligne" };
+const TYPE_LABELS: Record<string, string> = { individuel: "Individuel", groupe: "Groupe", enligne: "En ligne" };
 const BADGE: Record<string, { bg: string; color: string }> = {
   en_attente: { bg: "#fffbeb", color: "#92400e" },
   confirmee:  { bg: "#f0fdf4", color: "#166534" },
@@ -41,7 +41,7 @@ function VisioInput({ reservationId, current }: { reservationId: string; current
         className="flex-1 rounded-xl border border-gray-200 px-3 py-1.5 text-xs focus:outline-none focus:border-[#C9A96E] transition"
       />
       <button onClick={save} className="rounded-full px-3 py-1.5 text-xs font-semibold transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
-        {saved ? "✓ Sauvé" : "💾 Sauver"}
+        {saved ? "✓ Sauvé" : "Sauver"}
       </button>
     </div>
   );

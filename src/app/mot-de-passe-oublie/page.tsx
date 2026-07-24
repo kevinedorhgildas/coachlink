@@ -54,7 +54,7 @@ export default function MotDePasseOubliePage() {
 
           {sent ? (
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-3xl" style={{ background: `${GOLD}22` }}>✉️</div>
+              <div className="mx-auto mb-4 h-0.5 w-12 rounded-full" style={{ background: `${GOLD}44` }} />
               <h1 className="text-2xl font-bold text-gray-900">Email envoyé !</h1>
               <p className="mt-3 text-sm text-gray-500">
                 Un lien de réinitialisation a été envoyé à <strong>{email}</strong>. Vérifiez votre boîte mail.

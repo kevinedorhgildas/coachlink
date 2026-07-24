@@ -5,22 +5,22 @@ import { logout } from "@/app/auth/actions";
 import SpaceSelector from "@/components/SpaceSelector";
 
 const NAV = [
-  { href: "/dashboard/coach", label: "Mon profil", icon: "✏️" },
-  { href: "/dashboard/coach/messages", label: "Messages", icon: "💬" },
-  { href: "/dashboard/coach/groupes", label: "Groupes", icon: "👥" },
-  { href: "/dashboard/coach/notifications", label: "Notifications", icon: "🔔" },
-  { href: "/dashboard/coach/cours-a-venir", label: "Cours à venir", icon: "📌" },
-  { href: "/dashboard/coach/stats", label: "Cours réalisés", icon: "📊" },
-  { href: "/dashboard/coach/historique", label: "Historique de cours", icon: "📋" },
-  { href: "/dashboard/coach/ventes", label: "Cours vendus", icon: "🧾" },
-  { href: "/dashboard/coach/paiement", label: "Méthodes de paiement", icon: "💳" },
-  { href: "/dashboard/coach/planning", label: "Mon planning", icon: "📅" },
-  { href: "/dashboard/coach/publications", label: "Fil d'actualité", icon: "📝" },
-  { href: "/dashboard/coach/packs", label: "Packs de séances", icon: "📦" },
-  { href: "/dashboard/coach/vitrine", label: "Ma vitrine", icon: "🖼️" },
-  { href: "/dashboard/coach/documents", label: "Mes documents", icon: "📄" },
-  { href: "/dashboard/coach/abonnement", label: "Mon abonnement", icon: "💎" },
-  { href: "/dashboard/coach/compte", label: "Mon compte", icon: "👤" },
+  { href: "/dashboard/coach", label: "Mon profil" },
+  { href: "/dashboard/coach/messages", label: "Messages" },
+  { href: "/dashboard/coach/groupes", label: "Groupes" },
+  { href: "/dashboard/coach/notifications", label: "Notifications" },
+  { href: "/dashboard/coach/cours-a-venir", label: "Cours à venir" },
+  { href: "/dashboard/coach/stats", label: "Cours réalisés" },
+  { href: "/dashboard/coach/historique", label: "Historique de cours" },
+  { href: "/dashboard/coach/ventes", label: "Cours vendus" },
+  { href: "/dashboard/coach/paiement", label: "Méthodes de paiement" },
+  { href: "/dashboard/coach/planning", label: "Mon planning" },
+  { href: "/dashboard/coach/publications", label: "Fil d'actualité" },
+  { href: "/dashboard/coach/packs", label: "Packs de séances" },
+  { href: "/dashboard/coach/vitrine", label: "Ma vitrine" },
+  { href: "/dashboard/coach/documents", label: "Mes documents" },
+  { href: "/dashboard/coach/abonnement", label: "Mon abonnement" },
+  { href: "/dashboard/coach/compte", label: "Mon compte" },
 ];
 
 const SIDEBAR_BG = "linear-gradient(180deg, #0B1120 0%, #111827 100%)";
@@ -88,15 +88,13 @@ export default async function CoachLayout({ children }: { children: React.ReactN
         {/* Nav */}
         <nav className="flex flex-1 flex-col px-3 py-4">
           <div className="space-y-0.5">
-            {NAV.map(({ href, label, icon }) => (
+            {NAV.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150"
+                className="flex items-center rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150"
                 style={{ color: "#ffffff80" }}
-                onMouseEnter={undefined}
               >
-                <span className="text-base">{icon}</span>
                 {label}
               </Link>
             ))}
@@ -105,18 +103,18 @@ export default async function CoachLayout({ children }: { children: React.ReactN
           <div className="mt-auto space-y-0.5 border-t pt-4" style={{ borderColor: "#ffffff0f" }}>
             <Link
               href={`/coachs/${userData.user.id}`}
-              className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition"
+              className="flex items-center rounded-xl px-4 py-2.5 text-sm font-medium transition"
               style={{ color: GOLD }}
             >
-              <span>🌐</span> Mon profil public
+              Mon profil public
             </Link>
             <form action={logout}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition"
+                className="flex w-full items-center rounded-xl px-4 py-2.5 text-sm font-medium transition"
                 style={{ color: "#ffffff40" }}
               >
-                <span>🚪</span> Déconnexion
+                Déconnexion
               </button>
             </form>
           </div>
@@ -140,15 +138,14 @@ export default async function CoachLayout({ children }: { children: React.ReactN
             )}
           </div>
         </div>
-        <p className="mt-0.5 text-sm font-medium" style={{ color: GOLD }}>Bonjour, {prenom} 👋</p>
+        <p className="mt-0.5 text-sm font-medium" style={{ color: GOLD }}>Bonjour, {prenom}</p>
       </div>
 
       {/* ── MOBILE BOTTOM NAV ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t border-gray-200 bg-white px-2 py-2 md:hidden">
-        {NAV.slice(0, 5).map(({ href, icon, label }) => (
+        {NAV.slice(0, 5).map(({ href, label }) => (
           <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-600 transition">
-            <span className="text-xl">{icon}</span>
-            <span className="w-12 truncate text-center text-[10px] font-medium leading-tight">{label.split(" ")[0]}</span>
+            <span className="w-14 truncate text-center text-[10px] font-medium leading-tight">{label.split(" ")[0]}</span>
           </Link>
         ))}
       </nav>
@@ -157,7 +154,7 @@ export default async function CoachLayout({ children }: { children: React.ReactN
       <div className="flex flex-1 flex-col min-w-0">
         {/* Desktop top bar */}
         <div className="hidden md:flex items-center justify-between border-b border-gray-200 bg-white px-8 py-4 shadow-sm">
-          <p className="text-lg font-bold text-gray-900">Bonjour, {prenom} 👋</p>
+          <p className="text-lg font-bold text-gray-900">Bonjour, {prenom}</p>
           <SpaceSelector current="coach" role={profile?.role ?? "coach"} />
         </div>
         <main className="flex-1 px-4 pb-24 pt-24 md:px-8 md:pb-8 md:pt-6">

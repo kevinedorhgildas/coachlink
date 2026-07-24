@@ -49,7 +49,7 @@ export default function UploadPhoto({ photoUrl, initiale }: { photoUrl?: string;
           {isPending ? (
             <span className="text-white text-xs">...</span>
           ) : (
-            <span className="text-white text-lg">📷</span>
+            <span className="text-white text-lg">+</span>
           )}
         </div>
       </div>

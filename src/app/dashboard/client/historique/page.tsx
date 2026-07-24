@@ -50,7 +50,7 @@ export default async function ClientHistoriquePage() {
 
       {coachs.length === 0 ? (
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>📋</div>
+          <div className="mx-auto mb-4 h-0.5 w-12 rounded-full" style={{ background: `${GOLD}44` }} />
           <p className="font-medium text-gray-700">Aucun cours passé pour le moment.</p>
           <Link href="/dashboard/client" className="mt-4 inline-block rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90" style={{ background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }}>
             Trouver un coach
@@ -65,7 +65,7 @@ export default async function ClientHistoriquePage() {
                 <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">
                   {coach.photoUrl
                     ? <img src={coach.photoUrl} alt={coach.nom} className="h-full w-full object-cover" />
-                    : <span className="text-gray-300 text-lg">👤</span>}
+                    : <span className="text-gray-400 font-bold text-xs">?</span>}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-900">{coach.nom}</p>

@@ -100,7 +100,7 @@ export default function PacksManager({ packs: initial }: { packs: Pack[] }) {
       {/* Liste des packs */}
       {packs.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-gray-200 bg-white py-16 text-center">
-          <p className="text-3xl mb-3">📦</p>
+          
           <p className="text-sm font-medium text-gray-500">Aucun pack créé pour l'instant.</p>
           <p className="text-xs text-gray-400 mt-1">Créez votre premier pack pour proposer des séances groupées à vos clients.</p>
         </div>

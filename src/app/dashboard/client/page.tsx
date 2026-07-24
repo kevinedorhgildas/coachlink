@@ -160,7 +160,7 @@ export default async function DashboardClientPage({
       <div className="space-y-3">
         {(!coaches || coaches.length === 0) && (
           <div className="rounded-2xl border border-gray-200 bg-white px-6 py-12 text-center shadow-sm">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-xl" style={{ background: `${GOLD}22` }}>🔍</div>
+            
             <p className="text-sm text-gray-500">Aucun coach ne correspond à ces critères.</p>
           </div>
         )}
@@ -176,7 +176,7 @@ export default async function DashboardClientPage({
               <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center" style={{ outline: `2px solid ${GOLD}22` }}>
                 {coach.photo_url
                   ? <img src={coach.photo_url} alt={nomCoach ?? ""} className="h-full w-full object-cover" />
-                  : <span className="text-gray-300 text-xl">👤</span>}
+                  : <span className="text-gray-400 font-bold text-xs">?</span>}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">

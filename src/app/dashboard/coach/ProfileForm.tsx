@@ -77,12 +77,12 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
 
       <div className="grid grid-cols-3 gap-3">
         {[
-          { key: "tarif_individuel", label: "Individuel (€)", val: coach.tarif_individuel, icon: "👤" },
-          { key: "tarif_groupe",     label: "Groupe (€)",     val: coach.tarif_groupe,     icon: "👥" },
-          { key: "tarif_enligne",    label: "En ligne (€)",   val: coach.tarif_enligne,    icon: "💻" },
-        ].map(({ key, label, val, icon }) => (
+          { key: "tarif_individuel", label: "Individuel (€)", val: coach.tarif_individuel },
+          { key: "tarif_groupe",     label: "Groupe (€)",     val: coach.tarif_groupe },
+          { key: "tarif_enligne",    label: "En ligne (€)",   val: coach.tarif_enligne },
+        ].map(({ key, label, val }) => (
           <div key={key}>
-            <label className={labelCls}>{icon} {label}</label>
+            <label className={labelCls}>{label}</label>
             <input name={key} type="number" min={0} step="0.5" defaultValue={val ?? ""} placeholder="—" className={inputCls} />
           </div>
         ))}

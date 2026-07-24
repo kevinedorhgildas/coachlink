@@ -64,7 +64,7 @@ export default function ParcoursForm({ parcours }: { parcours: Parcours }) {
         <ul className="mb-3 space-y-1.5">
           {diplomes.map((d, i) => (
             <li key={i} className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-gray-800" style={{ background: `${GOLD}0d` }}>
-              <span>🎓 {d}</span>
+              <span>{d}</span>
               <button type="button" onClick={() => setDiplomes(diplomes.filter((_, j) => j !== i))} className="ml-2 text-red-400 hover:text-red-600">✕</button>
             </li>
           ))}

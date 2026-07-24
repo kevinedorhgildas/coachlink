@@ -49,7 +49,7 @@ export default async function GroupesClientPage() {
 
       {groupesAvecMsg.filter(Boolean).length === 0 ? (
         <div className="rounded-2xl border border-dashed border-gray-200 bg-white py-16 text-center">
-          <p className="text-3xl mb-3">💬</p>
+          
           <p className="text-sm font-medium text-gray-500">Vous n'êtes membre d'aucun groupe.</p>
           <p className="text-xs text-gray-400 mt-1">Votre coach vous ajoutera à un groupe de discussion.</p>
         </div>
@@ -60,7 +60,7 @@ export default async function GroupesClientPage() {
               className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-[#C9A96E44] hover:shadow-md">
               <div className="flex items-center gap-4">
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl text-xl" style={{ background: `${GOLD}22` }}>
-                  💬
+                  +
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900">{g.nom}</p>

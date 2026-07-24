@@ -21,7 +21,7 @@ export default function PhotoUpload({ photoUrl }: { photoUrl: string | null }) {
           <img src={photoUrl} alt="Photo de profil" className="h-full w-full object-cover" />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-xs text-gray-400" style={{ background: `${GOLD}11` }}>
-            📷
+            +
           </div>
         )}
       </div>

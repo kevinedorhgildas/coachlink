@@ -28,9 +28,9 @@ function formatDate(iso: string) {
 }
 
 const TYPES = [
-  { key: "individuel", label: "Individuel", icon: "👤", desc: "Séance privée 1:1" },
-  { key: "groupe",     label: "Groupe",     icon: "👥", desc: "Séance collective" },
-  { key: "enligne",    label: "En ligne",   icon: "💻", desc: "Visio conférence" },
+  { key: "individuel", label: "Individuel", desc: "Séance privée 1:1" },
+  { key: "groupe",     label: "Groupe",     desc: "Séance collective" },
+  { key: "enligne",    label: "En ligne",   desc: "Visio conférence" },
 ];
 
 export default function ReservationForm({ coachId, disponibilites, coach }: { coachId: string; disponibilites: Disponibilite[]; coach: Coach }) {
@@ -72,7 +72,7 @@ export default function ReservationForm({ coachId, disponibilites, coach }: { co
   if (success) {
     return (
       <div className="rounded-2xl p-5 text-center" style={{ background: `${GOLD}11`, border: `1px solid ${GOLD}44` }}>
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>✅</div>
+        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold" style={{ background: `${GOLD}22`, color: GOLD }}>✓</div>
         <p className="font-semibold text-gray-900">Demande envoyée !</p>
         <p className="mt-1 text-sm text-gray-500">Le coach vous répondra prochainement.</p>
       </div>
@@ -98,7 +98,6 @@ export default function ReservationForm({ coachId, disponibilites, coach }: { co
                   ? { borderColor: GOLD, background: `${GOLD}11` }
                   : { borderColor: "#e5e7eb", background: "white" }}
               >
-                <span className="block text-lg">{t.icon}</span>
                 <span className="mt-1 block text-sm font-semibold text-gray-900">{t.label}</span>
                 <span className="block text-xs text-gray-400">{t.desc}</span>
                 {tarif != null && (

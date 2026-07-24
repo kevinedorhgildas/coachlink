@@ -5,10 +5,10 @@ import { createClient } from "@/lib/supabase/server";
 const GOLD = "#C9A96E";
 
 const NAV = [
-  { href: "/admin/dashboard",  label: "Tableau de bord", icon: "📊" },
-  { href: "/admin/coachs",     label: "Coachs",          icon: "🧑‍💼" },
-  { href: "/admin/prospects",  label: "Prospects",       icon: "🎯" },
-  { href: "/admin/newsletter", label: "Newsletter",      icon: "📧" },
+  { href: "/admin/dashboard",  label: "Tableau de bord" },
+  { href: "/admin/coachs",     label: "Coachs" },
+  { href: "/admin/prospects",  label: "Prospects" },
+  { href: "/admin/newsletter", label: "Newsletter" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -30,7 +30,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <nav className="flex-1 p-3 space-y-1">
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
-              <span>{item.icon}</span>{item.label}
+              {item.label}
             </Link>
           ))}
         </nav>

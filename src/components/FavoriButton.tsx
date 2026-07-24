@@ -17,7 +17,7 @@ export default function FavoriButton({ coachId, isFavori }: { coachId: string; i
       title={isFavori ? "Retirer des favoris" : "Ajouter aux favoris"}
       className="shrink-0 text-xl transition-transform hover:scale-110 disabled:opacity-50"
     >
-      {isFavori ? "⭐" : "☆"}
+      {isFavori ? "★" : "☆"}
     </button>
   );
 }

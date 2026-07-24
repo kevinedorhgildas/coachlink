@@ -5,15 +5,15 @@ import Link from "next/link";
 
 const GOLD = "#C9A96E";
 
-type Option = { href: string; label: string; icon: string };
+type Option = { href: string; label: string };
 
 export default function SpaceSelector({ current, role }: { current: "coach" | "client"; role: string }) {
   const [open, setOpen] = useState(false);
 
   const options: Option[] = [
-    { href: "/dashboard/coach", label: "Espace coach", icon: "🧑‍💼" },
-    { href: "/dashboard/client", label: "Espace client", icon: "👤" },
-    ...(role === "admin" ? [{ href: "/admin/dashboard", label: "Espace admin", icon: "⚙️" }] : []),
+    { href: "/dashboard/coach", label: "Espace coach" },
+    { href: "/dashboard/client", label: "Espace client" },
+    ...(role === "admin" ? [{ href: "/admin/dashboard", label: "Espace admin" }] : []),
   ];
   // Tous les comptes voient les deux espaces — un coach peut prendre des cours et vice versa
 
@@ -46,7 +46,6 @@ export default function SpaceSelector({ current, role }: { current: "coach" | "c
                   className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition hover:bg-gray-50"
                   style={isActive ? { color: "#9A7A2E" } : { color: "#374151" }}
                 >
-                  <span>{o.icon}</span>
                   {o.label}
                   {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full" style={{ background: GOLD }} />}
                 </Link>

@@ -3,18 +3,18 @@ import { createClient } from "@/lib/supabase/server";
 import Navbar from "@/components/Navbar";
 
 const DOMAINES = [
-  { label: "Coach sportif", icon: "🏋️" },
-  { label: "Coach mental", icon: "🧠" },
-  { label: "Coach en développement personnel", icon: "🌱" },
-  { label: "Coach en finance", icon: "💰" },
-  { label: "Coach en développement business", icon: "🚀" },
-  { label: "Coach marketing", icon: "📣" },
-  { label: "Coach en bien être et santé", icon: "🧘" },
-  { label: "Coach en séduction", icon: "💫" },
-  { label: "Coach en langue", icon: "🌍" },
-  { label: "Coach en immobilier", icon: "🏠" },
-  { label: "Coach en E-commerce", icon: "🛒" },
-  { label: "Nutritionniste", icon: "🥗" },
+  "Coach sportif",
+  "Coach mental",
+  "Coach en développement personnel",
+  "Coach en finance",
+  "Coach en développement business",
+  "Coach marketing",
+  "Coach en bien être et santé",
+  "Coach en séduction",
+  "Coach en langue",
+  "Coach en immobilier",
+  "Coach en E-commerce",
+  "Nutritionniste",
 ];
 
 export default async function Home() {
@@ -31,20 +31,16 @@ export default async function Home() {
         className="relative flex flex-col items-center justify-center overflow-hidden px-6 py-32 text-center"
         style={{ background: "linear-gradient(135deg, #060C18 0%, #0B1120 50%, #111827 100%)" }}
       >
-        {/* Glow orbs */}
         <div className="pointer-events-none absolute left-1/4 top-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #C9A96E 0%, transparent 70%)" }} />
         <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-64 w-64 translate-x-1/2 translate-y-1/2 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #C9A96E 0%, transparent 70%)" }} />
 
-        {/* Nav */}
         <Navbar />
 
-        {/* Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium" style={{ borderColor: "#C9A96E44", background: "#C9A96E11", color: "#C9A96E" }}>
           <span className="h-1.5 w-1.5 rounded-full bg-current" />
           Plateforme de coaching d'excellence
         </div>
 
-        {/* Heading */}
         <h1 className="max-w-3xl text-5xl font-bold leading-tight tracking-tight text-white sm:text-6xl lg:text-7xl">
           Trouvez le coach{" "}
           <span style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -58,33 +54,23 @@ export default async function Home() {
 
         {count !== null && count > 0 && (
           <p className="mt-3 text-sm font-medium" style={{ color: "#C9A96E" }}>
-            ✦ {count} coach{count > 1 ? "s" : ""} d'exception disponible{count > 1 ? "s" : ""}
+            {count} coach{count > 1 ? "s" : ""} d'exception disponible{count > 1 ? "s" : ""}
           </p>
         )}
 
-        {/* CTA */}
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-          <Link
-            href="/inscription"
-            className="rounded-full px-8 py-3.5 text-base font-semibold text-navy-900 shadow-lg transition hover:opacity-90 hover:shadow-xl"
-            style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)" }}
-          >
+          <Link href="/inscription" className="rounded-full px-8 py-3.5 text-base font-semibold shadow-lg transition hover:opacity-90 hover:shadow-xl" style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", color: "#0B1120" }}>
             Je cherche un coach
           </Link>
-          <Link
-            href="/inscription"
-            className="rounded-full border px-8 py-3.5 text-base font-semibold text-white transition hover:bg-white/10"
-            style={{ borderColor: "#C9A96E66" }}
-          >
+          <Link href="/inscription" className="rounded-full border px-8 py-3.5 text-base font-semibold text-white transition hover:bg-white/10" style={{ borderColor: "#C9A96E66" }}>
             Je suis coach →
           </Link>
         </div>
 
-        {/* Stats */}
         <div className="mt-16 flex flex-wrap justify-center gap-8 border-t pt-10" style={{ borderColor: "#ffffff14" }}>
           {[
             { value: "100%", label: "Satisfaction client" },
-            { value: "9", label: "Domaines d'expertise" },
+            { value: "12", label: "Domaines d'expertise" },
             { value: "24h", label: "Réponse garantie" },
           ].map(({ value, label }) => (
             <div key={label} className="text-center">
@@ -104,14 +90,12 @@ export default async function Home() {
             <p className="mt-3 text-gray-500">Choisissez votre domaine et découvrez les experts qui vous correspondent.</p>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {DOMAINES.map(({ label, icon }) => (
+            {DOMAINES.map((label) => (
               <Link
                 key={label}
                 href={`/coachs?domaine=${encodeURIComponent(label)}`}
-                className="group flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-5 py-4 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:border-transparent hover:shadow-lg"
-                style={{ ["--tw-shadow-color" as string]: "#C9A96E22" }}
+                className="group flex items-center rounded-2xl border border-gray-200 bg-white px-5 py-4 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:border-transparent hover:shadow-lg"
               >
-                <span className="text-2xl transition-transform duration-200 group-hover:scale-110">{icon}</span>
                 <span className="leading-snug">{label}</span>
               </Link>
             ))}
@@ -133,12 +117,11 @@ export default async function Home() {
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
             {[
-              { icon: "🎯", title: "Coachs vérifiés", desc: "Chaque coach est sélectionné pour son expertise et son sérieux." },
-              { icon: "⚡", title: "Réservation simple", desc: "Trouvez un créneau et réservez en quelques clics, sans friction." },
-              { icon: "🔒", title: "Paiement sécurisé", desc: "Transactions 100% sécurisées, remboursement garanti si insatisfait." },
-            ].map(({ icon, title, desc }) => (
+              { title: "Coachs vérifiés", desc: "Chaque coach est sélectionné pour son expertise et son sérieux." },
+              { title: "Réservation simple", desc: "Trouvez un créneau et réservez en quelques clics, sans friction." },
+              { title: "Paiement sécurisé", desc: "Transactions 100% sécurisées, remboursement garanti si insatisfait." },
+            ].map(({ title, desc }) => (
               <div key={title} className="rounded-2xl p-6" style={{ background: "#ffffff08", border: "1px solid #ffffff0f" }}>
-                <div className="mb-4 text-3xl">{icon}</div>
                 <h3 className="mb-2 font-bold text-white">{title}</h3>
                 <p className="text-sm leading-relaxed text-white/50">{desc}</p>
               </div>
@@ -153,11 +136,7 @@ export default async function Home() {
           <h2 className="text-3xl font-bold text-navy-900 sm:text-4xl">Prêt à transformer votre vie ?</h2>
           <p className="mt-4 text-gray-500">Rejoignez des centaines de personnes qui ont déjà franchi le cap.</p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link
-              href="/inscription"
-              className="rounded-full px-8 py-3.5 text-base font-semibold text-navy-900 shadow-lg transition hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)" }}
-            >
+            <Link href="/inscription" className="rounded-full px-8 py-3.5 text-base font-semibold shadow-lg transition hover:opacity-90" style={{ background: "linear-gradient(135deg, #C9A96E, #E8D5A3)", color: "#0B1120" }}>
               Commencer maintenant
             </Link>
             <Link href="/connexion" className="text-sm font-medium text-gray-500 hover:text-gray-800 transition">

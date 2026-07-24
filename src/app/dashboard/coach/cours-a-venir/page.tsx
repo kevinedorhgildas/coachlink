@@ -32,7 +32,7 @@ export default async function CoursAVenirPage() {
 
       {!reservations || reservations.length === 0 ? (
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center shadow-sm">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>📅</div>
+          <div className="mx-auto mb-4 h-0.5 w-12 rounded-full" style={{ background: `${GOLD}44` }} />
           <p className="font-medium text-gray-700">Aucun cours à venir pour le moment.</p>
         </div>
       ) : (
@@ -52,7 +52,7 @@ export default async function CoursAVenirPage() {
                     <div>
                       <p className="font-semibold text-gray-900">{clientProfile?.nom ?? "Client"}</p>
                       <p className="mt-0.5 text-sm text-gray-500">
-                        📅 {new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                        { new Date(r.date_souhaitee).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                         {dispo && <span className="ml-2">· {dispo.heure_debut.slice(0, 5)}–{dispo.heure_fin.slice(0, 5)}</span>}
                       </p>
                     </div>

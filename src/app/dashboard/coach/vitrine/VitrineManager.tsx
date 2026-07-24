@@ -71,9 +71,9 @@ export default function VitrineManager({ medias, temoignages, coachId }: { media
   const videos = mediaList.filter((m) => m.type === "video");
 
   const tabs = [
-    { key: "photos" as const,      label: "Photos",       icon: "🖼️", count: photos.length },
-    { key: "videos" as const,      label: "Vidéos",       icon: "🎬", count: videos.length },
-    { key: "temoignages" as const, label: "Témoignages",  icon: "💬", count: temoList.length },
+    { key: "photos" as const,      label: "Photos",       count: photos.length },
+    { key: "videos" as const,      label: "Vidéos",       count: videos.length },
+    { key: "temoignages" as const, label: "Témoignages",  count: temoList.length },
   ];
 
   const accept = activeTab === "photos" ? "image/*" : "video/*";
@@ -92,7 +92,6 @@ export default function VitrineManager({ medias, temoignages, coachId }: { media
               ? { background: `linear-gradient(135deg, ${GOLD}, #E8D5A3)`, color: "#0B1120" }
               : { color: "#6b7280" }}
           >
-            <span>{tab.icon}</span>
             {tab.label}
             <span className="rounded-full px-1.5 py-0.5 text-xs font-bold" style={activeTab === tab.key ? { background: "#0B112022", color: "#0B1120" } : { background: "#e5e7eb", color: "#6b7280" }}>
               {tab.count}
@@ -119,12 +118,10 @@ export default function VitrineManager({ medias, temoignages, coachId }: { media
             >
               {fileName ? (
                 <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#9A7A2E" }}>
-                  <span className="text-2xl">{activeTab === "photos" ? "🖼️" : "🎬"}</span>
                   <span>{fileName}</span>
                 </div>
               ) : (
                 <>
-                  <span className="text-3xl" style={{ opacity: 0.35 }}>{activeTab === "photos" ? "🖼️" : "🎬"}</span>
                   <p className="mt-2 text-sm text-gray-500">Cliquez pour sélectionner un fichier</p>
                   <p className="text-xs text-gray-400">{acceptLabel}</p>
                 </>
@@ -215,11 +212,11 @@ export default function VitrineManager({ medias, temoignages, coachId }: { media
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Note (optionnelle)</label>
               <select name="note" className="rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-[#C9A96E] transition">
                 <option value="">— Sans note —</option>
-                <option value="5">⭐⭐⭐⭐⭐ — Excellent</option>
-                <option value="4">⭐⭐⭐⭐ — Très bien</option>
-                <option value="3">⭐⭐⭐ — Bien</option>
-                <option value="2">⭐⭐ — Moyen</option>
-                <option value="1">⭐ — Décevant</option>
+                <option value="5">5 — Excellent</option>
+                <option value="4">4 — Très bien</option>
+                <option value="3">3 — Bien</option>
+                <option value="2">2 — Moyen</option>
+                <option value="1">1 — Décevant</option>
               </select>
             </div>
             {temoError && <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">{temoError}</p>}

@@ -10,7 +10,7 @@ export default function PaiementClientPage() {
 
       <div className="rounded-2xl border border-gray-200 bg-white px-6 py-12 text-center shadow-sm">
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl" style={{ background: `${GOLD}22` }}>
-          💳
+          
         </div>
         <h2 className="mb-2 text-sm font-semibold text-gray-900">Paiement en ligne bientôt disponible</h2>
         <p className="mx-auto max-w-sm text-sm text-gray-500">Les modalités de paiement se règlent directement avec le coach pour l'instant.</p>

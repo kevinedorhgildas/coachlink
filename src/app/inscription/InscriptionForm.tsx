@@ -35,7 +35,7 @@ export default function InscriptionForm() {
             : { borderColor: "#e5e7eb", color: "#6b7280", background: "#fff" }
           }
         >
-          🔍 Je cherche un coach
+          Je cherche un coach
         </button>
         <button
           type="button"
@@ -46,7 +46,7 @@ export default function InscriptionForm() {
             : { borderColor: "#e5e7eb", color: "#6b7280", background: "#fff" }
           }
         >
-          ✏️ Je suis coach
+          Je suis coach
         </button>
       </div>
 
@@ -95,7 +95,7 @@ export default function InscriptionForm() {
           <input id="password" name="password" type={showPassword ? "text" : "password"} required minLength={6} placeholder="Minimum 6 caractères" className={inputClass} />
           <button type="button" onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
-            {showPassword ? "🙈" : "👁️"}
+            {showPassword ? "Cacher" : "Voir"}
           </button>
         </div>
       </div>

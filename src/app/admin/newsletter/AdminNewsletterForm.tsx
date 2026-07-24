@@ -29,7 +29,7 @@ export default function AdminNewsletterForm() {
       </div>
       <div>
         <label className={labelClass}>Sujet</label>
-        <input name="sujet" type="text" required placeholder="Ex. Nos nouveautés de juillet 🎉" className={inputClass} />
+        <input name="sujet" type="text" required placeholder="Ex. Nos nouveautés de juillet" className={inputClass} />
       </div>
       <div>
         <label className={labelClass}>Contenu</label>
