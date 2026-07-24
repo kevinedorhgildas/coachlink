@@ -52,6 +52,9 @@ export default function ProfileForm({ coach }: { coach: Coach }) {
           <option value="Coach en séduction" />
           <option value="Coach en bien être et santé" />
           <option value="Coach en langue" />
+          <option value="Coach en immobilier" />
+          <option value="Coach en E-commerce" />
+          <option value="Nutritionniste" />
         </datalist>
       </div>
 

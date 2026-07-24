@@ -12,6 +12,9 @@ const DOMAINES = [
   { label: "Coach en bien être et santé", icon: "🧘" },
   { label: "Coach en séduction", icon: "💫" },
   { label: "Coach en langue", icon: "🌍" },
+  { label: "Coach en immobilier", icon: "🏠" },
+  { label: "Coach en E-commerce", icon: "🛒" },
+  { label: "Nutritionniste", icon: "🥗" },
 ];
 
 export default async function Home() {

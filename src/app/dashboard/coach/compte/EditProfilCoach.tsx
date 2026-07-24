@@ -8,7 +8,8 @@ const GOLD = "#C9A96E";
 const SPECIALITES = [
   "Coach sportif", "Coach mental", "Coach bien-être", "Coach business",
   "Coach développement personnel", "Coach nutrition", "Coach de vie",
-  "Coach en séduction", "Coach en langues", "Coach financier", "Autre",
+  "Coach en séduction", "Coach en langues", "Coach financier",
+  "Coach en immobilier", "Coach en E-commerce", "Nutritionniste", "Autre",
 ];
 
 type Props = {
