@@ -110,13 +110,24 @@ export default function RootLayout({
               <p className="text-xs" style={{ color: "#ffffff30" }}>
                 © {new Date().getFullYear()} CoachLink — Tous droits réservés
               </p>
-              <a
-                href="mailto:contact@coachlink.fr"
-                className="text-xs transition-colors hover:text-white"
-                style={{ color: "#ffffff40" }}
-              >
-                contact@coachlink.fr
-              </a>
+              <div className="flex items-center gap-4">
+                <a
+                  href="mailto:contact@coachlink.fr"
+                  className="text-xs transition-colors hover:text-white"
+                  style={{ color: "#ffffff40" }}
+                >
+                  contact@coachlink.fr
+                </a>
+                <a
+                  href="https://instagram.com/coachlink.fr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs transition-colors hover:text-white"
+                  style={{ color: "#ffffff40" }}
+                >
+                  Instagram
+                </a>
+              </div>
             </div>
           </div>
         </footer>
