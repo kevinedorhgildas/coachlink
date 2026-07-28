@@ -91,6 +91,21 @@ export async function toggleAbonnement(coachId: string) {
     return { abonne: false };
   } else {
     await supabase.from("abonnements").insert({ coach_id: coachId, client_id: userData.user.id });
+
+    // Récupère le nom du client pour la notif
+    const { data: clientProfile } = await supabase
+      .from("profiles")
+      .select("nom")
+      .eq("id", userData.user.id)
+      .single();
+
+    await supabase.from("notifications_coach").insert({
+      coach_id: coachId,
+      type: "abonnement",
+      message: `${clientProfile?.nom ?? "Un client"} s'est abonné à votre profil.`,
+      meta: { client_id: userData.user.id, nom: clientProfile?.nom },
+    });
+
     revalidatePath(`/coachs/${coachId}`);
     return { abonne: true };
   }
