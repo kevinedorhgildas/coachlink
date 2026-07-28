@@ -15,6 +15,14 @@ export default async function ClientNotificationsPage() {
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
 
+  // Marque comme vues les notifs confirmées/refusées non encore vues
+  await supabase
+    .from("reservations")
+    .update({ vu_client: true })
+    .eq("client_id", userData.user.id)
+    .in("statut", ["confirmee", "refusee"])
+    .eq("vu_client", false);
+
   const { data: reservations } = await supabase
     .from("reservations")
     .select("id, date_souhaitee, statut, created_at, coaches(id, specialite, photo_url, profiles(nom))")

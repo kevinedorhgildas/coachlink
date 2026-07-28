@@ -36,11 +36,13 @@ export default async function ClientLayout({ children }: { children: React.React
     ville: "",
   }, { onConflict: "id", ignoreDuplicates: true });
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("nom, email, role")
-    .eq("id", userData.user.id)
-    .single();
+  const [{ data: profile }, { count: badgeNotifs }] = await Promise.all([
+    supabase.from("profiles").select("nom, email, role").eq("id", userData.user.id).single(),
+    supabase.from("reservations").select("id", { count: "exact", head: true })
+      .eq("client_id", userData.user.id)
+      .in("statut", ["confirmee", "refusee"])
+      .eq("vu_client", false),
+  ]);
 
   const initiale = profile?.nom?.charAt(0).toUpperCase() ?? "?";
   const prenom = profile?.nom?.split(" ")[0];
@@ -77,10 +79,16 @@ export default async function ClientLayout({ children }: { children: React.React
               <li key={href}>
                 <Link
                   href={href}
-                  className="flex items-center rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 hover:bg-white/8 hover:text-white"
+                  className="flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 hover:bg-white/8 hover:text-white"
                   style={{ color: "#ffffff70" }}
                 >
                   {label}
+                  {href === "/dashboard/client/notifications" && (badgeNotifs ?? 0) > 0 && (
+                    <span className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                      style={{ background: GOLD, color: "#0B1120" }}>
+                      {badgeNotifs}
+                    </span>
+                  )}
                 </Link>
               </li>
             ))}
@@ -119,8 +127,14 @@ export default async function ClientLayout({ children }: { children: React.React
       {/* ── MOBILE BOTTOM NAV ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t border-gray-200 bg-white px-1 py-2 md:hidden">
         {NAV.slice(0, 5).map(({ href, label }) => (
-          <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-600 transition">
+          <Link key={href} href={href} className="relative flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-600 transition">
             <span className="w-14 truncate text-center text-[10px] font-medium">{label.split(" ")[0]}</span>
+            {href === "/dashboard/client/notifications" && (badgeNotifs ?? 0) > 0 && (
+              <span className="absolute -top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold"
+                style={{ background: GOLD, color: "#0B1120" }}>
+                {badgeNotifs}
+              </span>
+            )}
           </Link>
         ))}
       </nav>
