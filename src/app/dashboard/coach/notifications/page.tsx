@@ -15,6 +15,13 @@ export default async function CoachNotificationsPage() {
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
 
+  // Marque toutes les notifs non lues comme lues
+  await supabase
+    .from("notifications_coach")
+    .update({ lu: true })
+    .eq("coach_id", userData.user.id)
+    .eq("lu", false);
+
   const [{ data: reservations }, { data: notifsRaw }] = await Promise.all([
     supabase
       .from("reservations")
