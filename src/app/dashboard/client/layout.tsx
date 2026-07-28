@@ -37,12 +37,15 @@ export default async function ClientLayout({ children }: { children: React.React
     ville: "",
   }, { onConflict: "id", ignoreDuplicates: true });
 
-  const [{ data: profile }, { count: badgeNotifs }] = await Promise.all([
+  const [{ data: profile }, { count: badgeNotifs }, { count: badgeMessages }] = await Promise.all([
     supabase.from("profiles").select("nom, email, role").eq("id", userData.user.id).single(),
     supabase.from("reservations").select("id", { count: "exact", head: true })
       .eq("client_id", userData.user.id)
       .in("statut", ["confirmee", "refusee"])
       .eq("vu_client", false),
+    supabase.from("messages").select("id", { count: "exact", head: true })
+      .eq("receiver_id", userData.user.id)
+      .eq("lu", false),
   ]);
 
   const initiale = profile?.nom?.charAt(0).toUpperCase() ?? "?";
@@ -89,6 +92,12 @@ export default async function ClientLayout({ children }: { children: React.React
                     <span className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold"
                       style={{ background: GOLD, color: "#0B1120" }}>
                       {badgeNotifs}
+                    </span>
+                  )}
+                  {href === "/dashboard/client/messages" && (badgeMessages ?? 0) > 0 && (
+                    <span className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                      style={{ background: GOLD, color: "#0B1120" }}>
+                      {badgeMessages}
                     </span>
                   )}
                 </Link>

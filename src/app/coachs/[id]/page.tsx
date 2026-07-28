@@ -119,11 +119,20 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
                 <p className="text-xs" style={{ color: GOLD }}>par heure</p>
               </div>
               {isClient && (
-                <AbonnementButton
-                  coachId={params.id}
-                  initialAbonne={isAbonne}
-                  nbAbonnes={nbAbonnes ?? 0}
-                />
+                <div className="flex flex-col gap-2">
+                  <AbonnementButton
+                    coachId={params.id}
+                    initialAbonne={isAbonne}
+                    nbAbonnes={nbAbonnes ?? 0}
+                  />
+                  <a
+                    href={`/dashboard/client/messages/${params.id}`}
+                    className="flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition hover:opacity-90"
+                    style={{ background: "#0B1120", color: "#C9A96E", border: "1px solid #C9A96E44" }}
+                  >
+                    Envoyer un message
+                  </a>
+                </div>
               )}
             </div>
           </div>

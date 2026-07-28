@@ -48,10 +48,11 @@ export default async function CoachLayout({ children }: { children: React.ReactN
     description: "",
   }, { onConflict: "id", ignoreDuplicates: true });
 
-  const [{ data: coach }, { count: nbNonLues }, { count: nbEnAttente }] = await Promise.all([
+  const [{ data: coach }, { count: nbNonLues }, { count: nbEnAttente }, { count: badgeMessages }] = await Promise.all([
     supabase.from("coaches").select("photo_url, specialite").eq("id", userData.user.id).single(),
     supabase.from("notifications_coach").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("lu", false),
     supabase.from("reservations").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("statut", "en_attente"),
+    supabase.from("messages").select("id", { count: "exact", head: true }).eq("receiver_id", userData.user.id).eq("lu", false),
   ]);
 
   const badgeNotifs = (nbNonLues ?? 0) + (nbEnAttente ?? 0);
@@ -104,6 +105,12 @@ export default async function CoachLayout({ children }: { children: React.ReactN
                   <span className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold"
                     style={{ background: GOLD, color: "#0B1120" }}>
                     {badgeNotifs}
+                  </span>
+                )}
+                {href === "/dashboard/coach/messages" && (badgeMessages ?? 0) > 0 && (
+                  <span className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                    style={{ background: GOLD, color: "#0B1120" }}>
+                    {badgeMessages}
                   </span>
                 )}
               </Link>
