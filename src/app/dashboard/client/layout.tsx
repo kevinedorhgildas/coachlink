@@ -16,6 +16,7 @@ const NAV = [
   { href: "/dashboard/client/groupes", label: "Groupes" },
   { href: "/dashboard/client/notifications", label: "Notifications" },
   { href: "/dashboard/client/favoris", label: "Mes favoris" },
+  { href: "/dashboard/client/abonnements", label: "Coachs suivis" },
   { href: "/dashboard/client/planning", label: "Mon planning" },
   { href: "/dashboard/client/compte", label: "Mon compte" },
 ];
