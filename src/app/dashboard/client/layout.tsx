@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import SpaceSelector from "@/components/SpaceSelector";
+import TabBadge from "@/components/TabBadge";
 
 const NAV = [
   { href: "/dashboard/client", label: "Trouver un coach" },
@@ -49,6 +50,7 @@ export default async function ClientLayout({ children }: { children: React.React
 
   return (
     <div className="flex min-h-screen" style={{ background: "#F5F2ED" }}>
+      <TabBadge count={badgeNotifs ?? 0} title="CoachLink — Dashboard client" />
 
       {/* ── SIDEBAR DESKTOP ── */}
       <aside className="hidden w-64 shrink-0 flex-col md:flex" style={{ background: SIDEBAR_BG }}>
