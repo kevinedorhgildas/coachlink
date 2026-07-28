@@ -73,6 +73,29 @@ export async function addAvis(formData: FormData) {
   return { success: true };
 }
 
+export async function toggleAbonnement(coachId: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return { error: "Non connecté" };
+
+  const { data: existing } = await supabase
+    .from("abonnements")
+    .select("id")
+    .eq("coach_id", coachId)
+    .eq("client_id", userData.user.id)
+    .single();
+
+  if (existing) {
+    await supabase.from("abonnements").delete().eq("id", existing.id);
+    revalidatePath(`/coachs/${coachId}`);
+    return { abonne: false };
+  } else {
+    await supabase.from("abonnements").insert({ coach_id: coachId, client_id: userData.user.id });
+    revalidatePath(`/coachs/${coachId}`);
+    return { abonne: true };
+  }
+}
+
 export async function requestReservation(formData: FormData) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();

@@ -6,6 +6,7 @@ import AvisForm from "./AvisForm";
 import ReservationForm from "./ReservationForm";
 import PacksSection from "./PacksSection";
 import PublicationCard from "@/components/PublicationCard";
+import AbonnementButton from "./AbonnementButton";
 
 const JOURS_ORDRE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 const GOLD = "#C9A96E";
@@ -45,10 +46,25 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
 
   const currentUserId = userData.user?.id;
   let isClient = false;
+  let isAbonne = false;
   if (currentUserId) {
     const { data: viewerProfile } = await supabase.from("profiles").select("role").eq("id", currentUserId).single();
     isClient = viewerProfile?.role === "client";
+    if (isClient) {
+      const { data: abonnement } = await supabase
+        .from("abonnements")
+        .select("id")
+        .eq("coach_id", params.id)
+        .eq("client_id", currentUserId)
+        .single();
+      isAbonne = !!abonnement;
+    }
   }
+
+  const { count: nbAbonnes } = await supabase
+    .from("abonnements")
+    .select("id", { count: "exact", head: true })
+    .eq("coach_id", params.id);
 
   const photos = (medias ?? []).filter((m) => m.type === "photo");
   const videos = (medias ?? []).filter((m) => m.type === "video");
@@ -96,10 +112,19 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
               </div>
             </div>
 
-            {/* Tarif */}
-            <div className="rounded-2xl px-5 py-3 text-center shrink-0" style={{ background: `linear-gradient(135deg, ${GOLD}22, ${GOLD}11)`, border: `1px solid ${GOLD}44` }}>
-              <p className="text-2xl font-bold text-white">{coach.tarif_horaire} €</p>
-              <p className="text-xs" style={{ color: GOLD }}>par heure</p>
+            {/* Tarif + Abonnement */}
+            <div className="flex flex-col items-end gap-3 shrink-0">
+              <div className="rounded-2xl px-5 py-3 text-center" style={{ background: `linear-gradient(135deg, ${GOLD}22, ${GOLD}11)`, border: `1px solid ${GOLD}44` }}>
+                <p className="text-2xl font-bold text-white">{coach.tarif_horaire} €</p>
+                <p className="text-xs" style={{ color: GOLD }}>par heure</p>
+              </div>
+              {isClient && (
+                <AbonnementButton
+                  coachId={params.id}
+                  initialAbonne={isAbonne}
+                  nbAbonnes={nbAbonnes ?? 0}
+                />
+              )}
             </div>
           </div>
         </div>
