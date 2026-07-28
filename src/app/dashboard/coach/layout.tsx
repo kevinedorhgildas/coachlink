@@ -152,8 +152,14 @@ export default async function CoachLayout({ children }: { children: React.ReactN
       {/* ── MOBILE BOTTOM NAV ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-10 flex justify-around border-t border-gray-200 bg-white px-2 py-2 md:hidden">
         {NAV.slice(0, 5).map(({ href, label }) => (
-          <Link key={href} href={href} className="flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-600 transition">
+          <Link key={href} href={href} className="relative flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-600 transition">
             <span className="w-14 truncate text-center text-[10px] font-medium leading-tight">{label.split(" ")[0]}</span>
+            {href === "/dashboard/coach/notifications" && badgeNotifs > 0 && (
+              <span className="absolute -top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold"
+                style={{ background: GOLD, color: "#0B1120" }}>
+                {badgeNotifs}
+              </span>
+            )}
           </Link>
         ))}
       </nav>
