@@ -47,11 +47,13 @@ export default async function CoachLayout({ children }: { children: React.ReactN
     description: "",
   }, { onConflict: "id", ignoreDuplicates: true });
 
-  const { data: coach } = await supabase
-    .from("coaches")
-    .select("photo_url, specialite")
-    .eq("id", userData.user.id)
-    .single();
+  const [{ data: coach }, { count: nbNonLues }, { count: nbEnAttente }] = await Promise.all([
+    supabase.from("coaches").select("photo_url, specialite").eq("id", userData.user.id).single(),
+    supabase.from("notifications_coach").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("lu", false),
+    supabase.from("reservations").select("id", { count: "exact", head: true }).eq("coach_id", userData.user.id).eq("statut", "en_attente"),
+  ]);
+
+  const badgeNotifs = (nbNonLues ?? 0) + (nbEnAttente ?? 0);
 
   const initiale = profile?.nom?.charAt(0).toUpperCase() ?? "?";
   const prenom = profile?.nom?.split(" ")[0];
@@ -92,10 +94,16 @@ export default async function CoachLayout({ children }: { children: React.ReactN
               <Link
                 key={href}
                 href={href}
-                className="flex items-center rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150"
+                className="flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150"
                 style={{ color: "#ffffff80" }}
               >
                 {label}
+                {href === "/dashboard/coach/notifications" && badgeNotifs > 0 && (
+                  <span className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                    style={{ background: GOLD, color: "#0B1120" }}>
+                    {badgeNotifs}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
