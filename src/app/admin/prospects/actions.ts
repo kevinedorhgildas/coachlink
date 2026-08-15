@@ -25,6 +25,22 @@ export async function createProspect(formData: FormData) {
   revalidatePath("/admin/prospects");
 }
 
+/**
+ * Trace l'envoi de la mention d'information à un prospect (art. 14 RGPD).
+ *
+ * Ces données n'ont pas été fournies par la personne : il faut donc l'informer,
+ * et pouvoir montrer que ça a été fait. La bascule est réversible — une
+ * information envoyée par erreur se retire, sans quoi la trace mentirait.
+ */
+export async function marquerInforme(id: string, informe: boolean) {
+  const supabase = await requireAdmin();
+  await supabase
+    .from("prospects")
+    .update({ informe_le: informe ? new Date().toISOString() : null })
+    .eq("id", id);
+  revalidatePath("/admin/prospects");
+}
+
 export async function updateStatut(id: string, statut: string) {
   const supabase = await requireAdmin();
   await supabase.from("prospects").update({ statut, updated_at: new Date().toISOString() }).eq("id", id);

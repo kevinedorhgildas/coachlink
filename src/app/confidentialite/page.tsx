@@ -11,7 +11,7 @@ const ARTICLES = [
     titre: "Données collectées",
     contenu: "Nous collectons les données suivantes lors de votre utilisation de CoachLink :",
     liste: [
-      "Données d'inscription : nom, adresse email, mot de passe (chiffré), rôle (coach ou client).",
+      "Données d'inscription : nom, adresse email, mot de passe (chiffré), rôle (coach ou client), date d'acceptation des CGU et version acceptée.",
       "Données de profil coach : photo, spécialité, ville, tarif, description, diplômes, compétences, expériences, disponibilités.",
       "Données de profil client : ville.",
       "Données de réservation : date, créneau, message, statut.",
@@ -33,6 +33,17 @@ const ARTICLES = [
   {
     titre: "Base légale",
     contenu: "Le traitement de vos données repose sur l'exécution du contrat (CGU) que vous acceptez lors de votre inscription, ainsi que sur notre intérêt légitime à améliorer la plateforme.",
+  },
+  {
+    titre: "Prospection des coachs",
+    contenu: "Nous relevons sur des sources publiques — sites professionnels, réseaux sociaux, annuaires — les coordonnées de coachs susceptibles d'être intéressés par la plateforme, afin de les contacter. Ces données ne proviennent donc pas des personnes concernées, qui en sont informées lors de notre première prise de contact.",
+    liste: [
+      "Données concernées : nom, coordonnée de contact, canal, spécialité et notes de suivi.",
+      "Finalité : présenter CoachLink à des coachs susceptibles de le rejoindre.",
+      "Base légale : notre intérêt légitime à faire connaître la plateforme.",
+      "Durée de conservation : trois ans au plus après le dernier échange, sauf inscription.",
+    ],
+    suite: "Toute personne démarchée peut demander l'accès à ces données, leur rectification, leur effacement, ou s'opposer à ce démarchage, en écrivant à contact@coachlink.fr — l'opposition est mise en œuvre sans condition.",
   },
   {
     titre: "Partage des données",

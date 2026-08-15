@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { createProspect, updateStatut, updateNotes, deleteProspect } from "./actions";
+import { createProspect, updateStatut, updateNotes, deleteProspect, marquerInforme } from "./actions";
+import { MENTION_PROSPECTION } from "@/lib/legal";
 
 const GOLD = "#C9A96E";
 
@@ -30,6 +31,8 @@ type Prospect = {
   notes: string | null;
   code_promo: string | null;
   created_at: string;
+  /** Date d'envoi de la mention d'information (art. 14), `null` si jamais envoyée. */
+  informe_le: string | null;
 };
 
 export default function ProspectsManager({ prospects }: { prospects: Prospect[] }) {
@@ -38,7 +41,18 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
   const [filterStatut, setFilterStatut] = useState("tous");
   const [editNotes, setEditNotes] = useState<string | null>(null);
   const [notesValue, setNotesValue] = useState("");
+  const [mentionCopiee, setMentionCopiee] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  /* Ceux qu'on a démarchés sans les informer : c'est exactement le cas que
+     l'article 14 vise, et le seul qui demande une action. */
+  const aInformer = prospects.filter((p) => p.statut !== "a_contacter" && !p.informe_le);
+
+  const copierMention = async () => {
+    await navigator.clipboard.writeText(MENTION_PROSPECTION);
+    setMentionCopiee(true);
+    setTimeout(() => setMentionCopiee(false), 2500);
+  };
 
   const filtered = prospects.filter((p) => {
     const matchSearch = p.nom.toLowerCase().includes(search.toLowerCase()) ||
@@ -71,6 +85,33 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
 
   return (
     <div>
+      {/* Rappel de l'article 14 : ces données n'ont pas été fournies par les
+          personnes, il faut donc les informer. Le bandeau ne s'affiche que
+          s'il reste quelqu'un à informer — sinon il deviendrait du décor. */}
+      <div className="mb-6 rounded-2xl border border-amber-300 bg-amber-50 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-amber-900">
+              {aInformer.length > 0
+                ? `${aInformer.length} prospect${aInformer.length > 1 ? "s" : ""} démarché${aInformer.length > 1 ? "s" : ""} sans avoir été informé${aInformer.length > 1 ? "s" : ""}`
+                : "Information des prospects"}
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-amber-800">
+              Ces coordonnées ne viennent pas des personnes concernées : l&apos;article 14 du
+              RGPD impose de les informer dès la première prise de contact. Joignez la mention
+              ci-contre à votre message, puis cochez la colonne « Informé ».
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={copierMention}
+            className="shrink-0 rounded-full border border-amber-400 px-3 py-1.5 text-xs font-semibold text-amber-900 transition hover:bg-amber-100"
+          >
+            {mentionCopiee ? "Copiée ✓" : "Copier la mention"}
+          </button>
+        </div>
+      </div>
+
       {/* Stats rapides */}
       <div className="grid grid-cols-5 gap-3 mb-6">
         {stats.map((s) => (
@@ -141,6 +182,7 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
                 <th className="text-left px-5 py-3">Coach</th>
                 <th className="text-left px-4 py-3">Canal</th>
                 <th className="text-left px-4 py-3">Statut</th>
+                <th className="text-left px-4 py-3">Informé</th>
                 <th className="text-left px-4 py-3">Code promo</th>
                 <th className="text-left px-4 py-3">Notes</th>
                 <th className="px-4 py-3"></th>
@@ -170,6 +212,28 @@ export default function ProspectsManager({ prospects }: { prospects: Prospect[] 
                           <option key={s.key} value={s.key}>{s.label}</option>
                         ))}
                       </select>
+                    </td>
+                    <td className="px-4 py-3">
+                      <button
+                        type="button"
+                        onClick={() => startTransition(() => marquerInforme(p.id, !p.informe_le))}
+                        disabled={isPending}
+                        title={
+                          p.informe_le
+                            ? `Informé le ${new Date(p.informe_le).toLocaleDateString("fr-FR")} — cliquer pour annuler`
+                            : "Marquer comme informé (art. 14 RGPD)"
+                        }
+                        className="rounded-full px-2.5 py-1 text-xs font-semibold transition"
+                        style={
+                          p.informe_le
+                            ? { background: "#ecfdf5", color: "#059669" }
+                            : { background: "#fffbeb", color: "#b45309" }
+                        }
+                      >
+                        {p.informe_le
+                          ? new Date(p.informe_le).toLocaleDateString("fr-FR")
+                          : "À informer"}
+                      </button>
                     </td>
                     <td className="px-4 py-3">
                       {p.code_promo

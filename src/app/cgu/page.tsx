@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CGU_VERSION_AFFICHEE } from "@/lib/legal";
 
 const GOLD = "#C9A96E";
 
@@ -81,7 +82,9 @@ export default function CGUPage() {
         <Link href="/" className="mb-4 inline-block text-sm font-medium text-gray-400 hover:text-gray-700 transition">← Accueil</Link>
         <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: GOLD }}>Légal</p>
         <h1 className="text-3xl font-bold text-gray-900">Conditions Générales d'Utilisation</h1>
-        <p className="mt-2 text-sm text-gray-400">Dernière mise à jour : 3 juillet 2026</p>
+        <p className="mt-2 text-sm text-gray-400">
+          Dernière mise à jour : {CGU_VERSION_AFFICHEE}
+        </p>
       </div>
 
       <div className="mx-auto max-w-2xl px-6 py-12">

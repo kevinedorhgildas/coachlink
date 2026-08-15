@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { CGU_VERSION } from "@/lib/legal";
 
 type Role = "coach" | "client";
 
@@ -11,12 +12,19 @@ export async function signup(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const specialite = (formData.get("specialite") as string) ?? "";
+  const cgu = formData.get("cgu");
 
   if (!role || !nom || !email || !password) {
     return { error: "Tous les champs sont obligatoires." };
   }
   if (role === "coach" && !specialite) {
     return { error: "Le domaine du coach est obligatoire." };
+  }
+  // La case porte `required`, mais c'est une garde de navigateur : le
+  // formulaire peut être soumis sans elle. Or l'acceptation des CGU est ce qui
+  // fonde le contrat, donc la base légale du traitement — elle se vérifie ici.
+  if (!cgu) {
+    return { error: "Vous devez accepter les CGU et la politique de confidentialité." };
   }
 
   const supabase = await createClient();
@@ -34,6 +42,9 @@ export async function signup(formData: FormData) {
     role,
     nom,
     email,
+    // La preuve du consentement : quand, et à quelle version du document.
+    cgu_acceptees_le: new Date().toISOString(),
+    cgu_version: CGU_VERSION,
   });
 
   if (profileError) {

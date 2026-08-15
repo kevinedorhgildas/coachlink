@@ -198,3 +198,32 @@ revoke all on function public.supprimer_mon_compte() from public;
 revoke all on function public.exporter_mes_donnees() from public;
 grant execute on function public.supprimer_mon_compte() to authenticated;
 grant execute on function public.exporter_mes_donnees() to authenticated;
+
+-- =========================================
+-- Preuve du consentement (art. 7.1) et information des prospects (art. 14)
+-- Appliqués en production le 2026-08-15
+-- (migration `rgpd_preuve_consentement_et_information_prospects`)
+-- =========================================
+
+-- La case CGU était obligatoire côté HTML uniquement : le formulaire pouvait
+-- être soumis sans elle, et rien n'était conservé. La version acceptée est
+-- enregistrée en plus de la date — les CGU évoluant, la date seule ne dit pas
+-- *ce qui* a été accepté.
+alter table public.profiles
+  add column if not exists cgu_acceptees_le timestamptz,
+  add column if not exists cgu_version      text;
+
+-- Les données des prospects ne viennent pas d'eux : l'article 14 impose de les
+-- informer, dans le mois ou dès la première communication. Encore faut-il
+-- pouvoir montrer que ça a été fait, et pour qui.
+alter table public.prospects
+  add column if not exists informe_le timestamptz;
+
+-- Les prospects sans suite ne se conservent pas indéfiniment : la CNIL retient
+-- trois ans à compter du dernier contact.
+create or replace view public.prospects_a_purger as
+  select id, nom, contact, canal, statut, updated_at,
+         age(now(), updated_at) as anciennete
+    from public.prospects
+   where statut <> 'converti'
+     and updated_at < now() - interval '3 years';
