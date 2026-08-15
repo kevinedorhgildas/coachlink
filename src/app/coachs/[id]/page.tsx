@@ -16,13 +16,15 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
 
   const { data: coach } = await supabase
     .from("coaches")
-    .select("*, profiles(nom, email)")
+    .select("*, profiles(nom)")
     .eq("id", params.id)
     .single();
 
   if (!coach) notFound();
 
-  const profileData = coach.profiles as unknown as { nom: string; email: string } | { nom: string; email: string }[] | null;
+  // Pas d'`email` ici : la fiche est publique, et seul le nom s'affiche. Le
+  // privilège de lecture sur `profiles.email` est retiré au rôle anonyme.
+  const profileData = coach.profiles as unknown as { nom: string } | { nom: string }[] | null;
   const profile = Array.isArray(profileData) ? profileData[0] : profileData;
 
   const [{ data: disponibilites }, { data: avis }, { data: userData }, { data: documents }, { data: medias }, { data: temoignages }, { data: packs }, { data: pubsRaw }] = await Promise.all([
