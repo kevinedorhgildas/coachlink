@@ -47,7 +47,7 @@ const ARTICLES = [
   },
   {
     titre: "Durée de conservation",
-    contenu: "Vos données sont conservées pendant toute la durée de votre inscription. En cas de suppression de votre compte, vos données sont effacées dans un délai de 30 jours, à l'exception des données requises par la loi.",
+    contenu: "Vos données sont conservées pendant toute la durée de votre inscription. La suppression de votre compte depuis votre espace efface vos données immédiatement, sans délai de rétention, à l'exception des données que la loi nous impose de conserver — notamment les pièces comptables liées aux paiements, gardées dix ans.",
   },
   {
     titre: "Vos droits (RGPD)",
@@ -59,7 +59,7 @@ const ARTICLES = [
       "Droit d'opposition : vous opposer à certains traitements.",
       "Droit à la portabilité : recevoir vos données dans un format structuré.",
     ],
-    suite: "Pour exercer ces droits, contactez-nous à contact@coachlink.fr. Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr).",
+    suite: "Deux de ces droits s'exercent directement depuis votre espace, rubrique « Mon compte » : « Télécharger mes données » vous remet l'intégralité de vos données au format JSON, et « Supprimer mon compte » les efface immédiatement et définitivement. Pour les autres, contactez-nous à contact@coachlink.fr. Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr).",
   },
   {
     titre: "Sécurité",

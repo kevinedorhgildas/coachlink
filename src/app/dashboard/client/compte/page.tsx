@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import EditProfilClient from "./EditProfilClient";
 import UploadPhotoClient from "./UploadPhotoClient";
+import MesDonnees from "@/components/MesDonnees";
 
 const GOLD = "#C9A96E";
 
@@ -75,6 +76,8 @@ export default async function CompteClientPage() {
           </button>
         </form>
       </div>
+
+      <MesDonnees />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/auth/actions";
 import EditProfilCoach from "./EditProfilCoach";
 import UploadPhoto from "./UploadPhoto";
+import MesDonnees from "@/components/MesDonnees";
 
 const GOLD = "#C9A96E";
 
@@ -97,6 +98,8 @@ export default async function CompteCoachPage() {
           </button>
         </form>
       </div>
+
+      <MesDonnees />
     </div>
   );
 }

@@ -110,3 +110,91 @@ grant execute on function public.newsletter_desabonner(uuid) to anon, authentica
 -- ce qui casse l'imbrication PostgREST `profiles(nom)` et suppose de reprendre
 -- les requêtes des pages publiques.
 -- -----------------------------------------
+
+-- =========================================
+-- Droit à l'effacement (art. 17) et droit à la portabilité (art. 20)
+-- Appliqués en production le 2026-08-15
+-- (migrations `rgpd_effacement_et_portabilite`
+--  puis `rgpd_effacement_correction_stockage`)
+-- =========================================
+
+-- Les deux droits passent par des fonctions `security definer` plutôt que par
+-- une clé `service_role` dans l'application : une telle clé, si elle fuite,
+-- ouvre toute la base en contournant RLS, alors que ces fonctions ne savent
+-- faire que leur geste, et seulement sur le compte appelant.
+
+-- -----------------------------------------
+-- Effacement
+--
+-- Toutes les clés étrangères des 23 tables publiques remontent à `auth.users`
+-- en CASCADE : supprimer la ligne d'authentification vide la base.
+--
+-- Attention : les fichiers ne peuvent PAS être supprimés ici. Supabase pose un
+-- déclencheur `storage.protect_delete()` qui refuse toute suppression directe
+-- dans `storage.objects`, même en `security definer`, pour éviter les objets
+-- orphelins. Le nettoyage se fait donc par l'API Storage, dans
+-- `src/app/dashboard/actions-rgpd.ts`, avant l'appel à cette fonction.
+-- -----------------------------------------
+create or replace function public.supprimer_mon_compte()
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_uid uuid := auth.uid();
+  v_email text;
+begin
+  if v_uid is null then
+    raise exception 'Non authentifié';
+  end if;
+
+  select email into v_email from public.profiles where id = v_uid;
+
+  -- L'inscription à la newsletter est liée à l'email, pas au compte : elle
+  -- survivrait à la cascade.
+  if v_email is not null then
+    delete from public.newsletter_abonnes where email = v_email;
+  end if;
+
+  delete from auth.users where id = v_uid;
+end;
+$$;
+
+-- Les buckets `documents` et `media` n'avaient aucune politique : leur
+-- propriétaire ne pouvait ni lister ni supprimer ses propres fichiers, ce qui
+-- rendait le nettoyage impossible. Même convention que `avatars` — un dossier
+-- par utilisateur.
+create policy "documents: lecture par le propriétaire"
+  on storage.objects for select
+  using (bucket_id = 'documents' and (storage.foldername(name))[1] = auth.uid()::text);
+
+create policy "documents: suppression par le propriétaire"
+  on storage.objects for delete
+  using (bucket_id = 'documents' and (storage.foldername(name))[1] = auth.uid()::text);
+
+create policy "media: lecture par le propriétaire"
+  on storage.objects for select
+  using (bucket_id = 'media' and (storage.foldername(name))[1] = auth.uid()::text);
+
+create policy "media: suppression par le propriétaire"
+  on storage.objects for delete
+  using (bucket_id = 'media' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- -----------------------------------------
+-- Portabilité
+--
+-- Rend en JSON l'intégralité des données rattachées au compte, réparties en
+-- 23 rubriques. En `security definer` pour que l'export soit complet quelles
+-- que soient les politiques de lecture : plusieurs tables ne sont pas lisibles
+-- par leur propre sujet à travers RLS, et un export incomplet ne vaut rien.
+--
+-- Le corps de la fonction est celui appliqué par la migration
+-- `rgpd_effacement_et_portabilite` ; se référer à la base pour sa version
+-- courante.
+-- -----------------------------------------
+
+revoke all on function public.supprimer_mon_compte() from public;
+revoke all on function public.exporter_mes_donnees() from public;
+grant execute on function public.supprimer_mon_compte() to authenticated;
+grant execute on function public.exporter_mes_donnees() to authenticated;
