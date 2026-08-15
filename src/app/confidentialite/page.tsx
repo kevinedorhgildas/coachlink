@@ -38,11 +38,12 @@ const ARTICLES = [
     titre: "Partage des données",
     contenu: "Vos données ne sont pas vendues à des tiers. Elles peuvent être partagées avec :",
     liste: [
-      "Supabase : hébergement de la base de données et authentification ;",
-      "Vercel : hébergement de l'application ;",
-      "Resend : envoi d'emails transactionnels.",
+      "Supabase : hébergement de la base de données et authentification (Union européenne, Irlande) ;",
+      "Vercel : hébergement de l'application (États-Unis) ;",
+      "Stripe : traitement des paiements et gestion des abonnements ;",
+      "Resend : envoi d'emails transactionnels et de la newsletter.",
     ],
-    suite: "Ces prestataires agissent en qualité de sous-traitants et sont soumis à des obligations strictes de confidentialité.",
+    suite: "Ces prestataires agissent en qualité de sous-traitants et sont soumis à des obligations strictes de confidentialité. L'hébergement de l'application par Vercel implique un transfert de données hors de l'Union européenne, encadré par les clauses contractuelles types de la Commission européenne.",
   },
   {
     titre: "Durée de conservation",

@@ -82,6 +82,7 @@ export default function RootLayout({
                     { href: "/support", label: "Service client" },
                     { href: "/cgu", label: "Conditions générales" },
                     { href: "/confidentialite", label: "Confidentialité" },
+                    { href: "/mentions-legales", label: "Mentions légales" },
                   ].map(({ href, label }) => (
                     <li key={href}>
                       <Link href={href} className="text-sm transition-colors duration-150 hover:text-white" style={{ color: "#ffffff55" }}>
