@@ -12,9 +12,13 @@ import { Resend } from "resend";
  * `security definer`, est le seul geste ouvert au public — elle ne peut
  * qu'inscrire ou réactiver, jamais lire ni modifier autre chose.
  *
- * C'est aussi ce qui répare le cas « déjà inscrit » : le contrôle d'existence
- * se faisait auparavant par un SELECT que RLS bloquait silencieusement, si
- * bien que l'utilisateur recevait une erreur générique au lieu du bon message.
+ * La réponse est volontairement la même que l'adresse ait été inscrite ou
+ * qu'elle le fût déjà. L'ancien message « Cet email est déjà inscrit »
+ * répondait à une question que le visiteur n'avait pas le droit de poser :
+ * il suffisait de soumettre une adresse pour savoir si elle figurait dans la
+ * liste — l'appartenance à une liste de diffusion étant elle-même une donnée
+ * personnelle. Seul le format invalide justifie encore une réponse distincte,
+ * puisqu'il ne dit rien de l'adresse mais du texte saisi.
  */
 export async function sInscrireNewsletter(formData: FormData) {
   const email = (formData.get("email") as string)?.trim().toLowerCase();
@@ -28,17 +32,21 @@ export async function sInscrireNewsletter(formData: FormData) {
 
   if (error) return { error: "Erreur lors de l'inscription." };
   if (issue === "email_invalide") return { error: "Email invalide." };
-  if (issue === "deja_inscrit") return { error: "Cet email est déjà inscrit." };
 
   // L'email de bienvenue n'est envoyé qu'à une vraie première inscription :
-  // une réactivation ne justifie pas de renvoyer un message de bienvenue.
+  // ni une réactivation, ni une adresse déjà inscrite ne le justifient. C'est
+  // aussi ce qui empêche d'utiliser le formulaire pour inonder un tiers.
   if (issue === "inscrit") {
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: "CoachLink <onboarding@resend.dev>",
       to: email,
       subject: "Bienvenue dans la newsletter CoachLink",
-      text: `Bonjour,\n\nVous êtes maintenant inscrit(e) à la newsletter CoachLink.\nVous recevrez nos actualités, conseils et offres exclusives.\n\nL'équipe CoachLink\ncontact@coachlink.fr`,
+      // Le lien de désabonnement porte un jeton que cette action ne peut pas
+      // lire : `newsletter_inscrire` ne rend qu'un statut, et la table est
+      // fermée en lecture. D'où le renvoi au lien présent dans chaque envoi,
+      // et une adresse de retrait qui, elle, fonctionne sans jeton.
+      text: `Bonjour,\n\nVous êtes maintenant inscrit(e) à la newsletter CoachLink.\nVous recevrez nos actualités, conseils et offres exclusives.\n\nVous pouvez retirer votre consentement à tout moment : chaque newsletter porte un lien de désabonnement en bas de message, et vous pouvez sinon nous écrire à contact@coachlink.fr.\nNotre politique de confidentialité : ${process.env.NEXT_PUBLIC_SITE_URL}/confidentialite\n\nL'équipe CoachLink\ncontact@coachlink.fr`,
     });
   }
 

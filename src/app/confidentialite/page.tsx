@@ -15,9 +15,16 @@ const ARTICLES = [
       "Données de profil coach : photo, spécialité, ville, tarif, description, diplômes, compétences, expériences, disponibilités.",
       "Données de profil client : ville.",
       "Données de réservation : date, créneau, message, statut.",
+      "Messages : contenu des conversations privées entre un coach et un client, et des discussions de groupe auxquelles vous participez.",
+      "Contenus publiés par les coachs : publications, photos et vidéos, ainsi que les commentaires et « j'aime » qu'elles reçoivent.",
       "Avis : note et commentaire laissés sur un coach.",
       "Documents : fichiers PDF partagés par les coachs.",
+      "Activité dans l'application : coachs mis en favori, notifications, historique des séances.",
+      "Achats et abonnements : packs de séances et abonnements souscrits, et leur statut. Les coordonnées bancaires ne transitent jamais par CoachLink — elles sont saisies chez Stripe et nous ne conservons que la référence de la transaction.",
+      "Newsletter : adresse email des personnes qui s'y inscrivent (voir la rubrique dédiée).",
+      "Demandes au service client : nom, adresse email, sujet et contenu du message envoyé depuis la page Support.",
     ],
+    suite: "Cette liste est celle que reprend l'export « Télécharger mes données » : ce que vous récupérez correspond à ce que nous détenons.",
   },
   {
     titre: "Finalités du traitement",
@@ -26,13 +33,34 @@ const ARTICLES = [
       "la création et la gestion de votre compte ;",
       "la mise en relation entre coachs et clients ;",
       "la gestion des réservations et de l'historique des séances ;",
+      "les échanges entre coachs et clients, en conversation privée comme en groupe ;",
+      "la gestion des achats, des abonnements et de la facturation ;",
       "l'envoi de notifications par email liées à votre activité ;",
+      "l'envoi de la newsletter, aux seules personnes qui s'y sont inscrites ;",
+      "le traitement de vos demandes au service client ;",
       "l'amélioration de nos services.",
     ],
   },
   {
     titre: "Base légale",
-    contenu: "Le traitement de vos données repose sur l'exécution du contrat (CGU) que vous acceptez lors de votre inscription, ainsi que sur notre intérêt légitime à améliorer la plateforme.",
+    contenu: "Chaque traitement repose sur sa propre base légale :",
+    liste: [
+      "Compte, mise en relation, réservations, messagerie, achats : l'exécution du contrat que constituent les CGU, acceptées lors de votre inscription (art. 6.1.b).",
+      "Newsletter : votre consentement, donné en saisissant votre adresse dans le formulaire prévu à cet effet, et retirable à tout moment (art. 6.1.a).",
+      "Prospection de nouveaux coachs et amélioration de la plateforme : notre intérêt légitime (art. 6.1.f).",
+      "Conservation des pièces comptables : nos obligations légales (art. 6.1.c).",
+    ],
+  },
+  {
+    titre: "Newsletter",
+    contenu: "L'inscription à la newsletter est indépendante du compte : elle repose sur votre consentement et n'est jamais une condition pour utiliser CoachLink.",
+    liste: [
+      "Donnée traitée : votre adresse email, et elle seule.",
+      "Finalité : vous envoyer nos actualités, conseils et offres.",
+      "Base légale : votre consentement (art. 6.1.a du RGPD et art. L. 34-5 du code des postes et des communications électroniques).",
+      "Durée : jusqu'à votre désabonnement, puis douze mois au plus afin de pouvoir prouver que la demande de retrait a été honorée.",
+    ],
+    suite: "Chaque message porte un lien de désabonnement personnel, qui prend effet immédiatement et sans justification. Vous pouvez aussi nous écrire à contact@coachlink.fr. Supprimer votre compte retire également l'adresse correspondante de la liste. La liste des abonnés n'est ni cédée, ni louée, ni partagée.",
   },
   {
     titre: "Prospection des coachs",
@@ -58,7 +86,14 @@ const ARTICLES = [
   },
   {
     titre: "Durée de conservation",
-    contenu: "Vos données sont conservées pendant toute la durée de votre inscription. La suppression de votre compte depuis votre espace efface vos données immédiatement, sans délai de rétention, à l'exception des données que la loi nous impose de conserver — notamment les pièces comptables liées aux paiements, gardées dix ans.",
+    contenu: "Chaque catégorie de données a sa propre échéance :",
+    liste: [
+      "Compte et contenus associés : toute la durée de votre inscription. La suppression de votre compte depuis votre espace les efface immédiatement, sans délai de rétention.",
+      "Pièces comptables liées aux paiements : dix ans, comme la loi nous l'impose.",
+      "Abonnés à la newsletter : jusqu'au désabonnement, puis douze mois au plus.",
+      "Demandes au service client : trois ans après le dernier échange.",
+      "Coordonnées de coachs démarchés : trois ans au plus après le dernier échange, sauf inscription.",
+    ],
   },
   {
     titre: "Vos droits (RGPD)",
@@ -91,7 +126,7 @@ export default function ConfidentialitePage() {
         <Link href="/" className="mb-4 inline-block text-sm font-medium text-gray-400 hover:text-gray-700 transition">← Accueil</Link>
         <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: GOLD }}>Légal</p>
         <h1 className="text-3xl font-bold text-gray-900">Politique de confidentialité</h1>
-        <p className="mt-2 text-sm text-gray-400">Dernière mise à jour : 3 juillet 2026</p>
+        <p className="mt-2 text-sm text-gray-400">Dernière mise à jour : 15 août 2026</p>
       </div>
 
       <div className="mx-auto max-w-2xl px-6 py-12">

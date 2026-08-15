@@ -1,7 +1,39 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { sInscrireNewsletter } from "@/app/newsletter/actions";
+
+/**
+ * La mention d'information, à afficher au moment où l'adresse est saisie.
+ *
+ * L'article 13 veut que l'information soit donnée *lors* de la collecte, pas
+ * seulement quelque part sur le site : une politique de confidentialité
+ * atteignable depuis le pied de page ne couvre pas un champ qui, lui, est
+ * partout. Le texte tient donc en une phrase — finalité, base légale, retrait —
+ * et le détail reste dans la politique, vers laquelle il renvoie.
+ */
+function Mention({ className = "" }: { className?: string }) {
+  return (
+    <p className={`text-xs leading-relaxed ${className}`} style={{ color: "#ffffff55" }}>
+      En vous inscrivant, vous consentez à recevoir nos actualités par email. Vous
+      pouvez vous désabonner à tout moment depuis le lien présent dans chaque
+      message.{" "}
+      <Link href="/confidentialite" className="underline hover:opacity-80">
+        Politique de confidentialité
+      </Link>
+      .
+    </p>
+  );
+}
+
+/**
+ * Le même message quel que soit le sort de l'adresse : inscrite à l'instant,
+ * réactivée, ou déjà présente. Distinguer ces cas reviendrait à révéler qui
+ * figure dans la liste — voir `sInscrireNewsletter`.
+ */
+const CONFIRMATION =
+  "✓ C'est noté. Si cette adresse n'était pas déjà inscrite, vous allez recevoir un message de bienvenue.";
 
 export default function NewsletterForm({ compact }: { compact?: boolean } = {}) {
   const [pending, setPending] = useState(false);
@@ -39,8 +71,11 @@ export default function NewsletterForm({ compact }: { compact?: boolean } = {}) 
             {pending ? "..." : "S'inscrire"}
           </button>
         </form>
+        <Mention className="mt-2.5" />
         {result?.error && <p className="mt-2 text-xs text-red-400">{result.error}</p>}
-        {result?.success && <p className="mt-2 text-xs" style={{ color: "#C9A96E" }}>✓ Inscription confirmée !</p>}
+        {result?.success && (
+          <p className="mt-2 text-xs leading-relaxed" style={{ color: "#C9A96E" }}>{CONFIRMATION}</p>
+        )}
       </div>
     );
   }
@@ -67,8 +102,13 @@ export default function NewsletterForm({ compact }: { compact?: boolean } = {}) 
           {pending ? "..." : "S'inscrire"}
         </button>
       </form>
+      <Mention className="mx-auto mt-4 max-w-md" />
       {result?.error && <p className="mt-3 text-xs text-red-400">{result.error}</p>}
-      {result?.success && <p className="mt-3 text-xs" style={{ color: "#C9A96E" }}>✓ Inscription confirmée !</p>}
+      {result?.success && (
+        <p className="mx-auto mt-3 max-w-md text-xs leading-relaxed" style={{ color: "#C9A96E" }}>
+          {CONFIRMATION}
+        </p>
+      )}
     </div>
   );
 }
